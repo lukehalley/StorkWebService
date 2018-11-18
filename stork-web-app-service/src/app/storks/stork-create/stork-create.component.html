@@ -1,3 +1,9 @@
-<textarea rows="6" ></textarea>
-<hr>
-<button (click)="onAddStork()">Save Stork</button>
+<mat-card>
+  <mat-form-field>
+    <textarea matInput rows="6" [(ngModel)]="enteredValue"></textarea>
+  </mat-form-field>
+  <button mat-raised-button (click)="onAddStork()">Save Stork</button>
+</mat-card>
+<p>{{ newStork }}</p>
+
+
