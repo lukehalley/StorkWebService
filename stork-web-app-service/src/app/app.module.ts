@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
+import { StorkHeaderComponent } from './toolbar/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
@@ -18,7 +19,8 @@ import {
 @NgModule({
   declarations: [
     AppComponent,
-    StorkCreateComponent
+    StorkCreateComponent,
+    StorkHeaderComponent
   ],
   imports: [
     BrowserModule,
