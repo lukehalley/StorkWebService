@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
@@ -10,7 +11,8 @@ import { StorkCreateComponent } from './storks/stork-create/stork-create.compone
     StorkCreateComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
