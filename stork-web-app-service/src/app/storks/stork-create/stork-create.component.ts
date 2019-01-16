@@ -5,7 +5,11 @@ import { Component } from '@angular/core';
   templateUrl: './stork-create.component.html'
 })
 export class StorkCreateComponent {
+
+  enteredValue = '';
+  newStork = '';
+
   onAddStork() {
-    alert('Stork Added!');
+    this.newStork = this.enteredValue;
   }
 }
