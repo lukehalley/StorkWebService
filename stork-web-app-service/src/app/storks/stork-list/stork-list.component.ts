@@ -5,5 +5,18 @@ import { Component } from '@angular/core';
   templateUrl: './stork-list.component.html'
 })
 export class StorkListComponent {
-
+  storks = [
+    {
+      title: 'Handbag',
+      content: 'Waterford'
+    },
+    {
+      title: 'Charger',
+      content: 'Broken'
+    },
+    {
+      title: 'Coffee',
+      content: 'Arrived'
+    }
+  ];
 }
