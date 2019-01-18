@@ -1,25 +1,12 @@
 import { Component, Input } from '@angular/core';
 
+import { Stork } from '../stork.model';
+
 @Component({
   selector: 'app-stork-list',
   templateUrl: './stork-list.component.html'
 })
 export class StorkListComponent {
-  // storks = [
-  //   {
-  //     title: 'Handbag',
-  //     content: 'Waterford'
-  //   },
-  //   {
-  //     title: 'Charger',
-  //     content: 'Broken'
-  //   },
-  //   {
-  //     title: 'Coffee',
-  //     content: 'Arrived'
-  //   }
-  // ];
-  @Input() storks = [
 
-  ];
+  @Input() storks: Stork[] = [];
 }
