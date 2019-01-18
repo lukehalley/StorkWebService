@@ -17,21 +17,31 @@
     <a>sources</a>
     <a>forks</a>
   </p>
-  <!-- User should be allowed set the logo for their stork device -->
-  <a class="panel-block is-active" *ngFor="let stork of storks">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    {{ stork.title }}
-  </a>
 
-  <label class="panel-block">
-    <input type="checkbox">
-    remember me
-  </label>
+
+
+  <div *ngIf="storks.length > 0; else loggedOut">
+    <!-- User should be allowed set the logo for their stork device -->
+    <a class="panel-block is-active" *ngFor="let stork of storks">
+        <span class="panel-icon">
+          <i class="fas fa-book" aria-hidden="true"></i>
+        </span>
+        {{ stork.title }}
+    </a>
+  </div>
+
+  <ng-template #loggedOut>
+    <a class="panel-block disabled">
+        <span class="panel-icon disabled">
+          <i class="fas fa-book disabled" aria-hidden="true"></i>
+        </span>
+        No Stork Devices
+    </a>
+  </ng-template>
+
   <div class="panel-block">
     <button class="button is-link is-outlined is-fullwidth">
-      reset all filters
+      Reset All Filters
     </button>
   </div>
 </nav>

@@ -19,4 +19,6 @@ export class StorkListComponent {
       content: 'Arrived'
     }
   ];
+  // storks = [
+  // ];
 }
