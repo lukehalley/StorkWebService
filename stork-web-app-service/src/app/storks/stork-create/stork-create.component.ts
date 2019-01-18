@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-stork-create',
@@ -8,11 +8,13 @@ export class StorkCreateComponent {
 
   enteredNickname = '';
   enteredStorkID = '';
+  @Output() storkCreated = new EventEmitter();
 
   onAddStork() {
-    const post = {
+    const stork = {
       nickname: this.enteredNickname,
       storkid: this.enteredStorkID
-    }
+    };
+    this.storkCreated.emit(stork);
   }
 }
