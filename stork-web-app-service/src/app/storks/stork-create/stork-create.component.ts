@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { StorksService } from './../storks.service';
+import { Component} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Renderer2 } from '@angular/core';
-import { Stork } from '../stork.model';
 
 @Component({
   selector: 'app-stork-create',
@@ -37,8 +36,9 @@ export class StorkCreateComponent {
   public hiddenMsgGood = 'help is-success is-hidden';
   public showMsgGood = 'help is-success';
 
-  // Create the emmiter to update the values system wide
-  @Output() storkCreated = new EventEmitter<Stork>();
+  constructor(public storksService: StorksService) {
+
+  }
 
   // Create the button press listener
   onAddStork(form: NgForm) {
@@ -59,12 +59,7 @@ export class StorkCreateComponent {
       this.nicknameInput = this.goodInput;
       this.nicknameMsgError = this.hiddenMsgError;
       this.nicknameMsgGood = this.showMsgGood;
-
-      const stork: Stork = {
-        stork_id: form.value.inputStorkID,
-        nickname: form.value.inputStorkNickname
-      };
-      this.storkCreated.emit(stork);
+      this.storksService.addStork(form.value.inputStorkID, form.value.inputStorkNickname);
     } else {
       if (idLen !== 7 || idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
         this.idInput = this.errorInput;

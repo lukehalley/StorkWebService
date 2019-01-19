@@ -1,9 +1,11 @@
 import { Stork } from './stork.model';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class StorksService {
-  storks: Stork[];
+  private storks: Stork[] = [];
+  private storksUpdated = new Subject<Stork[]>();
 
   getStorks() {
     // Using the spread operator to create a new array and take all the elements
@@ -12,9 +14,14 @@ export class StorksService {
     return [...this.storks];
   }
 
+  getStorksUpdateListener() {
+    return this.storksUpdated.asObservable();
+  }
+
   addStork(stork_id: string, nickname: string) {
     const stork: Stork = {stork_id: stork_id, nickname: nickname};
     this.storks.push(stork);
+    this.storksUpdated.next([...this.storks]);
   }
 
 }
