@@ -60,6 +60,7 @@ export class StorkCreateComponent {
       this.nicknameMsgError = this.hiddenMsgError;
       this.nicknameMsgGood = this.showMsgGood;
       this.storksService.addStork(form.value.inputStorkID, form.value.inputStorkNickname);
+      form.resetForm();
     } else {
       if (idLen !== 7 || idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
         this.idInput = this.errorInput;
