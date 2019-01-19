@@ -11,10 +11,10 @@
   <div class="field">
     <label class="label">Nickname</label>
     <p class="control has-icons-left has-icons-right">
-      <input [class]="nicknameInput" type="text" name="inputStorkNickname"ngModel required minlength="4" maxlength="20" pattern="[a-zA-Z0-9]*" placeholder="Mona Lisa..." />
+      <input [class]="nicknameInput" (keydown.space)="$event.preventDefault();" type="text" name="inputStorkNickname"ngModel required minlength="4" maxlength="20" pattern="[a-zA-Z0-9 ]*" placeholder="Mona Lisa..." />
       <span class="icon is-small is-left"> <i class="fas fa-tag"></i> </span>
     </p>
-    <p [class]="nicknameMsgError">Invalid Nickname: Must be 4 - 20 characters long and only consist of letters and numbers! <strong>Example: YourNickname1234</strong></p>
+    <p [class]="nicknameMsgError">Invalid Nickname: Must be 4 - 20 characters long and only consist of letters and numbers! (No Spaces!) <strong>Example: YourNickname1234</strong></p>
     <p [class]="nicknameMsgGood">Valid Nickname</p>
   </div>
   <div class="field">

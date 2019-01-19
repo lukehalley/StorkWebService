@@ -82,7 +82,7 @@ export class StorkCreateComponent {
         this.idMsgError = this.hiddenMsgError;
         this.idMsgGood = this.showMsgGood;
       }
-      if (nickLen > 20 || nickLen < 4 || nickType !== 'string' || !/[a-zA-Z0-9]*/.test(idNick)) {
+      if (nickLen > 20 || nickLen < 4 || nickType !== 'string' || !/[a-zA-Z0-9 ]*/.test(idNick)) {
         this.nicknameInput = this.errorInput;
         this.nicknameMsgGood = this.hiddenMsgError;
         this.nicknameMsgError = this.showMsgError;
