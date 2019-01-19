@@ -23,7 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bulma/css/bulma.css"
+              "node_modules/bulma/css/bulma.css",
+              "src/app/storks/stork-list/stork-list.component.css"
             ],
             "scripts": []
           },
