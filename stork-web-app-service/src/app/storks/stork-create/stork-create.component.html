@@ -2,7 +2,7 @@
   <div class="field">
     <label class="label">Unique Stork ID</label>
     <p class="control has-icons-left">
-      <input [class]="idInput" type="text" name="inputStorkID" ngModel required minlength="7" maxlength="7" pattern="[A-Z0-9]*" placeholder="STR1234..." />
+      <input [class]="idInput" (keydown.space)="$event.preventDefault();" type="text" name="inputStorkID" ngModel required minlength="7" maxlength="7" pattern="[A-Z0-9]*" placeholder="STR1234..." />
       <span class="icon is-small is-left"> <i class="fas fa-id-badge"></i> </span>
     </p>
     <p [class]="idMsgError">Invalid ID: Must be exactly 7 characters long and only consist of <u>capital</u> letters and numbers!! <strong>Example: STR1234</strong></p>
