@@ -43,6 +43,8 @@ export class StorkCreateComponent {
   // Create the button press listener
   onAddStork(form: NgForm) {
 
+    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
     const idVal = form.value.inputStorkID;
     const idNick = form.value.inputStorkNickname;
 
@@ -51,6 +53,14 @@ export class StorkCreateComponent {
 
     const idType = typeof form.value.inputStorkID;
     const nickType = typeof form.value.inputStorkNickname;
+
+    const clearIndicators = async () => {
+      await delay(2000);
+      this.idMsgGood = this.hiddenMsgError;
+      this.nicknameMsgGood = this.hiddenMsgError;
+      this.idInput = this.normalInput;
+      this.nicknameInput = this.normalInput;
+    };
 
     if (form.valid) {
       this.idInput = this.goodInput;
@@ -61,6 +71,7 @@ export class StorkCreateComponent {
       this.nicknameMsgGood = this.showMsgGood;
       this.storksService.addStork(form.value.inputStorkID, form.value.inputStorkNickname);
       form.resetForm();
+      clearIndicators();
     } else {
       if (idLen !== 7 || idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
         this.idInput = this.errorInput;
@@ -84,4 +95,5 @@ export class StorkCreateComponent {
     }
 
   }
+
 }
