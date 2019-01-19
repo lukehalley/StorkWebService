@@ -1,68 +1,35 @@
 <nav class="panel">
+  <div *ngIf="storks.length > 0; else loggedOut">
     <div class="card" *ngFor="let stork of storks">
-        <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-              </figure>
-            </div>
-            <div class="media-content">
-              <p class="title is-4">{{ stork.nickname }}</p>
-              <p class="subtitle is-6">{{ stork.stork_id }}</p>
-            </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img
+                src="https://bulma.io/images/placeholders/96x96.png"
+                alt="Placeholder image"
+              />
+            </figure>
           </div>
-          <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            <br>
-            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+          <div class="media-content">
+            <p class="title is-4">{{ stork.nickname }}</p>
+            <p class="subtitle is-6">{{ stork.stork_id }}</p>
           </div>
         </div>
-        <footer class="card-footer">
-            <a href="#" class="card-footer-item">Edit</a>
-            <a href="#" class="card-footer-item">Delete</a>
-          </footer>
+        <div class="content">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+          <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+        </div>
       </div>
-
-  <!-- <div class="panel-block">
-    <p class="control has-icons-left">
-      <input class="input is-small" type="text" placeholder="Search" />
-      <span class="icon is-small is-left">
-        <i class="fas fa-search" aria-hidden="true"></i>
-      </span>
-    </p>
-  </div>
-  <p class="panel-tabs">
-    <a class="is-active">all</a> <a>done</a> <a>private</a> <a>sources</a>
-    <a>forks</a>
-  </p> -->
-
-  <!-- <div *ngIf="storks.length > 0; else loggedOut"> -->
-    <!-- User should be allowed set the logo for their stork device -->
-    <!-- <a class="panel-block is-active" *ngFor="let stork of storks">
-      <span class="panel-icon">
-        <i class="fas fa-book" aria-hidden="true"></i>
-      </span>
-      <div class="columns">
-        <div class="column is-two-thirds">{{ stork.nickname }}</div>
-        <div class="column">Auto</div>
-        <div class="column">Auto</div>
-      </div>
-    </a>
+      <footer class="card-footer">
+        <a href="#" class="card-footer-item">Edit</a>
+        <a href="#" class="card-footer-item">Delete</a>
+      </footer>
+    </div>
   </div>
 
   <ng-template #loggedOut>
-    <a class="panel-block disabled">
-      <span class="panel-icon">
-        <i class="fas fa-book" aria-hidden="true"></i>
-      </span>
-      No Stork Devices
-    </a>
+      You Have No Stork Devices...
   </ng-template>
 
-  <div class="panel-block">
-    <button class="button is-link is-outlined is-fullwidth">
-      Reset All Filters
-    </button>
-  </div> -->
 </nav>
