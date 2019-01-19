@@ -19,14 +19,23 @@ export class StorkCreateComponent {
   // Readymade classes to set inputs as error or ok
   public normalInput = 'input';
   public errorInput = 'input is-danger';
+  public goodInput = 'input is-success';
 
   // Init classes for error messages
-  public idMsg = 'help is-danger is-hidden';
-  public nicknameMsg = 'help is-danger is-hidden';
+  public idMsgError = 'help is-danger is-hidden';
+  public nicknameMsgError = 'help is-danger is-hidden';
+
+  // Init classes for success messages
+  public idMsgGood = 'help is-success is-hidden';
+  public nicknameMsgGood = 'help is-success is-hidden';
 
   // Readymade classes to set error messages as visible or invisible
-  public hiddenMsg = 'help is-danger is-hidden';
-  public showMsg = 'help is-danger';
+  public hiddenMsgError = 'help is-danger is-hidden';
+  public showMsgError = 'help is-danger';
+
+  // Readymade classes to set error messages as visible or invisible
+  public hiddenMsgGood = 'help is-success is-hidden';
+  public showMsgGood = 'help is-success';
 
   // Create the emmiter to update the values system wide
   @Output() storkCreated = new EventEmitter<Stork>();
@@ -44,10 +53,13 @@ export class StorkCreateComponent {
     const nickType = typeof form.value.inputStorkNickname;
 
     if (form.valid) {
-      this.idInput = this.normalInput;
-      this.idMsg = this.hiddenMsg;
-      this.nicknameInput = this.normalInput;
-      this.nicknameMsg = this.hiddenMsg;
+      this.idInput = this.goodInput;
+      this.idMsgError = this.hiddenMsgError;
+      this.idMsgGood = this.showMsgGood;
+      this.nicknameInput = this.goodInput;
+      this.nicknameMsgError = this.hiddenMsgError;
+      this.nicknameMsgGood = this.showMsgGood;
+
       const stork: Stork = {
         stork_id: form.value.inputStorkID,
         nickname: form.value.inputStorkNickname
@@ -56,17 +68,21 @@ export class StorkCreateComponent {
     } else {
       if (idLen !== 7 || idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
         this.idInput = this.errorInput;
-        this.idMsg = this.showMsg;
+        this.idMsgGood = this.hiddenMsgError;
+        this.idMsgError = this.showMsgError;
       } else {
-        this.idInput = this.normalInput;
-        this.idMsg = this.hiddenMsg;
+        this.idInput = this.goodInput;
+        this.idMsgError = this.hiddenMsgError;
+        this.idMsgGood = this.showMsgGood;
       }
       if (nickLen > 20 || nickLen < 4 || nickType !== 'string' || !/[a-zA-Z0-9]*/.test(idNick)) {
         this.nicknameInput = this.errorInput;
-        this.nicknameMsg = this.showMsg;
+        this.nicknameMsgGood = this.hiddenMsgError;
+        this.nicknameMsgError = this.showMsgError;
       } else {
-        this.nicknameInput = this.normalInput;
-        this.nicknameMsg = this.hiddenMsg;
+        this.nicknameInput = this.goodInput;
+        this.nicknameMsgError = this.hiddenMsgError;
+        this.nicknameMsgGood = this.showMsgGood;
       }
       return;
     }

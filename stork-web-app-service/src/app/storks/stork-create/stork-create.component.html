@@ -5,7 +5,8 @@
       <input [class]="idInput" type="text" name="inputStorkID" ngModel required minlength="7" maxlength="7" pattern="[A-Z0-9]*" placeholder="STR1234..." />
       <span class="icon is-small is-left"> <i class="fas fa-id-badge"></i> </span>
     </p>
-    <p [class]="idMsg">Invalid ID: Must be exactly 7 characters long and only consist of <u>capital</u> letters and numbers!! <strong>Example: STR1234</strong></p>
+    <p [class]="idMsgError">Invalid ID: Must be exactly 7 characters long and only consist of <u>capital</u> letters and numbers!! <strong>Example: STR1234</strong></p>
+    <p [class]="idMsgGood">Valid Stork ID</p>
   </div>
   <div class="field">
     <label class="label">Nickname</label>
@@ -13,7 +14,8 @@
       <input [class]="nicknameInput" type="text" name="inputStorkNickname"ngModel required minlength="4" maxlength="20" pattern="[a-zA-Z0-9]*" placeholder="Mona Lisa..." />
       <span class="icon is-small is-left"> <i class="fas fa-tag"></i> </span>
     </p>
-    <p [class]="nicknameMsg">Invalid Nickname: Must be 4 - 20 characters long and only consist of letters and numbers! <strong>Example: YourNickname1234</strong></p>
+    <p [class]="nicknameMsgError">Invalid Nickname: Must be 4 - 20 characters long and only consist of letters and numbers! <strong>Example: YourNickname1234</strong></p>
+    <p [class]="nicknameMsgGood">Valid Nickname</p>
   </div>
   <div class="field">
     <p class="control"><button class="button is-primary" type="submit">Create</button></p>
