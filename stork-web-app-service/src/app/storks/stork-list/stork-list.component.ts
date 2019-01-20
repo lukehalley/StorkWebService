@@ -9,8 +9,6 @@ import { StorksService } from '../storks.service';
   templateUrl: './stork-list.component.html'
 })
 export class StorkListComponent implements OnInit, OnDestroy {
-
-
   storks: Stork[] = [];
 
   private storksSub: Subscription;
@@ -19,8 +17,9 @@ export class StorkListComponent implements OnInit, OnDestroy {
   constructor(public storksService: StorksService) {}
 
   ngOnInit(): void {
-    this.storks = this.storksService.getStorks();
-    this.storksSub = this.storksService.getStorksUpdateListener()
+    this.storksService.getStorks();
+    this.storksSub = this.storksService
+      .getStorksUpdateListener()
       .subscribe((storks: Stork[]) => {
         this.storks = storks;
       });
@@ -29,5 +28,4 @@ export class StorkListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.storksSub.unsubscribe();
   }
-
 }
