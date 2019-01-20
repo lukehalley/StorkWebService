@@ -21,7 +21,7 @@ app.post('/api/storks', (req, res, next) => {
   const storks = req.body;
   console.log(storks);
   // 200 = Success & Something Was Created
-  res.sendStatus(201).json({
+  res.status(201).json({
     message: 'Stork added sucessfully!'
   });
 });
