@@ -4,6 +4,8 @@ const app = express();
 
 // fJbl1AKYzO57WzAs
 
+const Stork = require('./models/stork.js');
+
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -20,9 +22,12 @@ app.use((req, res, next) => {
 });
 
 app.post('/api/storks', (req, res, next) => {
-  const storks = req.body;
-  console.log(storks);
-  // 200 = Success & Something Was Created
+  const stork = new Stork({
+    stork_code: req.body.stork_code,
+    nickname: req.body.nickname
+  });
+  console.log(stork);
+  // 201 = Success & Something Was Created
   res.status(201).json({
     message: 'Stork added sucessfully!'
   });
