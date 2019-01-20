@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
+// fJbl1AKYzO57WzAs
+
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -28,9 +30,9 @@ app.post('/api/storks', (req, res, next) => {
 
 app.use('/api/storks', (req, res, next) => {
   const storks = [
-    { stork_id: 'STR0001', nickname: 'MonaLisa' },
-    { stork_id: 'STR0002', nickname: 'LukesStork' },
-    { stork_id: 'STR0003', nickname: 'GwynnsStork' }
+    { id: 'sdfsdfs', stork_code: 'STR0001', nickname: 'MonaLisa' },
+    { id: 'edfsdfs', stork_code: 'STR0002', nickname: 'LukesStork' },
+    { id: 'kfgnskd', stork_code: 'STR0003', nickname: 'GwynnsStork' }
   ];
   // 200 = Success
   res.status(200).json({

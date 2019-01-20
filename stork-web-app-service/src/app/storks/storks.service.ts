@@ -25,8 +25,12 @@ export class StorksService {
     return this.storksUpdated.asObservable();
   }
 
-  addStork(stork_id: string, nickname: string) {
-    const stork: Stork = { stork_id: stork_id, nickname: nickname };
+  addStork(stork_code: string, nickname: string) {
+    const stork: Stork = {
+      id: null,
+      stork_code: stork_code,
+      nickname: nickname
+    };
 
     this.http
       .post<{ message: string }>('http://localhost:3000/api/storks', stork)
