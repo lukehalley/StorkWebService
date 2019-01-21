@@ -4,7 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
 import { StorkHeaderComponent } from './toolbar/header.component';
+import { StorkListComponent } from './storks/stork-list/stork-list.component';
 
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -12,11 +14,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     StorkCreateComponent,
-    StorkHeaderComponent
+    StorkHeaderComponent,
+    StorkListComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
