@@ -23,13 +23,12 @@
       </div>
       <footer class="card-footer">
         <a href="#" class="card-footer-item">Edit</a>
-        <a href="#" class="card-footer-item">Delete</a>
+        <a href="#" class="card-footer-item" (click)="onDelete(stork.id)"
+          >Delete</a
+        >
       </footer>
     </div>
   </div>
 
-  <ng-template #loggedOut>
-      You Have No Stork Devices...
-  </ng-template>
-
+  <ng-template #loggedOut> You Have No Stork Devices... </ng-template>
 </nav>

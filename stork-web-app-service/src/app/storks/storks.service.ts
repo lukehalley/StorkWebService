@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { post } from 'selenium-webdriver/http';
 
 @Injectable({ providedIn: 'root' })
 export class StorksService {
@@ -46,11 +45,26 @@ export class StorksService {
     };
 
     this.http
-      .post<{ message: string }>('http://localhost:3000/api/storks', stork)
+      .post<{ message: string; storkId: string }>(
+        'http://localhost:3000/api/storks',
+        stork
+      )
       .subscribe(responseData => {
-        console.log(responseData.message);
+        const id = responseData.storkId;
+        stork.id = id;
         // Only pushing if the response is sucessfull.
         this.storks.push(stork);
+        this.storksUpdated.next([...this.storks]);
+      });
+  }
+
+  deleteStork(storkId: string) {
+    this.http
+      .delete('http://localhost:3000/api/storks/' + storkId)
+      .subscribe(() => {
+        // Updating the stork list after a delete occurs.
+        const updatedStorks = this.storks.filter(stork => stork.id !== storkId);
+        this.storks = updatedStorks;
         this.storksUpdated.next([...this.storks]);
       });
   }
