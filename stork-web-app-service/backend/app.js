@@ -5,8 +5,11 @@ const mongoose = require('mongoose');
 
 const Stork = require('./models/stork.js');
 
+// Connecting to the Mongodb database
 mongoose
   .connect(
+    // Connections string
+    // TODO: Remove password
     'mongodb+srv://lhalley:vfk6er5NOoVTmWxY@stork-owrd7.mongodb.net/storks?retryWrites=true'
   )
   .then(() => {
@@ -19,6 +22,7 @@ mongoose
 
 app.use(bodyParser.json());
 
+// Set headers to allow access to the api routes
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -32,6 +36,8 @@ app.use((req, res, next) => {
   next();
 });
 
+// Create a Stork device and send it to the database
+// to be stored
 app.post('/api/storks', (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
@@ -45,21 +51,21 @@ app.post('/api/storks', (req, res, next) => {
   });
 });
 
+// Get ALL Storks from the database and return them in the response
 app.get('/api/storks', (req, res, next) => {
   Stork.find()
     .then(documents => {
       console.log('Found: ' + documents);
+      // 200 = Success
+      res.status(200).json({
+        message: 'Storks fetched sucessfully',
+        storks: documents
+      });
     })
     .catch(e => {
       console.error('Failed To Get ALL Documents From Database!');
       console.error(e);
     });
-  const storks = [];
-  // 200 = Success
-  res.status(200).json({
-    message: 'Storks fetched sucessfully',
-    storks: storks
-  });
 });
 
 module.exports = app;
