@@ -31,7 +31,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, PUT, OPTIONS'
+    'GET, POST, PATCH, PUT, DELETE, OPTIONS'
   );
   next();
 });
@@ -66,6 +66,13 @@ app.get('/api/storks', (req, res, next) => {
       console.error('Failed To Get ALL Documents From Database!');
       console.error(e);
     });
+});
+
+app.delete('/api/storks/:id', (req, res, next) => {
+  Stork.deleteOne({ _id: req.params.id }).then(result => {
+    console.log('Result: ' + result);
+    res.status(200).json({ message: 'Stork Deleted!' });
+  });
 });
 
 module.exports = app;

@@ -28,4 +28,8 @@ export class StorkListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.storksSub.unsubscribe();
   }
+
+  onDelete(storkId: string) {
+    this.storksService.deleteStork(storkId);
+  }
 }
