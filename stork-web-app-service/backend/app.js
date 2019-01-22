@@ -44,10 +44,12 @@ app.post('/api/storks', (req, res, next) => {
     nickname: req.body.nickname
   });
   console.log(stork);
-  stork.save();
-  // 201 = Success & Something Was Created
-  res.status(201).json({
-    message: 'Stork added sucessfully!'
+  stork.save().then(createdStork => {
+    // 201 = Success & Something Was Created
+    res.status(201).json({
+      message: 'Stork added sucessfully!',
+      storkId: createdStork._id
+    });
   });
 });
 
@@ -69,10 +71,15 @@ app.get('/api/storks', (req, res, next) => {
 });
 
 app.delete('/api/storks/:id', (req, res, next) => {
-  Stork.deleteOne({ _id: req.params.id }).then(result => {
-    console.log('Result: ' + result);
-    res.status(200).json({ message: 'Stork Deleted!' });
-  });
+  Stork.deleteOne({ _id: req.params.id })
+    .then(result => {
+      console.log('Result: ' + result);
+      res.status(200).json({ message: 'Stork Deleted!' });
+    })
+    .catch(e => {
+      console.error('Failed To Delete A Document From Database!: ');
+      console.error(e);
+    });
 });
 
 module.exports = app;

@@ -45,9 +45,13 @@ export class StorksService {
     };
 
     this.http
-      .post<{ message: string }>('http://localhost:3000/api/storks', stork)
+      .post<{ message: string; storkId: string }>(
+        'http://localhost:3000/api/storks',
+        stork
+      )
       .subscribe(responseData => {
-        console.log(responseData.message);
+        const id = responseData.storkId;
+        stork.id = id;
         // Only pushing if the response is sucessfull.
         this.storks.push(stork);
         this.storksUpdated.next([...this.storks]);
@@ -58,7 +62,10 @@ export class StorksService {
     this.http
       .delete('http://localhost:3000/api/storks/' + storkId)
       .subscribe(() => {
-        console.log('Deleted!');
+        // Updating the stork list after a delete occurs.
+        const updatedStorks = this.storks.filter(stork => stork.id !== storkId);
+        this.storks = updatedStorks;
+        this.storksUpdated.next([...this.storks]);
       });
   }
 }
