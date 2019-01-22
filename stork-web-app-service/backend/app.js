@@ -45,7 +45,15 @@ app.post('/api/storks', (req, res, next) => {
   });
 });
 
-app.use('/api/storks', (req, res, next) => {
+app.get('/api/storks', (req, res, next) => {
+  Stork.find()
+    .then(documents => {
+      console.log('Found: ' + documents);
+    })
+    .catch(e => {
+      console.error('Failed To Get ALL Documents From Database!');
+      console.error(e);
+    });
   const storks = [];
   // 200 = Success
   res.status(200).json({
