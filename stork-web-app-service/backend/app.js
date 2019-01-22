@@ -1,10 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-
-// fJbl1AKYzO57WzAs
+const mongoose = require('mongoose');
 
 const Stork = require('./models/stork.js');
+
+mongoose
+  .connect(
+    'mongodb+srv://lhalley:vfk6er5NOoVTmWxY@stork-owrd7.mongodb.net/storks?retryWrites=true'
+  )
+  .then(() => {
+    console.log('Connected to Database!');
+  })
+  .catch(e => {
+    console.error('Connection Failed Database!');
+    console.log(e);
+  });
 
 app.use(bodyParser.json());
 
@@ -27,6 +38,7 @@ app.post('/api/storks', (req, res, next) => {
     nickname: req.body.nickname
   });
   console.log(stork);
+  stork.save();
   // 201 = Success & Something Was Created
   res.status(201).json({
     message: 'Stork added sucessfully!'
@@ -34,11 +46,7 @@ app.post('/api/storks', (req, res, next) => {
 });
 
 app.use('/api/storks', (req, res, next) => {
-  const storks = [
-    { id: 'sdfsdfs', stork_code: 'STR0001', nickname: 'MonaLisa' },
-    { id: 'edfsdfs', stork_code: 'STR0002', nickname: 'LukesStork' },
-    { id: 'kfgnskd', stork_code: 'STR0003', nickname: 'GwynnsStork' }
-  ];
+  const storks = [];
   // 200 = Success
   res.status(200).json({
     message: 'Storks fetched sucessfully',
