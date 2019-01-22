@@ -1,7 +1,9 @@
 import { Stork } from './stork.model';
 import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { post } from 'selenium-webdriver/http';
 
 @Injectable({ providedIn: 'root' })
 export class StorksService {
@@ -12,11 +14,22 @@ export class StorksService {
 
   getStorks() {
     this.http
-      .get<{ message: string; storks: Stork[] }>(
-        'http://localhost:3000/api/storks'
+      .get<{ message: string; storks: any }>('http://localhost:3000/api/storks')
+      // Coverting the Storks we get back to match the formating of them in the MongoDB
+      // database - specifically the _id tag using a new map
+      .pipe(
+        map(storkData => {
+          return storkData.storks.map(stork => {
+            return {
+              stork_code: stork.stork_code,
+              nickname: stork.nickname,
+              id: stork._id
+            };
+          });
+        })
       )
-      .subscribe(storkData => {
-        this.storks = storkData.storks;
+      .subscribe(storks => {
+        this.storks = storks;
         this.storksUpdated.next([...this.storks]);
       });
   }
@@ -25,8 +38,12 @@ export class StorksService {
     return this.storksUpdated.asObservable();
   }
 
-  addStork(stork_id: string, nickname: string) {
-    const stork: Stork = { stork_id: stork_id, nickname: nickname };
+  addStork(stork_code: string, nickname: string) {
+    const stork: Stork = {
+      id: null,
+      stork_code: stork_code,
+      nickname: nickname
+    };
 
     this.http
       .post<{ message: string }>('http://localhost:3000/api/storks', stork)

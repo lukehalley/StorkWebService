@@ -1,4 +1,5 @@
 export interface Stork {
-  stork_id: string;
+  id: string;
+  stork_code: string;
   nickname: string;
 }
