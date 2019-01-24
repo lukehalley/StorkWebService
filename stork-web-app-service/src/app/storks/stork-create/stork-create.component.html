@@ -2,7 +2,9 @@
   <div class="tile is-ancestor">
     <div class="tile is-parent">
       <div class="tile is-child box">
-        <p class="title">Stork Details.</p>
+        <p class="title">
+          {{ editMode == true ? 'Edit Your Stork.' : 'Register Your Stork.' }}
+        </p>
         <form (submit)="onSaveStork(formAddStork)" #formAddStork="ngForm">
           <div class="field">
             <label class="label">Unique Stork Code</label>
@@ -58,7 +60,9 @@
           </div>
           <div class="field">
             <p class="control">
-              <button class="button is-primary" type="submit">Create</button>
+              <a class="button is-primary" type="submit">
+                <span>{{ editMode == true ? 'Save' : 'Add' }}</span>
+              </a>
             </p>
           </div>
         </form>

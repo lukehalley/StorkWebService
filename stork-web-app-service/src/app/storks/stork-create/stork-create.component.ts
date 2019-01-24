@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class StorkCreateComponent implements OnInit {
   // Edit Feature
-  private mode = 'create';
+  public editMode = false;
   private storkId: string;
   stork: Stork;
 
@@ -52,7 +52,7 @@ export class StorkCreateComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('storkId')) {
-        this.mode = 'edit';
+        this.editMode = true;
         this.storkId = paramMap.get('storkId');
         this.storksService.getStork(this.storkId).subscribe(storkData => {
           this.stork = {
@@ -62,7 +62,7 @@ export class StorkCreateComponent implements OnInit {
           };
         });
       } else {
-        this.mode = 'create';
+        this.editMode = false;
         this.storkId = null;
       }
     });
