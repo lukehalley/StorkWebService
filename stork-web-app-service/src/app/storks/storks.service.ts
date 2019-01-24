@@ -58,6 +58,10 @@ export class StorksService {
       });
   }
 
+  getStork(id: string) {
+    return { ...this.storks.find(s => s.id === id) };
+  }
+
   deleteStork(storkId: string) {
     this.http
       .delete('http://localhost:3000/api/storks/' + storkId)
