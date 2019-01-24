@@ -53,6 +53,28 @@ app.post('/api/storks', (req, res, next) => {
   });
 });
 
+// Create a Stork device and send it to the database
+// to be stored
+app.put('/api/storks/:id', (req, res, next) => {
+  const stork = new Stork({
+    _id: req.body.id,
+    stork_code: req.body.stork_code,
+    nickname: req.body.nickname
+  });
+  Stork.updateOne(
+    { _id: req.params.id },
+    stork
+      .then(result => {
+        console.log('Result: ' + result);
+        res.status(200).json({ message: 'Stork Updated!' });
+      })
+      .catch(e => {
+        console.error('Failed To Update A Stork From Database!');
+        console.error(e);
+      })
+  );
+});
+
 // Get ALL Storks from the database and return them in the response
 app.get('/api/storks', (req, res, next) => {
   Stork.find()
@@ -66,6 +88,21 @@ app.get('/api/storks', (req, res, next) => {
     })
     .catch(e => {
       console.error('Failed To Get ALL Documents From Database!');
+      console.error(e);
+    });
+});
+
+app.get('/api/storks/:id', (req, res, next) => {
+  Stork.findById({ _id: req.params.id })
+    .then(post => {
+      if (stork) {
+        res.status(200).json(stork);
+      } else {
+        res.status(404).json({ message: 'Stork Not Found!' });
+      }
+    })
+    .catch(e => {
+      console.error('Failed To Delete A Document From Database!: ');
       console.error(e);
     });
 });

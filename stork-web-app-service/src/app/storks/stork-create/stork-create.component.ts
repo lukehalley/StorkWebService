@@ -54,7 +54,13 @@ export class StorkCreateComponent implements OnInit {
       if (paramMap.has('storkId')) {
         this.mode = 'edit';
         this.storkId = paramMap.get('storkId');
-        this.stork = this.storksService.getStork(this.storkId);
+        this.storksService.getStork(this.storkId).subscribe(storkData => {
+          this.stork = {
+            id: storkData._id,
+            stork_code: storkData.stork_code,
+            nickname: storkData.nickname
+          };
+        });
       } else {
         this.mode = 'create';
         this.storkId = null;
@@ -63,7 +69,7 @@ export class StorkCreateComponent implements OnInit {
   }
 
   // Create the button press listener
-  onAddStork(form: NgForm) {
+  onSaveStork(form: NgForm) {
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
     const idVal = form.value.inputStorkID;
@@ -90,10 +96,18 @@ export class StorkCreateComponent implements OnInit {
       this.nicknameInput = this.goodInput;
       this.nicknameMsgError = this.hiddenMsgError;
       this.nicknameMsgGood = this.showMsgGood;
-      this.storksService.addStork(
-        form.value.inputStorkID,
-        form.value.inputStorkNickname
-      );
+      if (this.mode === 'create') {
+        this.storksService.addStork(
+          form.value.inputStorkID,
+          form.value.inputStorkNickname
+        );
+      } else {
+        this.storksService.updateStork(
+          this.storkId,
+          form.value.inputStorkID,
+          form.value.inputStorkNickname
+        );
+      }
       form.resetForm();
       clearIndicators();
     } else {
