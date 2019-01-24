@@ -96,12 +96,7 @@ export class StorkCreateComponent implements OnInit {
       this.nicknameInput = this.goodInput;
       this.nicknameMsgError = this.hiddenMsgError;
       this.nicknameMsgGood = this.showMsgGood;
-      if (this.mode === 'create') {
-        this.storksService.addStork(
-          form.value.inputStorkID,
-          form.value.inputStorkNickname
-        );
-      } else {
+      if (this.editMode) {
         this.storksService.updateStork(
           this.storkId,
           form.value.inputStorkID,
@@ -109,6 +104,11 @@ export class StorkCreateComponent implements OnInit {
         );
         console.log(
           this.storkId + form.value.inputStorkID + form.value.inputStorkNickname
+        );
+      } else {
+        this.storksService.addStork(
+          form.value.inputStorkID,
+          form.value.inputStorkNickname
         );
       }
       form.resetForm();
