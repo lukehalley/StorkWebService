@@ -36,6 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// Filter all routes going to /api/storks to use storkRoutes.
 app.use('/api/storks', storkRoutes);
 
 module.exports = app;
