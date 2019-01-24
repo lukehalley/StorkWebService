@@ -33,6 +33,13 @@ export class StorksService {
       });
   }
 
+  getStork(id: string) {
+    // return { ...this.storks.find(s => s.id === id) };
+    return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
+      'http://localhost:3000/api/storks/' + id
+    );
+  }
+
   getStorksUpdateListener() {
     return this.storksUpdated.asObservable();
   }
@@ -74,13 +81,6 @@ export class StorksService {
         this.storks = updatedStorks;
         this.storksUpdated.next([...this.storks]);
       });
-  }
-
-  getStork(id: string) {
-    // return { ...this.storks.find(s => s.id === id) };
-    return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
-      'http://localhost:3000/api/storks/' + id
-    );
   }
 
   deleteStork(storkId: string) {

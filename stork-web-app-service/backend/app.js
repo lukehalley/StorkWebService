@@ -61,18 +61,10 @@ app.put('/api/storks/:id', (req, res, next) => {
     stork_code: req.body.stork_code,
     nickname: req.body.nickname
   });
-  Stork.updateOne(
-    { _id: req.params.id },
-    stork
-      .then(result => {
-        console.log('Result: ' + result);
-        res.status(200).json({ message: 'Stork Updated!' });
-      })
-      .catch(e => {
-        console.error('Failed To Update A Stork From Database!');
-        console.error(e);
-      })
-  );
+  Stork.updateOne({ _id: req.params.id }, stork).then(result => {
+    console.log(result);
+    res.status(200).json({ message: 'Update successful!' });
+  });
 });
 
 // Get ALL Storks from the database and return them in the response
