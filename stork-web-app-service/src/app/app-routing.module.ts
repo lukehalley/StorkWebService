@@ -5,7 +5,8 @@ import { StorkCreateComponent } from './storks/stork-create/stork-create.compone
 
 const routes: Routes = [
   { path: 'your-storks', component: StorkListComponent },
-  { path: 'register-stork', component: StorkCreateComponent }
+  { path: 'register-stork', component: StorkCreateComponent },
+  { path: 'edit/:storkId', component: StorkCreateComponent }
 ];
 
 @NgModule({

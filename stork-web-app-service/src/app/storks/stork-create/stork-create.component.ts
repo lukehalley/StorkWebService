@@ -1,12 +1,20 @@
+import { Stork } from './../stork.model';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { StorksService } from './../storks.service';
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-stork-create',
   templateUrl: './stork-create.component.html'
 })
-export class StorkCreateComponent {
+export class StorkCreateComponent implements OnInit {
+  // Edit Feature
+  public editMode = false;
+  private storkId: string;
+  stork: Stork;
+
   // Input field values
   enteredStork_id = '';
   enteredNickname = '';
@@ -36,13 +44,32 @@ export class StorkCreateComponent {
   public hiddenMsgGood = 'help is-success is-hidden';
   public showMsgGood = 'help is-success';
 
-  constructor(public storksService: StorksService) {
+  constructor(
+    public storksService: StorksService,
+    public route: ActivatedRoute
+  ) {}
 
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('storkId')) {
+        this.editMode = true;
+        this.storkId = paramMap.get('storkId');
+        this.storksService.getStork(this.storkId).subscribe(storkData => {
+          this.stork = {
+            id: storkData._id,
+            stork_code: storkData.stork_code,
+            nickname: storkData.nickname
+          };
+        });
+      } else {
+        this.editMode = false;
+        this.storkId = null;
+      }
+    });
   }
 
   // Create the button press listener
-  onAddStork(form: NgForm) {
-
+  onSaveStork(form: NgForm) {
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
     const idVal = form.value.inputStorkID;
@@ -69,7 +96,21 @@ export class StorkCreateComponent {
       this.nicknameInput = this.goodInput;
       this.nicknameMsgError = this.hiddenMsgError;
       this.nicknameMsgGood = this.showMsgGood;
-      this.storksService.addStork(form.value.inputStorkID, form.value.inputStorkNickname);
+      if (this.editMode) {
+        this.storksService.updateStork(
+          this.storkId,
+          form.value.inputStorkID,
+          form.value.inputStorkNickname
+        );
+        console.log(
+          this.storkId + form.value.inputStorkID + form.value.inputStorkNickname
+        );
+      } else {
+        this.storksService.addStork(
+          form.value.inputStorkID,
+          form.value.inputStorkNickname
+        );
+      }
       form.resetForm();
       clearIndicators();
     } else {
@@ -82,7 +123,12 @@ export class StorkCreateComponent {
         this.idMsgError = this.hiddenMsgError;
         this.idMsgGood = this.showMsgGood;
       }
-      if (nickLen > 20 || nickLen < 4 || nickType !== 'string' || !/[a-zA-Z0-9 ]*/.test(idNick)) {
+      if (
+        nickLen > 20 ||
+        nickLen < 4 ||
+        nickType !== 'string' ||
+        !/[a-zA-Z0-9 ]*/.test(idNick)
+      ) {
         this.nicknameInput = this.errorInput;
         this.nicknameMsgGood = this.hiddenMsgError;
         this.nicknameMsgError = this.showMsgError;
@@ -93,7 +139,5 @@ export class StorkCreateComponent {
       }
       return;
     }
-
   }
-
 }

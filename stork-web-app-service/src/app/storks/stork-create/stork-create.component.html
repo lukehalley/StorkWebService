@@ -2,8 +2,10 @@
   <div class="tile is-ancestor">
     <div class="tile is-parent">
       <div class="tile is-child box">
-        <p class="title">Stork Details.</p>
-        <form (submit)="onAddStork(formAddStork)" #formAddStork="ngForm">
+        <p class="title">
+          {{ editMode == true ? 'Edit Your Stork.' : 'Register Your Stork.' }}
+        </p>
+        <form (submit)="onSaveStork(formAddStork)" #formAddStork="ngForm">
           <div class="field">
             <label class="label">Unique Stork Code</label>
             <p class="control has-icons-left">
@@ -12,7 +14,7 @@
                 (keydown.space)="$event.preventDefault()"
                 type="text"
                 name="inputStorkID"
-                ngModel
+                [ngModel]="stork?.stork_code"
                 required
                 minlength="7"
                 maxlength="7"
@@ -38,7 +40,7 @@
                 (keydown.space)="$event.preventDefault()"
                 type="text"
                 name="inputStorkNickname"
-                ngModel
+                [ngModel]="stork?.nickname"
                 required
                 minlength="4"
                 maxlength="20"
@@ -58,7 +60,9 @@
           </div>
           <div class="field">
             <p class="control">
-              <button class="button is-primary" type="submit">Create</button>
+              <button class="button is-primary" type="submit">
+                {{ editMode == true ? 'Save' : 'Add' }}
+              </button>
             </p>
           </div>
         </form>

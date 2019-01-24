@@ -33,6 +33,13 @@ export class StorksService {
       });
   }
 
+  getStork(id: string) {
+    // return { ...this.storks.find(s => s.id === id) };
+    return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
+      'http://localhost:3000/api/storks/' + id
+    );
+  }
+
   getStorksUpdateListener() {
     return this.storksUpdated.asObservable();
   }
@@ -54,6 +61,24 @@ export class StorksService {
         stork.id = id;
         // Only pushing if the response is sucessfull.
         this.storks.push(stork);
+        this.storksUpdated.next([...this.storks]);
+      });
+  }
+
+  updateStork(id: string, stork_code: string, nickname: string) {
+    const stork: Stork = {
+      id: id,
+      stork_code: stork_code,
+      nickname: nickname
+    };
+
+    this.http
+      .put('http://localhost:3000/api/storks/' + id, stork)
+      .subscribe(response => {
+        const updatedStorks = [...this.storks];
+        const oldStorkIndex = updatedStorks.findIndex(s => s.id === stork.id);
+        updatedStorks[oldStorkIndex] = stork;
+        this.storks = updatedStorks;
         this.storksUpdated.next([...this.storks]);
       });
   }
