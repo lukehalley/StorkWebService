@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class StorksService {
   private storks: Stork[] = [];
   private storksUpdated = new Subject<Stork[]>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   getStorks() {
     this.http
@@ -50,7 +51,6 @@ export class StorksService {
       stork_code: stork_code,
       nickname: nickname
     };
-
     this.http
       .post<{ message: string; storkId: string }>(
         'http://localhost:3000/api/storks',
@@ -62,6 +62,7 @@ export class StorksService {
         // Only pushing if the response is sucessfull.
         this.storks.push(stork);
         this.storksUpdated.next([...this.storks]);
+        // this.router.navigate(['/']);
       });
   }
 
@@ -80,6 +81,7 @@ export class StorksService {
         updatedStorks[oldStorkIndex] = stork;
         this.storks = updatedStorks;
         this.storksUpdated.next([...this.storks]);
+        // this.router.navigate(['/']);
       });
   }
 

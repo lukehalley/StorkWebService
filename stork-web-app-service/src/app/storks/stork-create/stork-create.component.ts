@@ -12,6 +12,7 @@ import { NgForm } from '@angular/forms';
 export class StorkCreateComponent implements OnInit {
   // Edit Feature
   public editMode = false;
+  public isLoading = false;
   private storkId: string;
   stork: Stork;
 
@@ -54,7 +55,9 @@ export class StorkCreateComponent implements OnInit {
       if (paramMap.has('storkId')) {
         this.editMode = true;
         this.storkId = paramMap.get('storkId');
+        this.isLoading = true;
         this.storksService.getStork(this.storkId).subscribe(storkData => {
+          this.isLoading = false;
           this.stork = {
             id: storkData._id,
             stork_code: storkData.stork_code,
@@ -70,25 +73,6 @@ export class StorkCreateComponent implements OnInit {
 
   // Create the button press listener
   onSaveStork(form: NgForm) {
-    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-    const idVal = form.value.inputStorkID;
-    const idNick = form.value.inputStorkNickname;
-
-    const idLen = form.value.inputStorkID.length;
-    const nickLen = form.value.inputStorkNickname.length;
-
-    const idType = typeof form.value.inputStorkID;
-    const nickType = typeof form.value.inputStorkNickname;
-
-    const clearIndicators = async () => {
-      await delay(2000);
-      this.idMsgGood = this.hiddenMsgError;
-      this.nicknameMsgGood = this.hiddenMsgError;
-      this.idInput = this.normalInput;
-      this.nicknameInput = this.normalInput;
-    };
-
     if (form.valid) {
       this.idInput = this.goodInput;
       this.idMsgError = this.hiddenMsgError;
@@ -96,6 +80,14 @@ export class StorkCreateComponent implements OnInit {
       this.nicknameInput = this.goodInput;
       this.nicknameMsgError = this.hiddenMsgError;
       this.nicknameMsgGood = this.showMsgGood;
+      const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+      const clearIndicators = async () => {
+        await delay(2000);
+        this.idMsgGood = this.hiddenMsgError;
+        this.nicknameMsgGood = this.hiddenMsgError;
+        this.idInput = this.normalInput;
+        this.nicknameInput = this.normalInput;
+      };
       if (this.editMode) {
         this.storksService.updateStork(
           this.storkId,
@@ -114,7 +106,11 @@ export class StorkCreateComponent implements OnInit {
       form.resetForm();
       clearIndicators();
     } else {
-      if (idLen !== 7 || idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
+      const idVal = form.value.inputStorkID;
+      const idNick = form.value.inputStorkNickname;
+      const idType = typeof form.value.inputStorkID;
+      const nickType = typeof form.value.inputStorkNickname;
+      if (idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
         this.idInput = this.errorInput;
         this.idMsgGood = this.hiddenMsgError;
         this.idMsgError = this.showMsgError;
@@ -123,12 +119,7 @@ export class StorkCreateComponent implements OnInit {
         this.idMsgError = this.hiddenMsgError;
         this.idMsgGood = this.showMsgGood;
       }
-      if (
-        nickLen > 20 ||
-        nickLen < 4 ||
-        nickType !== 'string' ||
-        !/[a-zA-Z0-9 ]*/.test(idNick)
-      ) {
+      if (nickType !== 'string' || !/[a-zA-Z0-9 ]*/.test(idNick)) {
         this.nicknameInput = this.errorInput;
         this.nicknameMsgGood = this.hiddenMsgError;
         this.nicknameMsgError = this.showMsgError;
