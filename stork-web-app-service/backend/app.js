@@ -94,7 +94,7 @@ app.get('/api/storks', (req, res, next) => {
 
 app.get('/api/storks/:id', (req, res, next) => {
   Stork.findById({ _id: req.params.id })
-    .then(post => {
+    .then(stork => {
       if (stork) {
         res.status(200).json(stork);
       } else {

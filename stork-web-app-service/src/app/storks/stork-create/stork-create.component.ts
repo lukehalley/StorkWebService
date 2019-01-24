@@ -107,6 +107,9 @@ export class StorkCreateComponent implements OnInit {
           form.value.inputStorkID,
           form.value.inputStorkNickname
         );
+        console.log(
+          this.storkId + form.value.inputStorkID + form.value.inputStorkNickname
+        );
       }
       form.resetForm();
       clearIndicators();
