@@ -3,28 +3,44 @@
     <div class="container has-text-centered">
       <div class="column is-4 is-offset-4">
         <h3 class="title has-text-grey">Login</h3>
-        <p class="subtitle has-text-grey">Please login to proceed.</p>
+        <p class="subtitle has-text-grey">Please Login to Proceed.</p>
         <div class="box">
-          <form>
+          <form (submit)="onLogin(formLogin)" #formLogin="ngForm">
             <div class="field">
               <div class="control">
                 <input
-                  class="input is-large"
+                  [class]="emailInput"
                   type="email"
                   placeholder="Your Email"
                   autofocus=""
+                  name="inputUserLoginEmail"
+                  required
                 />
               </div>
             </div>
+            <p [class]="emailMsgError">
+              Invalid Stork Code: Must be exactly 7 characters long and only
+              consist of <u>capital</u> letters and numbers!!
+              <strong>Example: STR1234</strong>
+            </p>
+            <p [class]="emailMsgGood">Valid Stork Code</p>
             <div class="field">
               <div class="control">
                 <input
-                  class="input is-large"
+                  [class]="passwordInput"
                   type="password"
                   placeholder="Your Password"
+                  name="inputUserLoginPassword"
+                  required
                 />
               </div>
             </div>
+            <p [class]="passwordMsgError">
+              Invalid Nickname: Must be 4 - 20 characters long and only consist
+              of letters and numbers! (No Spaces!)
+              <strong>Example: YourNickname1234</strong>
+            </p>
+            <p [class]="passwordMsgGood">Valid Nickname</p>
             <div class="field">
               <label class="checkbox">
                 <input type="checkbox" /> Remember Me

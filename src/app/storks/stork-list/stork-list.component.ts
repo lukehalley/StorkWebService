@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
