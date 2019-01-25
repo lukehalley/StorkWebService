@@ -20,7 +20,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "node_modules/bulma/css/bulma.css",
+              "src/assets/bulma.css",
               "src/app/storks/stork-list/stork-list.component.css",
               "src/app/storks/stork-create/stork-create.component.css"
             ],
