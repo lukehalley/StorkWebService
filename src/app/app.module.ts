@@ -10,6 +10,7 @@ import { StorkCreateComponent } from './storks/stork-create/stork-create.compone
 import { StorkHeaderComponent } from './toolbar/header.component';
 import { StorkListComponent } from './storks/stork-list/stork-list.component';
 import { StorkSubListComponent } from './storks/stork-sublist/stork-sublist.component';
+import { StorkLoginComponent } from './auth/login/stork-login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { StorkSubListComponent } from './storks/stork-sublist/stork-sublist.comp
     StorkCreateComponent,
     StorkHeaderComponent,
     StorkListComponent,
-    StorkSubListComponent
+    StorkSubListComponent,
+    StorkLoginComponent
   ],
   imports: [
     BrowserModule,

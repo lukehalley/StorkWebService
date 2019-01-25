@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StorkListComponent } from './storks/stork-list/stork-list.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
+import { StorkLoginComponent } from './auth/login/stork-login.component';
 
 const routes: Routes = [
   { path: 'your-storks', component: StorkListComponent },
   { path: 'register-stork', component: StorkCreateComponent },
-  { path: 'edit/:storkId', component: StorkCreateComponent }
+  { path: 'edit/:storkId', component: StorkCreateComponent },
+  { path: 'login', component: StorkLoginComponent }
 ];
 
 @NgModule({
