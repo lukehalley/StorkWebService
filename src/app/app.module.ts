@@ -9,13 +9,15 @@ import { AppComponent } from './app.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
 import { StorkHeaderComponent } from './toolbar/header.component';
 import { StorkListComponent } from './storks/stork-list/stork-list.component';
+import { StorkSubListComponent } from './storks/stork-sublist/stork-sublist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StorkCreateComponent,
     StorkHeaderComponent,
-    StorkListComponent
+    StorkListComponent,
+    StorkSubListComponent
   ],
   imports: [
     BrowserModule,
