@@ -11,6 +11,7 @@
                 <input
                   [class]="emailInput"
                   type="email"
+                  ngModel
                   placeholder="Your Email"
                   autofocus=""
                   name="inputUserLoginEmail"
@@ -18,29 +19,18 @@
                 />
               </div>
             </div>
-            <p [class]="emailMsgError">
-              Invalid Stork Code: Must be exactly 7 characters long and only
-              consist of <u>capital</u> letters and numbers!!
-              <strong>Example: STR1234</strong>
-            </p>
-            <p [class]="emailMsgGood">Valid Stork Code</p>
             <div class="field">
               <div class="control">
                 <input
                   [class]="passwordInput"
                   type="password"
+                  ngModel
                   placeholder="Your Password"
                   name="inputUserLoginPassword"
                   required
                 />
               </div>
             </div>
-            <p [class]="passwordMsgError">
-              Invalid Nickname: Must be 4 - 20 characters long and only consist
-              of letters and numbers! (No Spaces!)
-              <strong>Example: YourNickname1234</strong>
-            </p>
-            <p [class]="passwordMsgGood">Valid Nickname</p>
             <div class="field">
               <label class="checkbox">
                 <input type="checkbox" /> Remember Me

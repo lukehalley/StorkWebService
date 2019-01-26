@@ -20,18 +20,19 @@ router.post('/signup', (req, res, next) => {
       password: hashedPassword,
       plan: req.body.plan
     });
-    console.log(user);
     user
       .save()
       .then(createdUser => {
         // 201 = Success & Something Was Created
         res.status(201).json({
           message: 'User added sucessfully!',
-          userId: createdUser._id
+          result: createdUser
         });
       })
       .catch(err => {
+        console.log('Error: ' + err);
         res.status(500).json({
+          message: 'User added unsucessfully!',
           error: err
         });
       });
@@ -41,17 +42,21 @@ router.post('/signup', (req, res, next) => {
 // Create a User and send it to the database
 // to be stored
 router.post('/login', (req, res, next) => {
+  let fetchedUser;
   // Checking if the user exists with the email
   User.findOne({
     email: req.body.email
   })
     .then(user => {
       if (!user) {
+        console.log('In not bcrypt');
         // User does not exist
         return res.status(401).json({
           message: 'Authentication failed, user not found!'
         });
       } else {
+        fetchedUser = user;
+        console.log('In bcrypt');
         // User found!
         //
         // Checking if the password entered by the user matches
@@ -59,19 +64,35 @@ router.post('/login', (req, res, next) => {
         return bcrypt.compare(req.body.password, user.password);
       }
     })
+    .catch(err => {
+      console.log(err);
+      // User does not exist
+      return res.status(401).json({
+        message: 'Authentication failed'
+      });
+    })
     .then(result => {
+      console.log('RESULT: ' + result);
       if (!result) {
         return res.status(401).json({
           message: 'Authentication failed!'
         });
       } else {
         // Authentication has been successful, create a token.
-        const token = jwt.sign({ email: user.email, userId: user._id }, key, {
-          expiresIn: '1h'
+        const token = jwt.sign(
+          { email: fetchedUser.email, userId: fetchedUser._id },
+          key,
+          {
+            expiresIn: '1h'
+          }
+        );
+        res.status(200).json({
+          token: token
         });
       }
     })
     .catch(err => {
+      console.log('boom');
       // User does not exist
       return res.status(401).json({
         message: 'Authentication failed'
