@@ -41,7 +41,7 @@ export class AuthService {
       password: password
     };
     this.http
-      .post('http://localhost:3000/api/user/signup', authData)
+      .post('http://localhost:3000/api/users/login', authData)
       .subscribe(response => {
         console.log(response);
       });

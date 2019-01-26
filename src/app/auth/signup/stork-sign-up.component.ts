@@ -25,14 +25,14 @@ export class StorkSignUpComponent {
   onSignUp(form: NgForm) {
     if (form.valid) {
       this.authService.createUser(
-        form.value.inputUserSignUpUsername,
-        form.value.inputUserLoginEmail,
-        form.value.inputUserLoginPassword,
         form.value.inputUserSignUpFName,
         form.value.inputUserSignUpSName,
         form.value.inputUserSignUpAddress,
         form.value.inputUserSignUpPhoneNumber,
-        form.value.inputUserSignUpAddress
+        form.value.inputUserSignUpUsername,
+        form.value.inputUserLoginEmail,
+        form.value.inputUserLoginPassword,
+        'free'
       );
     } else {
       console.log('No!!!!!!');

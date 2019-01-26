@@ -49,10 +49,10 @@ router.post('/login', (req, res, next) => {
   })
     .then(user => {
       if (!user) {
-        console.log('In not bcrypt');
         // User does not exist
         return res.status(401).json({
-          message: 'Authentication failed, user not found!'
+          message: 'Authentication failed, user not found at first!',
+          error: err
         });
       } else {
         fetchedUser = user;
@@ -86,7 +86,7 @@ router.post('/login', (req, res, next) => {
             expiresIn: '1h'
           }
         );
-        res.status(200).json({
+        res.send({
           token: token
         });
       }
