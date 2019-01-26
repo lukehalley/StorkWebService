@@ -2,17 +2,51 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <div class="column is-4 is-offset-4">
-        <h3 class="title has-text-grey">Login</h3>
-        <p class="subtitle has-text-grey">Please Login to Proceed.</p>
+        <h3 class="title has-text-grey">Sign Up.</h3>
+        <p class="subtitle has-text-grey">Creat A Stork Account.</p>
         <div class="box">
-          <form (submit)="onLogin(formLogin)" #formLogin="ngForm">
+          <form (submit)="onSignUp(formSignUp)" #formLogin="ngForm">
+            <div class="field">
+              <div class="control">
+                <input
+                  [class]="firstNameInput"
+                  type="text"
+                  placeholder="First Name"
+                  autofocus=""
+                  name="inputUserSignUpFName"
+                  required
+                />
+              </div>
+            </div>
+            <p [class]="fNameMsgError">
+              Invalid Stork Code: Must be exactly 7 characters long and only
+              consist of <u>capital</u> letters and numbers!!
+              <strong>Example: STR1234</strong>
+            </p>
+            <p [class]="fNameMsgGood">Valid Stork Code</p>
+            <div class="field">
+              <div class="control">
+                <input
+                  [class]="secondNameInput"
+                  type="text"
+                  placeholder="Second Name"
+                  name="inputUserSignUpSName"
+                  required
+                />
+              </div>
+            </div>
+            <p [class]="sNameMsgError">
+              Invalid Stork Code: Must be exactly 7 characters long and only
+              consist of <u>capital</u> letters and numbers!!
+              <strong>Example: STR1234</strong>
+            </p>
+            <p [class]="sNameMsgGood">Valid Stork Code</p>
             <div class="field">
               <div class="control">
                 <input
                   [class]="emailInput"
                   type="email"
-                  placeholder="Your Email"
-                  autofocus=""
+                  placeholder="Email"
                   name="inputUserLoginEmail"
                   required
                 />
@@ -29,7 +63,7 @@
                 <input
                   [class]="passwordInput"
                   type="password"
-                  placeholder="Your Password"
+                  placeholder="Password"
                   name="inputUserLoginPassword"
                   required
                 />
@@ -41,25 +75,16 @@
               <strong>Example: YourNickname1234</strong>
             </p>
             <p [class]="passwordMsgGood">Valid Nickname</p>
-            <div class="field">
-              <label class="checkbox">
-                <input type="checkbox" /> Remember Me
-              </label>
-            </div>
             <button
               type="submit"
               class="button is-block is-info is-large is-fullwidth"
             >
-              Login
+              Sign Up
             </button>
           </form>
         </div>
         <p class="has-text-grey">
-          <a href="https://dansup.github.io/bulma-templates/">Sign Up</a>
-          &nbsp;·&nbsp;
-          <a href="https://dansup.github.io/bulma-templates/"
-            >Forgot Password</a
-          >
+          <a href="https://dansup.github.io/bulma-templates/">Login</a>
           &nbsp;·&nbsp;
           <a href="https://dansup.github.io/bulma-templates/">Need Help?</a>
         </p>
