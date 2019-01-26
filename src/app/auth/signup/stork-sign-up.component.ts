@@ -1,6 +1,7 @@
 import { AuthService } from './../auth.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './stork-sign-up.component.html'
@@ -20,7 +21,7 @@ export class StorkSignUpComponent {
   public errorInput = 'input is-large is-danger';
   public goodInput = 'input is-large is-success';
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   onSignUp(form: NgForm) {
     if (form.valid) {
@@ -34,6 +35,7 @@ export class StorkSignUpComponent {
         form.value.inputUserLoginPassword,
         'free'
       );
+      this.router.navigate(['/login']);
     } else {
       console.log('No!!!!!!');
 
