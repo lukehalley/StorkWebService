@@ -1,3 +1,4 @@
+import { StorkSignUpComponent } from './auth/signup/stork-sign-up.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ import { StorkLoginComponent } from './auth/login/stork-login.component';
     StorkHeaderComponent,
     StorkListComponent,
     StorkSubListComponent,
-    StorkLoginComponent
+    StorkLoginComponent,
+    StorkSignUpComponent
   ],
   imports: [
     BrowserModule,
