@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 const storkRoutes = require('./routes/storks');
+const userRoutes = require('./routes/users');
 
 // Connecting to the Mongodb database
 mongoose
@@ -38,5 +39,8 @@ app.use((req, res, next) => {
 
 // Filter all routes going to /api/storks to use storkRoutes.
 app.use('/api/storks', storkRoutes);
+
+// Filter all routes going to /api/users to use storkRoutes.
+app.use('/api/users', userRoutes);
 
 module.exports = app;

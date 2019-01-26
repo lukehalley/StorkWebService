@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
@@ -8,6 +9,9 @@ export class StorkSignUpComponent {
   // Init classes for login input fields
   public firstNameInput = 'input is-large';
   public secondNameInput = 'input is-large';
+  public addressInput = 'input is-large';
+  public phoneNumberInput = 'input is-large';
+  public usernameInput = 'input is-large';
   public emailInput = 'input is-large';
   public passwordInput = 'input is-large';
 
@@ -16,25 +20,24 @@ export class StorkSignUpComponent {
   public errorInput = 'input is-large is-danger';
   public goodInput = 'input is-large is-success';
 
-  // Init classes for error messages
-  public fNameMsgError = 'help is-danger is-hidden';
-  public sNameMsgError = 'help is-danger is-hidden';
-  public emailMsgError = 'help is-danger is-hidden';
-  public passwordMsgError = 'help is-danger is-hidden';
+  constructor(public authService: AuthService) {}
 
-  // Init classes for success messages
-  public fNameMsgGood = 'help is-success is-hidden';
-  public sNameMsgGood = 'help is-success is-hidden';
-  public emailMsgGood = 'help is-success is-hidden';
-  public passwordMsgGood = 'help is-success is-hidden';
+  onSignUp(form: NgForm) {
+    if (form.valid) {
+      this.authService.createUser(
+        form.value.inputUserSignUpUsername,
+        form.value.inputUserLoginEmail,
+        form.value.inputUserLoginPassword,
+        form.value.inputUserSignUpFName,
+        form.value.inputUserSignUpSName,
+        form.value.inputUserSignUpAddress,
+        form.value.inputUserSignUpPhoneNumber,
+        form.value.inputUserSignUpAddress
+      );
+    } else {
+      console.log('No!!!!!!');
 
-  // Readymade classes to set error messages as visible or invisible
-  public hiddenMsgError = 'help is-danger is-hidden';
-  public showMsgError = 'help is-danger';
-
-  // Readymade classes to set error messages as visible or invisible
-  public hiddenMsgGood = 'help is-success is-hidden';
-  public showMsgGood = 'help is-success';
-
-  onSignUp(form: NgForm) {}
+      return;
+    }
+  }
 }
