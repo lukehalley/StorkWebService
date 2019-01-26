@@ -35,4 +35,40 @@ router.post('/signup', (req, res, next) => {
   });
 });
 
+// Create a User and send it to the database
+// to be stored
+router.post('/login', (req, res, next) => {
+  // Checking if the user exists with the email
+  User.findOne({
+    email: req.body.email
+  })
+    .then(user => {
+      if (!user) {
+        // User does not exist
+        return res.status(401).json({
+          message: 'Authentication failed, user not found!'
+        });
+      } else {
+        // User found!
+        //
+        // Checking if the password entered by the user matches
+        // the password in the database using bcrypt.
+        return bcrypt.compare(req.body.password, user.password);
+      }
+    })
+    .then(result => {
+      if (!result) {
+        return res.status(401).json({
+          message: 'Authentication failed!'
+        });
+      }
+    })
+    .catch(err => {
+      // User does not exist
+      return res.status(401).json({
+        message: 'Authentication failed'
+      });
+    });
+});
+
 module.exports = router;
