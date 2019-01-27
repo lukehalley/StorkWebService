@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   templateUrl: './stork-login.component.html'
@@ -30,5 +31,17 @@ export class StorkLoginComponent {
   public hiddenMsgGood = 'help is-success is-hidden';
   public showMsgGood = 'help is-success';
 
-  onLogin(form: NgForm) {}
+  constructor(public authService: AuthService) {}
+
+  onLogin(form: NgForm) {
+    if (form.valid) {
+      this.authService.login(
+        form.value.inputUserLoginEmail,
+        form.value.inputUserLoginPassword
+      );
+    } else {
+      console.log('Login Failed!');
+      return;
+    }
+  }
 }

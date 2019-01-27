@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { StorksService } from './../storks.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stork-create',
@@ -47,7 +48,8 @@ export class StorkCreateComponent implements OnInit {
 
   constructor(
     public storksService: StorksService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -105,6 +107,7 @@ export class StorkCreateComponent implements OnInit {
       }
       form.resetForm();
       clearIndicators();
+      this.router.navigate(['/your-storks']);
     } else {
       const idVal = form.value.inputStorkID;
       const idNick = form.value.inputStorkNickname;
