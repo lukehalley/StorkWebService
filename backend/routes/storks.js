@@ -31,7 +31,7 @@ router.put('/:id', checkAuth, (req, res, next) => {
     stork_code: req.body.stork_code,
     nickname: req.body.nickname
   });
-  updateOne({ _id: req.params.id }, stork).then(result => {
+  Stork.updateOne({ _id: req.params.id }, stork).then(result => {
     console.log(result);
     res.status(200).json({ message: 'Update successful!' });
   });
@@ -39,7 +39,7 @@ router.put('/:id', checkAuth, (req, res, next) => {
 
 // Get ALL Storks from the database and return them in the response
 router.get('', checkAuth, (req, res, next) => {
-  find()
+  Stork.find()
     .then(documents => {
       console.log('Found: ' + documents);
       // 200 = Success
@@ -55,7 +55,7 @@ router.get('', checkAuth, (req, res, next) => {
 });
 
 router.get('/:id', checkAuth, (req, res, next) => {
-  findById({ _id: req.params.id })
+  Stork.findById({ _id: req.params.id })
     .then(stork => {
       if (stork) {
         res.status(200).json(stork);
@@ -70,7 +70,7 @@ router.get('/:id', checkAuth, (req, res, next) => {
 });
 
 router.delete('/:id', checkAuth, (req, res, next) => {
-  deleteOne({ _id: req.params.id })
+  Stork.deleteOne({ _id: req.params.id })
     .then(result => {
       console.log('Result: ' + result);
       res.status(200).json({ message: 'Stork Deleted!' });

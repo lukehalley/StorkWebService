@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   // <Bearer> & <token> -> [1] is the token.
   try {
     // Got a token
-    const token = req.headers.authorization.split('')[1];
+    const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, key);
     // If the verify works we know its a valid token else it will fail
     // and go into the cathc block.
