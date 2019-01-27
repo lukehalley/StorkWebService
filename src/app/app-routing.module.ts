@@ -6,6 +6,7 @@ import { StorkLoginComponent } from './auth/login/stork-login.component';
 import { StorkSignUpComponent } from './auth/signup/stork-sign-up.component';
 
 const routes: Routes = [
+  { path: '', component: StorkLoginComponent },
   { path: 'your-storks', component: StorkListComponent },
   { path: 'register-stork', component: StorkCreateComponent },
   { path: 'edit/:storkId', component: StorkCreateComponent },
