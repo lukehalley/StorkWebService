@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { User } from './user.model';
 import { AuthData } from './auth-data.model';
 
@@ -8,9 +9,14 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   private token: string;
   constructor(private http: HttpClient) {}
+  private authStatusListener = new Subject<boolean>();
 
   getToken() {
     return this.token;
+  }
+
+  getAuthStatusListener() {
+    return this.authStatusListener.asObservable();
   }
 
   createUser(
@@ -40,21 +46,6 @@ export class AuthService {
       });
   }
 
-  // login(email: string, password: string) {
-  //   const authData: AuthData = {
-  //     email: email,
-  //     password: password
-  //   };
-  //   this.http
-  //     .post<{ token: string }>(
-  //       'http://localhost:3000/api/users/login',
-  //       authData
-  //     )
-  //     .subscribe(response => {
-  //       console.log(response);
-  //       const token = response.token;
-  //     });
-  // }
   login(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
     this.http
@@ -63,8 +54,11 @@ export class AuthService {
         authData
       )
       .subscribe(response => {
+        // Getting the token from the response data
         const token = response.token;
         this.token = token;
+        // Informing the Stork app that the user is logged in
+        this.authStatusListener.next(true);
       });
   }
 }

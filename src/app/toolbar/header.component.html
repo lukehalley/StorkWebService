@@ -18,32 +18,42 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a [routerLink]="['/your-storks']" class="navbar-item"> All Storks </a>
-
-      <a [routerLink]="['/register-stork']" class="navbar-item">
-        Register A Stork
+      <a
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/your-storks']"
+        class="navbar-item"
+      >
+        All Storks
       </a>
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link"> More </a>
-
-        <div class="navbar-dropdown">
-          <a class="navbar-item"> About </a> <a class="navbar-item"> Jobs </a>
-          <a class="navbar-item"> Contact </a>
-          <hr class="navbar-divider" />
-          <a class="navbar-item"> Report an issue </a>
-        </div>
-      </div>
+      <a
+        *ngIf="userIsAuthenticated"
+        [routerLink]="['/register-stork']"
+        class="navbar-item"
+      >
+        Register A Stork
+      </a>
     </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a [routerLink]="['/sign-up']" class="button is-primary">
+          <a
+            *ngIf="!userIsAuthenticated"
+            [routerLink]="['/sign-up']"
+            class="button is-primary"
+          >
             <strong>Sign up</strong>
           </a>
-          <a [routerLink]="['/login']" class="button is-primary">
+          <a
+            *ngIf="!userIsAuthenticated"
+            [routerLink]="['/login']"
+            class="button is-primary"
+          >
             <strong>Log in</strong>
+          </a>
+          <a *ngIf="userIsAuthenticated" class="button is-primary">
+            <strong>Logout</strong>
           </a>
         </div>
       </div>
