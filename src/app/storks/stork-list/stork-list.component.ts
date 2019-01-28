@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -12,21 +13,37 @@ export class StorkListComponent implements OnInit, OnDestroy {
   storks: Stork[] = [];
 
   private storksSub: Subscription;
+  private authStatusSub: Subscription;
+  public userIsAuthenticated: boolean;
 
   // Using Angular dependency injection
-  constructor(public storksService: StorksService) {}
+  constructor(
+    public storksService: StorksService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.storksService.getStorks();
     this.storksSub = this.storksService
       .getStorksUpdateListener()
       .subscribe((storks: Stork[]) => {
         this.storks = storks;
       });
+    this.storksService.getStorks();
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+        if (isAuthenticated) {
+          this.storksService.getStorks();
+        } else {
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.storksSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
   }
 
   onDelete(storkId: string) {

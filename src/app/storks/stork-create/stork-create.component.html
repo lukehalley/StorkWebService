@@ -1,6 +1,5 @@
-<app-header></app-header>
 <div class="container">
-  <div class="tile is-ancestor">
+  <div *ngIf="userIsAuthenticated; else loggedOut" class="tile is-ancestor">
     <div class="tile is-parent">
       <div class="tile is-child box">
         <p class="title">
@@ -76,4 +75,7 @@
       </div>
     </div>
   </div>
+  <ng-template #loggedOut>
+    Please <strong>Login</strong> To Add A Stork
+  </ng-template>
 </div>

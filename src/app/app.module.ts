@@ -1,10 +1,11 @@
+import { AuthInterceptor } from './auth/auth-interceptor';
 import { StorkSignUpComponent } from './auth/signup/stork-sign-up.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
@@ -30,7 +31,9 @@ import { StorkLoginComponent } from './auth/login/stork-login.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
