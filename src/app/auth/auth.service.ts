@@ -7,16 +7,23 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private isAuthenticated = false;
   private token: string;
   constructor(private http: HttpClient) {}
   private authStatusListener = new Subject<boolean>();
 
+  // Get the token
   getToken() {
     return this.token;
   }
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
+  }
+
+  // Get the CURRENT auth status of the user no matter what page they are on.
+  getIsAuth() {
+    return this.isAuthenticated;
   }
 
   createUser(
@@ -57,8 +64,11 @@ export class AuthService {
         // Getting the token from the response data
         const token = response.token;
         this.token = token;
-        // Informing the Stork app that the user is logged in
-        this.authStatusListener.next(true);
+        if (token) {
+          // Informing the Stork app that the user is logged in
+          this.isAuthenticated = true;
+          this.authStatusListener.next(true);
+        }
       });
   }
 }

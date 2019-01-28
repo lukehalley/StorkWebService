@@ -1,5 +1,5 @@
 <nav class="panel">
-  <div *ngIf="storks.length > 0; else loggedOut">
+  <div *ngIf="userIsAuthenticated; else loggedOut">
     <div class="card" *ngFor="let stork of storks">
       <div class="card-content">
         <div class="media">
@@ -31,5 +31,7 @@
       </footer>
     </div>
   </div>
-  <ng-template #loggedOut> You Have No Stork Devices... </ng-template>
+  <ng-template #loggedOut>
+    Please <strong>Login</strong> To See Your Storks
+  </ng-template>
 </nav>
