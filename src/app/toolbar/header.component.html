@@ -52,7 +52,11 @@
           >
             <strong>Log in</strong>
           </a>
-          <a *ngIf="userIsAuthenticated" class="button is-primary">
+          <a
+            *ngIf="userIsAuthenticated"
+            (click)="onLogout()"
+            class="button is-primary"
+          >
             <strong>Logout</strong>
           </a>
         </div>
