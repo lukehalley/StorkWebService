@@ -69,6 +69,7 @@ export class AuthService {
           // Informing the Stork app that the user is logged in
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          // Navigate to the list of storks after login
           this.router.navigate(['/your-storks']);
         }
       });
@@ -78,6 +79,7 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
+    // Send the user back to the login screen after logging out
     this.router.navigate(['/login']);
   }
 }
