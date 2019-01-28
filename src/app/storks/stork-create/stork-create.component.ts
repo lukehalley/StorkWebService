@@ -2,20 +2,24 @@ import { Stork } from './../stork.model';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { StorksService } from './../storks.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-stork-create',
   templateUrl: './stork-create.component.html'
 })
-export class StorkCreateComponent implements OnInit {
+export class StorkCreateComponent implements OnInit, OnDestroy {
   // Edit Feature
   public editMode = false;
   public isLoading = false;
   private storkId: string;
   stork: Stork;
+
+  private authStatusSub: Subscription;
+  public userIsAuthenticated: boolean;
 
   // Input field values
   enteredStork_id = '';
@@ -49,28 +53,38 @@ export class StorkCreateComponent implements OnInit {
   constructor(
     public storksService: StorksService,
     public route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('storkId')) {
-        this.editMode = true;
-        this.storkId = paramMap.get('storkId');
-        this.isLoading = true;
-        this.storksService.getStork(this.storkId).subscribe(storkData => {
-          this.isLoading = false;
-          this.stork = {
-            id: storkData._id,
-            stork_code: storkData.stork_code,
-            nickname: storkData.nickname
-          };
-        });
-      } else {
-        this.editMode = false;
-        this.storkId = null;
-      }
-    });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        console.log('USER LOGGED IN: ' + this.userIsAuthenticated);
+        this.userIsAuthenticated = isAuthenticated;
+        if (isAuthenticated) {
+          this.route.paramMap.subscribe((paramMap: ParamMap) => {
+            if (paramMap.has('storkId')) {
+              this.editMode = true;
+              this.storkId = paramMap.get('storkId');
+              this.isLoading = true;
+              this.storksService.getStork(this.storkId).subscribe(storkData => {
+                this.isLoading = false;
+                this.stork = {
+                  id: storkData._id,
+                  stork_code: storkData.stork_code,
+                  nickname: storkData.nickname
+                };
+              });
+            } else {
+              this.editMode = false;
+              this.storkId = null;
+            }
+          });
+        }
+      });
   }
 
   // Create the button press listener
@@ -133,5 +147,9 @@ export class StorkCreateComponent implements OnInit {
       }
       return;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.authStatusSub.unsubscribe();
   }
 }

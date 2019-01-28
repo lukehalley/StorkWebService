@@ -28,24 +28,25 @@ export class StorkListComponent implements OnInit, OnDestroy {
       .subscribe((storks: Stork[]) => {
         this.storks = storks;
       });
+    this.storksService.getStorks();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
-        console.log('User is Authenticated: ' + isAuthenticated);
         this.userIsAuthenticated = isAuthenticated;
         if (isAuthenticated) {
           this.storksService.getStorks();
+        } else {
         }
       });
   }
 
   ngOnDestroy(): void {
     this.storksSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
   }
 
   onDelete(storkId: string) {
     this.storksService.deleteStork(storkId);
-    this.authStatusSub.unsubscribe();
   }
 }
