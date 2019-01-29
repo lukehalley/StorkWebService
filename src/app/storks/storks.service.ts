@@ -24,7 +24,7 @@ export class StorksService {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
               id: stork._id,
-              owner: stork.owner
+              ownerId: stork.ownerId
             };
           });
         })

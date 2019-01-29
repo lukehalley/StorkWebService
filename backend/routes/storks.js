@@ -12,7 +12,7 @@ router.post('', checkAuth, (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
     nickname: req.body.nickname,
-    owner: req.userData.userId
+    ownerId: req.userData.userId
   });
   console.log(stork);
   stork.save().then(createdStork => {
