@@ -79,10 +79,16 @@ router.get('/:id', checkAuth, (req, res, next) => {
 });
 
 router.delete('/:id', checkAuth, (req, res, next) => {
-  Stork.deleteOne({ _id: req.params.id })
+  Stork.deleteOne({ _id: req.params.id, ownerId: req.userData.userId })
     .then(result => {
       console.log('Result: ' + result);
-      res.status(200).json({ message: 'Stork Deleted!' });
+      if (result.nModified > 0) {
+        res.status(200).json({ message: 'Stork Deleted!' });
+      } else {
+        res
+          .status(401)
+          .json({ message: 'User Not Authorised To Delete This Stork!' });
+      }
     })
     .catch(e => {
       console.error('Failed To Delete A Document From Database!: ');
