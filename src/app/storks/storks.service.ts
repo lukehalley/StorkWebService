@@ -23,12 +23,15 @@ export class StorksService {
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
-              id: stork._id
+              id: stork._id,
+              owner: stork.owner
             };
           });
         })
       )
       .subscribe(storks => {
+        console.log(storks);
+
         this.storks = storks;
         this.storksUpdated.next([...this.storks]);
       });

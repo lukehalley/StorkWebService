@@ -11,7 +11,11 @@ module.exports = (req, res, next) => {
   try {
     // Got a token
     const token = req.headers.authorization.split(' ')[1];
-    jwt.verify(token, key);
+    const decodedToken = jwt.verify(token, key);
+    req.userData = {
+      email: decodedToken.email,
+      userId: decodedToken.userId
+    };
     // If the verify works we know its a valid token else it will fail
     // and go into the cathc block.
     next();
