@@ -6,8 +6,7 @@ const checkAuth = require('../middleware/check-auth');
 // Calling checkAuth to check token to see if current user should
 // be able to access all the below routes.
 
-// Create a Stork device and send it to the database
-// to be stored.
+// Create a Stork device and send it to the database to be stored.
 router.post('', checkAuth, (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
@@ -24,16 +23,17 @@ router.post('', checkAuth, (req, res, next) => {
   });
 });
 
-// Create a Stork device and send it to the database.
-// to be stored
+// Update a Stork device and update it in the database.
 router.put('/:id', checkAuth, (req, res, next) => {
   const stork = new Stork({
     _id: req.body.id,
     stork_code: req.body.stork_code,
     nickname: req.body.nickname
   });
-  Stork.updateOne({ _id: req.params.id }, stork).then(result => {
-    console.log(result);
+  Stork.updateOne(
+    { _id: req.params.id, ownerId: req.userData.userId },
+    stork
+  ).then(result => {
     res.status(200).json({ message: 'Update successful!' });
   });
 });
