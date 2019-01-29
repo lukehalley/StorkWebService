@@ -42,67 +42,6 @@ router.post('/signup', (req, res, next) => {
   });
 });
 
-// // Create a User and send it to the database
-// // to be stored
-// router.post('/login', (req, res, next) => {
-//   let fetchedUser;
-//   // Checking if the user exists with the email
-//   User.findOne({
-//     email: req.body.email
-//   })
-//     .then(user => {
-//       if (!user) {
-//         // User does not exist
-//         return res.status(401).json({
-//           message: 'Authentication failed, user not found at first!',
-//           error: err
-//         });
-//       } else {
-//         fetchedUser = user;
-//         console.log('In bcrypt');
-//         // User found!
-//         //
-//         // Checking if the password entered by the user matches
-//         // the password in the database using bcrypt.
-//         return bcrypt.compare(req.body.password, user.password);
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       // User does not exist
-//       return res.status(401).json({
-//         message: 'Authentication failed'
-//       });
-//     })
-//     .then(result => {
-//       console.log('RESULT: ' + result);
-//       if (!result) {
-//         return res.status(401).json({
-//           message: 'Authentication failed!'
-//         });
-//       } else {
-//         // Authentication has been successful, create a token.
-//         const token = jwt.sign(
-//           { email: fetchedUser.email, userId: fetchedUser._id },
-//           key,
-//           {
-//             expiresIn: '1h'
-//           }
-//         );
-//         res.send({
-//           token: token
-//         });
-//       }
-//     })
-//     .catch(err => {
-//       console.log('boom');
-//       // User does not exist
-//       return res.status(401).json({
-//         message: 'Authentication failed'
-//       });
-//     });
-// });
-
 router.post('/login', (req, res, next) => {
   let fetchedUser;
   User.findOne({ email: req.body.email })
@@ -127,7 +66,9 @@ router.post('/login', (req, res, next) => {
         { expiresIn: '1h' }
       );
       res.status(200).json({
-        token: token
+        token: token,
+        // Sending the client the time duration of their token - 1 hour in seconds:
+        expiresIn: 3600
       });
     })
     .catch(err => {

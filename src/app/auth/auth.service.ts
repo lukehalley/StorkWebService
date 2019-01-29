@@ -57,7 +57,7 @@ export class AuthService {
   login(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
     this.http
-      .post<{ token: string }>(
+      .post<{ token: string; expiresIn: number }>(
         'http://localhost:3000/api/users/login',
         authData
       )
@@ -66,6 +66,7 @@ export class AuthService {
         const token = response.token;
         this.token = token;
         if (token) {
+          const expiredInDuration = response.expiresIn;
           // Informing the Stork app that the user is logged in
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
