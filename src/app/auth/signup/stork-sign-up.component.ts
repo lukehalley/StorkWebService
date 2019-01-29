@@ -37,8 +37,6 @@ export class StorkSignUpComponent {
       );
       this.router.navigate(['/login']);
     } else {
-      console.log('No!!!!!!');
-
       return;
     }
   }

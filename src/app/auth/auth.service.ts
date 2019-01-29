@@ -12,7 +12,7 @@ export class AuthService {
   private token: string;
   constructor(private http: HttpClient, private router: Router) {}
   private authStatusListener = new Subject<boolean>();
-  private tokenTimer: NodeJS.Timer;
+  private tokenTimer: any;
 
   // Get the token
   getToken() {
@@ -68,13 +68,17 @@ export class AuthService {
         this.token = token;
         if (token) {
           const expiredInDuration = response.expiresIn;
-          // this.logout will be called after 1 hour.
-          this.tokenTimer = setTimeout(() => {
-            this.logout();
-          }, expiredInDuration * 1000);
+          this.setAuthTimer(expiredInDuration);
           // Informing the Stork app that the user is logged in
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          const currentDate = new Date();
+          const experationDate = new Date(
+            currentDate.getTime() + expiredInDuration * 1000
+          );
+          this.saveAuthData(token, experationDate);
+          console.log('experationDate: ' + experationDate);
+
           // Navigate to the list of storks after login
           this.router.navigate(['/your-storks']);
         }
@@ -85,9 +89,64 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
-    // Send the user back to the login screen after logging out
+    // Send the user back to the login screen after logging out:
     this.router.navigate(['/login']);
-    // Clear timeout when we logout, manually or programmatically.
+    // Clear the local storage of the user token and experation date of that token:
+    this.clearAuthData();
+    // Clear timeout when we logout, manually or programmatically:
     clearTimeout(this.tokenTimer);
+  }
+
+  autoAuthUser() {
+    const authInformation = this.getAuthData();
+    if (authInformation != null) {
+      // Verify the experationDate
+      const now = new Date();
+      // Getting the differnce between the experationDate and the current time:
+      const expiresIn =
+        authInformation.experationDate.getTime() - now.getTime();
+      // if expiresIn is greater than 0 its in the future. If its 0 or less its right now of in the past.
+      if (expiresIn > 0) {
+        this.token = authInformation.token;
+        this.isAuthenticated = true;
+        this.setAuthTimer(expiresIn / 1000);
+        this.authStatusListener.next(true);
+      }
+    } else {
+      return;
+    }
+  }
+
+  private setAuthTimer(duration) {
+    console.log('Setting Timer:' + duration);
+    // this.logout will be called after 1 hour.
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
+  }
+
+  private saveAuthData(token: string, experationDate: Date) {
+    // Storing the token and experation date to the users local storage.
+    localStorage.setItem('token', token);
+    localStorage.setItem('experation', experationDate.toISOString());
+  }
+
+  private clearAuthData() {
+    // Storing the token and experation date to the users local storage.
+    localStorage.removeItem('token');
+    localStorage.removeItem('experation');
+  }
+
+  private getAuthData() {
+    const token = localStorage.getItem('token');
+    const experationDate = localStorage.getItem('experation');
+    if (!token || !experationDate) {
+      return;
+    } else {
+      return {
+        token: token,
+        experationDate: new Date(experationDate)
+      };
+    }
   }
 }

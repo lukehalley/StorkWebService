@@ -13,10 +13,10 @@ export class StorkHeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
-        console.log('User isAuthenticated: ' + isAuthenticated);
         this.userIsAuthenticated = isAuthenticated;
       });
   }
