@@ -12,6 +12,7 @@ export class AuthService {
   private token: string;
   constructor(private http: HttpClient, private router: Router) {}
   private authStatusListener = new Subject<boolean>();
+  private tokenTimer: NodeJS.Timer;
 
   // Get the token
   getToken() {
@@ -67,6 +68,10 @@ export class AuthService {
         this.token = token;
         if (token) {
           const expiredInDuration = response.expiresIn;
+          // this.logout will be called after 1 hour.
+          this.tokenTimer = setTimeout(() => {
+            this.logout();
+          }, expiredInDuration * 1000);
           // Informing the Stork app that the user is logged in
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
@@ -82,5 +87,7 @@ export class AuthService {
     this.authStatusListener.next(false);
     // Send the user back to the login screen after logging out
     this.router.navigate(['/login']);
+    // Clear timeout when we logout, manually or programmatically.
+    clearTimeout(this.tokenTimer);
   }
 }
