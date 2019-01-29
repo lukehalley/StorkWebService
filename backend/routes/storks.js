@@ -82,7 +82,7 @@ router.delete('/:id', checkAuth, (req, res, next) => {
   Stork.deleteOne({ _id: req.params.id, ownerId: req.userData.userId })
     .then(result => {
       console.log('Result: ' + result);
-      if (result.nModified > 0) {
+      if (result.n > 0) {
         res.status(200).json({ message: 'Stork Deleted!' });
       } else {
         res
