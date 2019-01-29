@@ -23,7 +23,7 @@ router.post('', checkAuth, (req, res, next) => {
   });
 });
 
-// Create a Stork device and send it to the database
+// Create a Stork device and send it to the database.
 // to be stored
 router.put('/:id', checkAuth, (req, res, next) => {
   const stork = new Stork({
