@@ -34,7 +34,15 @@ router.put('/:id', checkAuth, (req, res, next) => {
     { _id: req.params.id, ownerId: req.userData.userId },
     stork
   ).then(result => {
-    res.status(200).json({ message: 'Update successful!' });
+    // If nModified is greater than one on the result that means a field was edited.
+    // Using nModified to check if a user owns the Stork.
+    if (result.nModified > 0) {
+      res.status(200).json({ message: 'Update successful!' });
+    } else {
+      res
+        .status(401)
+        .json({ message: 'User Not Authorised To Edit This Stork!' });
+    }
   });
 });
 
