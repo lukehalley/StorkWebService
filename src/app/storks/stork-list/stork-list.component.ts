@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { Stork } from '../stork.model';
 import { StorksService } from '../storks.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-stork-list',
@@ -29,16 +30,19 @@ export class StorkListComponent implements OnInit, OnDestroy {
       .subscribe((storks: Stork[]) => {
         this.storks = storks;
       });
-    this.storksService.getStorks();
-    this.userIsAuthenticated = this.authService.getIsAuth();
     this.userId = this.authService.getUserId();
+    console.log('USER ID IS: ' + this.authService.getUserId());
+
+    // Getting current users storks
+    this.storksService.getOwnersStork(this.authService.getUserId());
+    this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
         this.userId = this.authService.getUserId();
         if (isAuthenticated) {
-          this.storksService.getStorks();
+          this.storksService.getOwnersStork(this.authService.getUserId());
         } else {
         }
       });

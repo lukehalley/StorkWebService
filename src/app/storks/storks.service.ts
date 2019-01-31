@@ -37,6 +37,33 @@ export class StorksService {
       });
   }
 
+  getOwnersStork(ownerId: string) {
+    this.http
+      .get<{ message: string; storks: any }>(
+        'http://localhost:3000/api/storks/' + ownerId
+      )
+      // Coverting the Storks we get back to match the formating of them in the MongoDB
+      // database - specifically the _id tag using a new map
+      .pipe(
+        map(storkData => {
+          return storkData.storks.map(stork => {
+            return {
+              stork_code: stork.stork_code,
+              nickname: stork.nickname,
+              id: stork._id,
+              ownerId: stork.ownerId
+            };
+          });
+        })
+      )
+      .subscribe(storks => {
+        console.log(storks);
+
+        this.storks = storks;
+        this.storksUpdated.next([...this.storks]);
+      });
+  }
+
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
     return this.http.get<{

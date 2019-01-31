@@ -63,19 +63,19 @@ router.get('', checkAuth, (req, res, next) => {
     });
 });
 
-// Get ALL Storks from the database and return them in the response
+// Get All Storks of a specific OWNER from the database and return them in the response
 router.get('/:ownerId', checkAuth, (req, res, next) => {
-  Stork.find()
+  Stork.find({ ownerId: req.params.ownerId })
     .then(documents => {
-      console.log('Found: ' + documents);
+      console.log('Found Owners Storks: ' + documents);
       // 200 = Success
       res.status(200).json({
-        message: 'Storks fetched sucessfully',
+        message: 'Owners Storks fetched sucessfully',
         storks: documents
       });
     })
     .catch(e => {
-      console.error('Failed To Get ALL Documents From Database!');
+      console.error('Failed To Get Owners Documents From Database!');
       console.error(e);
     });
 });
