@@ -39,20 +39,24 @@ export class StorksService {
 
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
-    return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
-      'http://localhost:3000/api/storks/' + id
-    );
+    return this.http.get<{
+      _id: string;
+      stork_code: string;
+      nickname: string;
+      ownerId: string;
+    }>('http://localhost:3000/api/storks/' + id);
   }
 
   getStorksUpdateListener() {
     return this.storksUpdated.asObservable();
   }
 
-  addStork(stork_code: string, nickname: string) {
+  addStork(stork_code: string, nickname: string, ownerId: string) {
     const stork: Stork = {
       id: null,
       stork_code: stork_code,
-      nickname: nickname
+      nickname: nickname,
+      ownerId: ownerId
     };
     this.http
       .post<{ message: string; storkId: string }>(
@@ -73,7 +77,8 @@ export class StorksService {
     const stork: Stork = {
       id: id,
       stork_code: stork_code,
-      nickname: nickname
+      nickname: nickname,
+      ownerId: null
     };
 
     this.http

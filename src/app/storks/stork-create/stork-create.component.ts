@@ -15,6 +15,7 @@ export class StorkCreateComponent implements OnInit {
   public editMode = false;
   public isLoading = false;
   private storkId: string;
+  private ownerId: string;
   stork: Stork;
 
   // Input field values
@@ -57,18 +58,21 @@ export class StorkCreateComponent implements OnInit {
       if (paramMap.has('storkId')) {
         this.editMode = true;
         this.storkId = paramMap.get('storkId');
+        this.ownerId = paramMap.get('ownerId');
         this.isLoading = true;
         this.storksService.getStork(this.storkId).subscribe(storkData => {
           this.isLoading = false;
           this.stork = {
             id: storkData._id,
             stork_code: storkData.stork_code,
-            nickname: storkData.nickname
+            nickname: storkData.nickname,
+            ownerId: storkData.ownerId
           };
         });
       } else {
         this.editMode = false;
         this.storkId = null;
+        this.ownerId = null;
       }
     });
   }
@@ -102,7 +106,8 @@ export class StorkCreateComponent implements OnInit {
       } else {
         this.storksService.addStork(
           form.value.inputStorkID,
-          form.value.inputStorkNickname
+          form.value.inputStorkNickname,
+          this.ownerId
         );
       }
       form.resetForm();

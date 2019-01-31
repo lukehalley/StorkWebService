@@ -1,6 +1,9 @@
 <nav class="panel">
-  <div *ngIf="userIsAuthenticated; else loggedOut">
-    <div class="card" *ngFor="let stork of storks">
+  <div *ngFor="let stork of storks">
+    <div
+      class="card"
+      *ngIf="userIsAuthenticated && userId === stork.ownerId; else loggedOut"
+    >
       <div class="card-content">
         <div class="media">
           <div class="media-left">
