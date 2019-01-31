@@ -13,6 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
   private authStatusListener = new Subject<boolean>();
   private tokenTimer: any;
+  private userId: string;
 
   // Get the token
   getToken() {
@@ -26,6 +27,10 @@ export class AuthService {
   // Get the CURRENT auth status of the user no matter what page they are on.
   getIsAuth() {
     return this.isAuthenticated;
+  }
+
+  getUserId() {
+    return this.userId;
   }
 
   createUser(
@@ -58,7 +63,8 @@ export class AuthService {
   login(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
     this.http
-      .post<{ token: string; expiresIn: number }>(
+      // Getting the toke, expiry time and userId from the response:
+      .post<{ token: string; expiresIn: number; userId: string }>(
         'http://localhost:3000/api/users/login',
         authData
       )
@@ -71,12 +77,13 @@ export class AuthService {
           this.setAuthTimer(expiredInDuration);
           // Informing the Stork app that the user is logged in
           this.isAuthenticated = true;
+          this.userId = response.userId;
           this.authStatusListener.next(true);
           const currentDate = new Date();
           const experationDate = new Date(
             currentDate.getTime() + expiredInDuration * 1000
           );
-          this.saveAuthData(token, experationDate);
+          this.saveAuthData(token, experationDate, this.userId);
           console.log('experationDate: ' + experationDate);
 
           // Navigate to the list of storks after login
@@ -93,6 +100,8 @@ export class AuthService {
     this.router.navigate(['/login']);
     // Clear the local storage of the user token and experation date of that token:
     this.clearAuthData();
+    // Clear userId on logout
+    this.userId = null;
     // Clear timeout when we logout, manually or programmatically:
     clearTimeout(this.tokenTimer);
   }
@@ -109,6 +118,7 @@ export class AuthService {
       if (expiresIn > 0) {
         this.token = authInformation.token;
         this.isAuthenticated = true;
+        this.userId = authInformation.userId;
         this.setAuthTimer(expiresIn / 1000);
         this.authStatusListener.next(true);
       }
@@ -117,6 +127,7 @@ export class AuthService {
     }
   }
 
+  // Setting the token timeout
   private setAuthTimer(duration) {
     console.log('Setting Timer:' + duration);
     // this.logout will be called after 1 hour.
@@ -125,27 +136,32 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, experationDate: Date) {
-    // Storing the token and experation date to the users local storage.
+  // Storing the token, experation date and userId to the users local storage.
+  private saveAuthData(token: string, experationDate: Date, userId: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('experation', experationDate.toISOString());
+    localStorage.setItem('userId', userId);
   }
 
+  // Storing the token, experation date and userId to the users local storage.
   private clearAuthData() {
-    // Storing the token and experation date to the users local storage.
     localStorage.removeItem('token');
     localStorage.removeItem('experation');
+    localStorage.removeItem('userId');
   }
 
+  // Getting the token, experation date and userId to the users local storage.
   private getAuthData() {
     const token = localStorage.getItem('token');
     const experationDate = localStorage.getItem('experation');
+    const userId = localStorage.getItem('userId');
     if (!token || !experationDate) {
       return;
     } else {
       return {
         token: token,
-        experationDate: new Date(experationDate)
+        experationDate: new Date(experationDate),
+        userId: userId
       };
     }
   }
