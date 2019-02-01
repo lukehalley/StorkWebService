@@ -12,14 +12,28 @@ export class StorksService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getStorks() {
+  getStorks(userId: string) {
+    console.log('http://localhost:3000/api/storks/' + userId);
+
     this.http
-      .get<{ message: string; storks: any }>('http://localhost:3000/api/storks')
+      .get<{ message: string; storks: any }>(
+        'http://localhost:3000/api/storks/' + userId
+      )
       // Coverting the Storks we get back to match the formating of them in the MongoDB
       // database - specifically the _id tag using a new map
       .pipe(
         map(storkData => {
           return storkData.storks.map(stork => {
+            console.log(
+              'GOT THIS BACK' +
+                stork.stork_code +
+                ' ' +
+                stork.nickname +
+                ' ' +
+                stork._id +
+                ' ' +
+                stork.ownerId
+            );
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,

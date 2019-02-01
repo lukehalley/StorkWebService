@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { StorkCreateComponent } from './storks/stork-create/stork-create.component';
 import { StorkHeaderComponent } from './toolbar/header.component';
 import { StorkListComponent } from './storks/stork-list/stork-list.component';
-import { StorkSubListComponent } from './storks/stork-sublist/stork-sublist.component';
 import { StorkLoginComponent } from './auth/login/stork-login.component';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { StorkLoginComponent } from './auth/login/stork-login.component';
     StorkCreateComponent,
     StorkHeaderComponent,
     StorkListComponent,
-    StorkSubListComponent,
     StorkLoginComponent,
     StorkSignUpComponent
   ],

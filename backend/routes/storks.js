@@ -47,8 +47,8 @@ router.put('/:id', checkAuth, (req, res, next) => {
 });
 
 // Get ALL Storks from the database and return them in the response
-router.get('', checkAuth, (req, res, next) => {
-  Stork.find()
+router.get('/:ownerId', checkAuth, (req, res, next) => {
+  Stork.find({ ownerId: req.params.ownerId })
     .then(documents => {
       console.log('Found: ' + documents);
       // 200 = Success
