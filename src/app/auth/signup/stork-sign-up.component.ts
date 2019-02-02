@@ -16,7 +16,7 @@ export class StorkSignUpComponent implements OnInit, OnDestroy {
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe(authStatus => {
-        // Only go to the login page if the signup is valid
+        // Only go to the login page if the signup is valid.
         this.router.navigate(['/login']);
       });
   }
