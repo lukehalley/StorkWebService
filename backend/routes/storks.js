@@ -14,13 +14,22 @@ router.post('', checkAuth, (req, res, next) => {
     ownerId: req.userData.userId
   });
   console.log(stork);
-  stork.save().then(createdStork => {
-    // 201 = Success & Something Was Created
-    res.status(201).json({
-      message: 'Stork added sucessfully!',
-      storkId: createdStork._id
+  stork
+    .save()
+    .then(createdStork => {
+      // 201 = Success & Something Was Created
+      res.status(201).json({
+        message: 'Stork added sucessfully!',
+        storkId: createdStork._id
+      });
+    })
+    .catch(e => {
+      res.status(500).json({
+        message: 'Stork Registration Failed!',
+        comment: 'Please check you have correctly filled all fields.',
+        error: err
+      });
     });
-  });
 });
 
 // Update a Stork device and update it in the database.
@@ -39,10 +48,19 @@ router.put('/:id', checkAuth, (req, res, next) => {
     if (result.nModified > 0) {
       res.status(200).json({ message: 'Update successful!' });
     } else {
-      res.status(401).json({
-        message: 'User Not Authorised To Edit This Stork!',
-        comment: 'Please Sign In to edit your Storks'
-      });
+      res
+        .status(401)
+        .json({
+          message: 'User Not Authorised To Edit This Stork!',
+          comment: 'Please Sign In to edit your Storks'
+        })
+        .catch(e => {
+          res.status(500).json({
+            message: 'Stork Update Failed!',
+            comment: 'Please check you have correctly filled all fields.',
+            error: err
+          });
+        });
     }
   });
 });
@@ -53,13 +71,16 @@ router.get('/:ownerId', checkAuth, (req, res, next) => {
     .then(documents => {
       // 200 = Success
       res.status(200).json({
-        message: 'Storks fetched sucessfully',
+        message: 'Storks Fetched Sucessfully',
         storks: documents
       });
     })
     .catch(e => {
-      console.error('Failed To Get ALL Documents From Database!');
-      console.error(e);
+      res.status(500).json({
+        message: 'Stork Retrival Failed!',
+        comment: 'Failed To Get Your Storks From The Database!',
+        error: err
+      });
     });
 });
 
@@ -75,8 +96,11 @@ router.get('/one/:id', checkAuth, (req, res, next) => {
       }
     })
     .catch(e => {
-      console.error('Failed To Get A Document From Database!: ');
-      console.error(e);
+      res.status(500).json({
+        message: 'Stork Retrival Failed!',
+        comment: 'Failed To Get A Document From Database!',
+        error: err
+      });
     });
 });
 
@@ -92,8 +116,11 @@ router.delete('/:id', checkAuth, (req, res, next) => {
       }
     })
     .catch(e => {
-      console.error('Failed To Delete A Document From Database!: ');
-      console.error(e);
+      res.status(500).json({
+        message: 'Stork De-registration Failed!',
+        comment: 'Failed To De-registrater Your Storks!',
+        error: err
+      });
     });
 });
 
