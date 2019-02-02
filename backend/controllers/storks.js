@@ -78,7 +78,7 @@ exports.updateStork = (req, res, next) => {
   ).then(result => {
     // If nModified is greater than one on the result that means a field was edited.
     // Using nModified to check if a user owns the Stork.
-    if (result.nModified > 0) {
+    if (result.n > 0) {
       res.status(200).json({ message: 'Update successful!' });
     } else {
       res
