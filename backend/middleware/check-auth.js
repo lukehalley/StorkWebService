@@ -23,6 +23,6 @@ module.exports = (req, res, next) => {
     // Token not available
     res
       .status(401)
-      .json({ message: 'Auth failed - no token available or invalid!' });
+      .json({ message: 'Login Failed! - no token available or invalid!' });
   }
 };

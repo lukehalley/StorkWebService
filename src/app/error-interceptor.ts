@@ -14,13 +14,18 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = 'An Unknown Error Occured!';
+        let errorComment = 'Please contact support!';
         if (error.error.message) {
           // If the error response has a message set it.
           errorMessage = error.error.message;
         }
+        if (error.error.comment) {
+          // If the error response has a message set it.
+          errorComment = error.error.comment;
+        }
         Swal.fire({
           title: errorMessage,
-          text: errorMessage,
+          text: errorComment,
           type: 'error',
           confirmButtonText: 'Ok'
         });

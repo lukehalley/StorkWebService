@@ -39,9 +39,10 @@ router.put('/:id', checkAuth, (req, res, next) => {
     if (result.nModified > 0) {
       res.status(200).json({ message: 'Update successful!' });
     } else {
-      res
-        .status(401)
-        .json({ message: 'User Not Authorised To Edit This Stork!' });
+      res.status(401).json({
+        message: 'User Not Authorised To Edit This Stork!',
+        comment: 'Please Sign In to edit your Storks'
+      });
     }
   });
 });
