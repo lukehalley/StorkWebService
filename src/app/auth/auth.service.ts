@@ -53,11 +53,15 @@ export class AuthService {
       password: password,
       plan: plan
     };
-    this.http
-      .post('http://localhost:3000/api/users/signup', user)
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.http.post('http://localhost:3000/api/users/signup', user).subscribe(
+      () => {
+        this.authStatusListener.next(true);
+        this.router.navigate(['/login']);
+      },
+      error => {
+        this.authStatusListener.next(false);
+      }
+    );
   }
 
   login(email: string, password: string) {
@@ -68,28 +72,29 @@ export class AuthService {
         'http://localhost:3000/api/users/login',
         authData
       )
-      .subscribe(response => {
-        // Getting the token from the response data
-        const token = response.token;
-        this.token = token;
-        if (token) {
-          const expiredInDuration = response.expiresIn;
-          this.setAuthTimer(expiredInDuration);
-          // Informing the Stork app that the user is logged in
-          this.isAuthenticated = true;
-          this.userId = response.userId;
-          this.authStatusListener.next(true);
-          const currentDate = new Date();
-          const experationDate = new Date(
-            currentDate.getTime() + expiredInDuration * 1000
-          );
-          this.saveAuthData(token, experationDate, this.userId);
-          console.log('experationDate: ' + experationDate);
-
-          // Navigate to the list of storks after login
-          this.router.navigate(['/your-storks']);
+      .subscribe(
+        response => {
+          // Getting the token from the response data
+          const token = response.token;
+          this.token = token;
+          if (token) {
+            const expiredInDuration = response.expiresIn;
+            this.setAuthTimer(expiredInDuration);
+            // Informing the Stork app that the user is logged in
+            this.isAuthenticated = true;
+            this.userId = response.userId;
+            this.authStatusListener.next(true);
+            const currentDate = new Date();
+            const experationDate = new Date(
+              currentDate.getTime() + expiredInDuration * 1000
+            );
+            this.saveAuthData(token, experationDate, this.userId);
+          }
+        },
+        error => {
+          this.authStatusListener.next(false);
         }
-      });
+      );
   }
 
   logout() {

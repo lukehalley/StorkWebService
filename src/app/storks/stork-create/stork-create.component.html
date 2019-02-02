@@ -10,7 +10,7 @@
             <label class="label">Unique Stork Code</label>
             <p class="control has-icons-left">
               <input
-                [class]="idInput"
+                class="input"
                 (keydown.space)="$event.preventDefault()"
                 type="text"
                 name="inputStorkID"
@@ -25,18 +25,17 @@
                 <i class="fas fa-id-badge"></i>
               </span>
             </p>
-            <p [class]="idMsgError">
-              Invalid Stork Code: Must be exactly 7 characters long and only
-              consist of <u>capital</u> letters and numbers!!
+            <p class="help">
+              Must be exactly 7 characters long and only consist of
+              <u>capital</u> letters and numbers.
               <strong>Example: STR1234</strong>
             </p>
-            <p [class]="idMsgGood">Valid Stork Code</p>
           </div>
           <div class="field">
             <label class="label">Nickname</label>
             <p class="control has-icons-left has-icons-right">
               <input
-                [class]="nicknameInput"
+                class="input"
                 (keydown.space)="$event.preventDefault()"
                 type="text"
                 name="inputStorkNickname"
@@ -51,16 +50,19 @@
                 <i class="fas fa-tag"></i>
               </span>
             </p>
-            <p [class]="nicknameMsgError">
-              Invalid Nickname: Must be 4 - 20 characters long and only consist
-              of letters and numbers! (No Spaces!)
+            <p class="help">
+              Must be 4 - 20 characters long and only consist of letters and
+              numbers with no spaces.
               <strong>Example: YourNickname1234</strong>
             </p>
-            <p [class]="nicknameMsgGood">Valid Nickname</p>
           </div>
           <div class="field">
             <p class="control">
-              <button class="button is-primary" type="submit">
+              <button
+                class="button is-primary"
+                [disabled]="formAddStork.invalid"
+                type="submit"
+              >
                 {{ editMode == true ? 'Save' : 'Add' }}
               </button>
             </p>

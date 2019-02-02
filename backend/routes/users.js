@@ -28,14 +28,16 @@ router.post('/signup', (req, res, next) => {
       .then(createdUser => {
         // 201 = Success & Something Was Created
         res.status(201).json({
-          message: 'User added sucessfully!',
+          message: 'User Added Sucessfully!',
           result: createdUser
         });
       })
       .catch(err => {
         console.log('Error: ' + err);
         res.status(500).json({
-          message: 'User added unsucessfully!',
+          message: 'Sign Up Unsuccessful!',
+          comment:
+            'Please check you have correctly filled all fields. If you already have an account, Sign In',
           error: err
         });
       });
@@ -48,7 +50,9 @@ router.post('/login', (req, res, next) => {
     .then(user => {
       if (!user) {
         return res.status(401).json({
-          message: 'Auth failed'
+          message: 'Login Unsuccessful!',
+          comment:
+            'Please check you have entered your credentials correctly and try again.'
         });
       }
       fetchedUser = user;
@@ -57,7 +61,9 @@ router.post('/login', (req, res, next) => {
     .then(result => {
       if (!result) {
         return res.status(401).json({
-          message: 'Auth failed'
+          message: 'Login Unsuccessful!',
+          comment:
+            'Please check you have entered your credentials correctly and try again.'
         });
       }
       const token = jwt.sign(
@@ -74,7 +80,9 @@ router.post('/login', (req, res, next) => {
     })
     .catch(err => {
       return res.status(401).json({
-        message: 'Auth failed'
+        message: 'Login Unsuccessful!',
+        comment:
+          'Please check you have entered your credentials correctly and try again.'
       });
     });
 });

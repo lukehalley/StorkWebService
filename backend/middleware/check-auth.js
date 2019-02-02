@@ -21,8 +21,6 @@ module.exports = (req, res, next) => {
     next();
   } catch (error) {
     // Token not available
-    res
-      .status(401)
-      .json({ message: 'Auth failed - no token available or invalid!' });
+    res.status(401).json({ message: 'Your are not authorised, please Login!' });
   }
 };
