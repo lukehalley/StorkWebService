@@ -17,35 +17,6 @@ export class StorkCreateComponent implements OnInit {
   private storkId: string;
   stork: Stork;
 
-  // Input field values
-  enteredStork_id = '';
-  enteredNickname = '';
-
-  // Init classes for input fields
-  public idInput = 'input';
-  public nicknameInput = 'input';
-
-  // Readymade classes to set inputs as error or ok
-  public normalInput = 'input';
-  public errorInput = 'input is-danger';
-  public goodInput = 'input is-success';
-
-  // Init classes for error messages
-  public idMsgError = 'help is-danger is-hidden';
-  public nicknameMsgError = 'help is-danger is-hidden';
-
-  // Init classes for success messages
-  public idMsgGood = 'help is-success is-hidden';
-  public nicknameMsgGood = 'help is-success is-hidden';
-
-  // Readymade classes to set error messages as visible or invisible
-  public hiddenMsgError = 'help is-danger is-hidden';
-  public showMsgError = 'help is-danger';
-
-  // Readymade classes to set error messages as visible or invisible
-  public hiddenMsgGood = 'help is-success is-hidden';
-  public showMsgGood = 'help is-success';
-
   constructor(
     public storksService: StorksService,
     public route: ActivatedRoute,
@@ -77,20 +48,6 @@ export class StorkCreateComponent implements OnInit {
   // Create the button press listener
   onSaveStork(form: NgForm) {
     if (form.valid) {
-      this.idInput = this.goodInput;
-      this.idMsgError = this.hiddenMsgError;
-      this.idMsgGood = this.showMsgGood;
-      this.nicknameInput = this.goodInput;
-      this.nicknameMsgError = this.hiddenMsgError;
-      this.nicknameMsgGood = this.showMsgGood;
-      const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-      const clearIndicators = async () => {
-        await delay(2000);
-        this.idMsgGood = this.hiddenMsgError;
-        this.nicknameMsgGood = this.hiddenMsgError;
-        this.idInput = this.normalInput;
-        this.nicknameInput = this.normalInput;
-      };
       if (this.editMode) {
         this.storksService.updateStork(
           this.storkId,
@@ -107,32 +64,7 @@ export class StorkCreateComponent implements OnInit {
         );
       }
       form.resetForm();
-      clearIndicators();
       this.router.navigate(['/your-storks']);
-    } else {
-      const idVal = form.value.inputStorkID;
-      const idNick = form.value.inputStorkNickname;
-      const idType = typeof form.value.inputStorkID;
-      const nickType = typeof form.value.inputStorkNickname;
-      if (idType !== 'string' || !/[A-Z0-9]*/.test(idVal)) {
-        this.idInput = this.errorInput;
-        this.idMsgGood = this.hiddenMsgError;
-        this.idMsgError = this.showMsgError;
-      } else {
-        this.idInput = this.goodInput;
-        this.idMsgError = this.hiddenMsgError;
-        this.idMsgGood = this.showMsgGood;
-      }
-      if (nickType !== 'string' || !/[a-zA-Z0-9 ]*/.test(idNick)) {
-        this.nicknameInput = this.errorInput;
-        this.nicknameMsgGood = this.hiddenMsgError;
-        this.nicknameMsgError = this.showMsgError;
-      } else {
-        this.nicknameInput = this.goodInput;
-        this.nicknameMsgError = this.hiddenMsgError;
-        this.nicknameMsgGood = this.showMsgGood;
-      }
-      return;
     }
   }
 }
