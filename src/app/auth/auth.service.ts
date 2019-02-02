@@ -53,9 +53,11 @@ export class AuthService {
       password: password,
       plan: plan
     };
-    // this.router.navigate(['/your-storks']);
     this.http.post('http://localhost:3000/api/users/signup', user).subscribe(
-      () => {},
+      () => {
+        this.authStatusListener.next(true);
+        this.router.navigate(['/login']);
+      },
       error => {
         this.authStatusListener.next(false);
       }
