@@ -17,7 +17,7 @@ export class StorkLoginComponent implements OnInit, OnDestroy {
       .getAuthStatusListener()
       .subscribe(authStatus => {
         // Navigate to the list of storks after login
-        this.router.navigate(['/your-storks']);
+        this.router.navigate(['/storks/your-storks']);
       });
   }
 
