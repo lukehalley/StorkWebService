@@ -4,9 +4,10 @@ import { StorkListComponent } from './stork-list/stork-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { StorkRoutingModule } from './stork-routing-module';
 
 @NgModule({
   declarations: [StorkCreateComponent, StorkListComponent],
-  imports: [CommonModule, FormsModule, RouterModule]
+  imports: [CommonModule, FormsModule, RouterModule, StorkRoutingModule]
 })
 export class StorksModule {}

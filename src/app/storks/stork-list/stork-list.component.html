@@ -22,7 +22,9 @@
         </div>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item" [routerLink]="['/edit', stork.id]">Edit</a>
+        <a class="card-footer-item" [routerLink]="['/storks/edit', stork.id]"
+          >Edit</a
+        >
         <a class="card-footer-item" (click)="onDelete(stork.id)">Delete</a>
       </footer>
     </div>

@@ -20,7 +20,7 @@
     <div class="navbar-start">
       <a
         *ngIf="userIsAuthenticated"
-        [routerLink]="['/your-storks']"
+        [routerLink]="['/storks/your-storks']"
         class="navbar-item"
       >
         All Storks
@@ -28,7 +28,7 @@
 
       <a
         *ngIf="userIsAuthenticated"
-        [routerLink]="['/register-stork']"
+        [routerLink]="['/storks/register-stork']"
         class="navbar-item"
       >
         Register A Stork
