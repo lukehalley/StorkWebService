@@ -13,8 +13,6 @@ export class StorksService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getStorks(userId: string) {
-    console.log('http://localhost:3000/api/storks/' + userId);
-
     this.http
       .get<{ message: string; storks: any }>(
         'http://localhost:3000/api/storks/' + userId
@@ -24,16 +22,6 @@ export class StorksService {
       .pipe(
         map(storkData => {
           return storkData.storks.map(stork => {
-            console.log(
-              'GOT THIS BACK' +
-                stork.stork_code +
-                ' ' +
-                stork.nickname +
-                ' ' +
-                stork._id +
-                ' ' +
-                stork.ownerId
-            );
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
@@ -44,17 +32,16 @@ export class StorksService {
         })
       )
       .subscribe(storks => {
-        console.log(storks);
-
         this.storks = storks;
         this.storksUpdated.next([...this.storks]);
       });
   }
 
+  // This might not be working because its using the same url as get all above
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
     return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
-      'http://localhost:3000/api/storks/' + id
+      'http://localhost:3000/api/storks/one/' + id
     );
   }
 

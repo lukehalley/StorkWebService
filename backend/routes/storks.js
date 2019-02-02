@@ -50,7 +50,6 @@ router.put('/:id', checkAuth, (req, res, next) => {
 router.get('/:ownerId', checkAuth, (req, res, next) => {
   Stork.find({ ownerId: req.params.ownerId })
     .then(documents => {
-      console.log('Found: ' + documents);
       // 200 = Success
       res.status(200).json({
         message: 'Storks fetched sucessfully',
@@ -63,9 +62,10 @@ router.get('/:ownerId', checkAuth, (req, res, next) => {
     });
 });
 
-router.get('/:id', checkAuth, (req, res, next) => {
+router.get('/one/:id', checkAuth, (req, res, next) => {
   Stork.findById({ _id: req.params.id })
     .then(stork => {
+      console.log('GETTING STORK WITH ID OF: ' + req.params.id);
       if (stork) {
         res.status(200).json(stork);
       } else {
@@ -73,7 +73,7 @@ router.get('/:id', checkAuth, (req, res, next) => {
       }
     })
     .catch(e => {
-      console.error('Failed To Delete A Document From Database!: ');
+      console.error('Failed To Get A Document From Database!: ');
       console.error(e);
     });
 });
@@ -81,7 +81,6 @@ router.get('/:id', checkAuth, (req, res, next) => {
 router.delete('/:id', checkAuth, (req, res, next) => {
   Stork.deleteOne({ _id: req.params.id, ownerId: req.userData.userId })
     .then(result => {
-      console.log('Result: ' + result);
       if (result.n > 0) {
         res.status(200).json({ message: 'Stork Deleted!' });
       } else {
