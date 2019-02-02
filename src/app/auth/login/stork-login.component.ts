@@ -15,7 +15,6 @@ export class StorkLoginComponent {
         form.value.inputUserLoginEmail,
         form.value.inputUserLoginPassword
       );
-      this.router.navigate(['/your-storks']);
     } else {
       console.log('Login Failed!');
       return;
