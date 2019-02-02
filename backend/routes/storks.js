@@ -62,6 +62,7 @@ router.get('/:ownerId', checkAuth, (req, res, next) => {
     });
 });
 
+// Get ONE Stork from the database and return them in the response
 router.get('/one/:id', checkAuth, (req, res, next) => {
   Stork.findById({ _id: req.params.id })
     .then(stork => {
