@@ -6,12 +6,12 @@ const checkAuth = require('../middleware/check-auth');
 // Calling checkAuth to check token to see if current user should
 // be able to access all the below routes.
 
-// Create a Stork device and send it to the database
-// to be stored.
+// Create a Stork device and send it to the database to be stored.
 router.post('', checkAuth, (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
-    nickname: req.body.nickname
+    nickname: req.body.nickname,
+    ownerId: req.userData.userId
   });
   console.log(stork);
   stork.save().then(createdStork => {
@@ -23,25 +23,33 @@ router.post('', checkAuth, (req, res, next) => {
   });
 });
 
-// Create a Stork device and send it to the database.
-// to be stored
+// Update a Stork device and update it in the database.
 router.put('/:id', checkAuth, (req, res, next) => {
   const stork = new Stork({
     _id: req.body.id,
     stork_code: req.body.stork_code,
     nickname: req.body.nickname
   });
-  Stork.updateOne({ _id: req.params.id }, stork).then(result => {
-    console.log(result);
-    res.status(200).json({ message: 'Update successful!' });
+  Stork.updateOne(
+    { _id: req.params.id, ownerId: req.userData.userId },
+    stork
+  ).then(result => {
+    // If nModified is greater than one on the result that means a field was edited.
+    // Using nModified to check if a user owns the Stork.
+    if (result.nModified > 0) {
+      res.status(200).json({ message: 'Update successful!' });
+    } else {
+      res
+        .status(401)
+        .json({ message: 'User Not Authorised To Edit This Stork!' });
+    }
   });
 });
 
 // Get ALL Storks from the database and return them in the response
-router.get('', checkAuth, (req, res, next) => {
-  Stork.find()
+router.get('/:ownerId', checkAuth, (req, res, next) => {
+  Stork.find({ ownerId: req.params.ownerId })
     .then(documents => {
-      console.log('Found: ' + documents);
       // 200 = Success
       res.status(200).json({
         message: 'Storks fetched sucessfully',
@@ -54,9 +62,11 @@ router.get('', checkAuth, (req, res, next) => {
     });
 });
 
-router.get('/:id', checkAuth, (req, res, next) => {
+// Get ONE Stork from the database and return them in the response
+router.get('/one/:id', checkAuth, (req, res, next) => {
   Stork.findById({ _id: req.params.id })
     .then(stork => {
+      console.log('GETTING STORK WITH ID OF: ' + req.params.id);
       if (stork) {
         res.status(200).json(stork);
       } else {
@@ -64,16 +74,21 @@ router.get('/:id', checkAuth, (req, res, next) => {
       }
     })
     .catch(e => {
-      console.error('Failed To Delete A Document From Database!: ');
+      console.error('Failed To Get A Document From Database!: ');
       console.error(e);
     });
 });
 
 router.delete('/:id', checkAuth, (req, res, next) => {
-  Stork.deleteOne({ _id: req.params.id })
+  Stork.deleteOne({ _id: req.params.id, ownerId: req.userData.userId })
     .then(result => {
-      console.log('Result: ' + result);
-      res.status(200).json({ message: 'Stork Deleted!' });
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Stork Deleted!' });
+      } else {
+        res
+          .status(401)
+          .json({ message: 'User Not Authorised To Delete This Stork!' });
+      }
     })
     .catch(e => {
       console.error('Failed To Delete A Document From Database!: ');

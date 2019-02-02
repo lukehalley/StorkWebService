@@ -65,6 +65,7 @@ export class StorkCreateComponent implements OnInit {
             stork_code: storkData.stork_code,
             nickname: storkData.nickname
           };
+          console.log('GETTING STORK: ' + JSON.stringify(this.stork));
         });
       } else {
         this.editMode = false;

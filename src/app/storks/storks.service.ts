@@ -12,9 +12,11 @@ export class StorksService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getStorks() {
+  getStorks(userId: string) {
     this.http
-      .get<{ message: string; storks: any }>('http://localhost:3000/api/storks')
+      .get<{ message: string; storks: any }>(
+        'http://localhost:3000/api/storks/' + userId
+      )
       // Coverting the Storks we get back to match the formating of them in the MongoDB
       // database - specifically the _id tag using a new map
       .pipe(
@@ -23,7 +25,8 @@ export class StorksService {
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
-              id: stork._id
+              id: stork._id,
+              ownerId: stork.ownerId
             };
           });
         })
@@ -34,10 +37,11 @@ export class StorksService {
       });
   }
 
+  // This might not be working because its using the same url as get all above
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
     return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
-      'http://localhost:3000/api/storks/' + id
+      'http://localhost:3000/api/storks/one/' + id
     );
   }
 

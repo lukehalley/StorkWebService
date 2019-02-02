@@ -15,6 +15,7 @@ export class StorkListComponent implements OnInit, OnDestroy {
   private storksSub: Subscription;
   private authStatusSub: Subscription;
   public userIsAuthenticated: boolean;
+  public userId: string;
 
   // Using Angular dependency injection
   constructor(
@@ -28,14 +29,16 @@ export class StorkListComponent implements OnInit, OnDestroy {
       .subscribe((storks: Stork[]) => {
         this.storks = storks;
       });
-    this.storksService.getStorks();
+    this.userId = this.authService.getUserId();
+    this.storksService.getStorks(this.userId);
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
         if (isAuthenticated) {
-          this.storksService.getStorks();
+          this.storksService.getStorks(this.userId);
         } else {
         }
       });
