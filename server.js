@@ -1,6 +1,8 @@
 const app = require('./backend/app');
 const debug = require('debug')('node-angular');
 const http = require('http');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // Makes sure when we try to set up port, its valid number.
 const normalizePort = val => {
@@ -45,10 +47,11 @@ const onListening = () => {
   debug('Listening on ' + bind);
 };
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT);
 app.set('port', port);
 
 const server = http.createServer(app);
 server.on('error', onError);
 server.on('listening', onListening);
 server.listen(port);
+console.log('Server Listening On Port: ' + port);

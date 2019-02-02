@@ -4,13 +4,17 @@ const app = express();
 const mongoose = require('mongoose');
 const storkRoutes = require('./routes/storks');
 const userRoutes = require('./routes/users');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // Connecting to the Mongodb database
 mongoose
   .connect(
     // Connections string
     // TODO: Remove password
-    'mongodb+srv://lhalley:vfk6er5NOoVTmWxY@stork-owrd7.mongodb.net/storks?retryWrites=true'
+    'mongodb+srv://lhalley:' +
+      process.env.MONGO_PW +
+      '@stork-owrd7.mongodb.net/storks?retryWrites=true'
   )
   .then(() => {
     console.log('Connected to Database!');
