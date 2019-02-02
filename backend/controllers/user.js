@@ -2,8 +2,8 @@ const express = require('express');
 const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const key =
-  'AfwSq-jPWPN&9$nRn5QyEpRtkGaH#nNuhfmAyfKm%_8WV*_aFrgKupcAzpQUuY2@5yMYbX*mBC9@78A$+snt!!gV62F8RfwJ8==8!3Tv5PhftAT48R5LnFj^eFe*S_cJ_Tj9mEgq!NuMTy_!z=P7vxp8^JTm?Krjc$Dsvyt39DqeH?T8y_MvVd&+TWHuG=EMV^2d&rPuva^_ULVu6Cqes=SXaZMk?^^aWD&hwcYP3B36HpZpEUGBR5e%&sH7+BR8';
+const dotenv = require('dotenv');
+dotenv.config();
 
 exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hashedPassword => {
@@ -62,7 +62,7 @@ exports.loginUser = (req, res, next) => {
       }
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
-        key,
+        process.env.JWY_KEY,
         { expiresIn: '1h' }
       );
       res.status(200).json({
