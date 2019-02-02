@@ -4,6 +4,9 @@ import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/storks';
 
 @Injectable({ providedIn: 'root' })
 export class StorksService {
@@ -14,9 +17,7 @@ export class StorksService {
 
   getStorks(userId: string) {
     this.http
-      .get<{ message: string; storks: any }>(
-        'http://localhost:3000/api/storks/' + userId
-      )
+      .get<{ message: string; storks: any }>(BACKEND_URL + '/' + userId)
       // Coverting the Storks we get back to match the formating of them in the MongoDB
       // database - specifically the _id tag using a new map
       .pipe(
@@ -41,7 +42,7 @@ export class StorksService {
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
     return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
-      'http://localhost:3000/api/storks/one/' + id
+      BACKEND_URL + '/one/' + id
     );
   }
 
@@ -56,10 +57,7 @@ export class StorksService {
       nickname: nickname
     };
     this.http
-      .post<{ message: string; storkId: string }>(
-        'http://localhost:3000/api/storks',
-        stork
-      )
+      .post<{ message: string; storkId: string }>(BACKEND_URL, stork)
       .subscribe(responseData => {
         const id = responseData.storkId;
         stork.id = id;
@@ -76,25 +74,21 @@ export class StorksService {
       nickname: nickname
     };
 
-    this.http
-      .put('http://localhost:3000/api/storks/' + id, stork)
-      .subscribe(response => {
-        const updatedStorks = [...this.storks];
-        const oldStorkIndex = updatedStorks.findIndex(s => s.id === stork.id);
-        updatedStorks[oldStorkIndex] = stork;
-        this.storks = updatedStorks;
-        this.storksUpdated.next([...this.storks]);
-      });
+    this.http.put(BACKEND_URL + '/' + id, stork).subscribe(response => {
+      const updatedStorks = [...this.storks];
+      const oldStorkIndex = updatedStorks.findIndex(s => s.id === stork.id);
+      updatedStorks[oldStorkIndex] = stork;
+      this.storks = updatedStorks;
+      this.storksUpdated.next([...this.storks]);
+    });
   }
 
   deleteStork(storkId: string) {
-    this.http
-      .delete('http://localhost:3000/api/storks/' + storkId)
-      .subscribe(() => {
-        // Updating the stork list after a delete occurs.
-        const updatedStorks = this.storks.filter(stork => stork.id !== storkId);
-        this.storks = updatedStorks;
-        this.storksUpdated.next([...this.storks]);
-      });
+    this.http.delete(BACKEND_URL + '/' + storkId).subscribe(() => {
+      // Updating the stork list after a delete occurs.
+      const updatedStorks = this.storks.filter(stork => stork.id !== storkId);
+      this.storks = updatedStorks;
+      this.storksUpdated.next([...this.storks]);
+    });
   }
 }

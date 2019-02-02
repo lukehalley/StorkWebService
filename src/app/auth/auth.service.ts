@@ -5,6 +5,9 @@ import { AuthData } from './auth-data.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/users';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -53,7 +56,7 @@ export class AuthService {
       password: password,
       plan: plan
     };
-    this.http.post('http://localhost:3000/api/users/signup', user).subscribe(
+    this.http.post(BACKEND_URL + '/signup', user).subscribe(
       () => {
         this.authStatusListener.next(true);
         this.router.navigate(['/login']);
@@ -69,7 +72,7 @@ export class AuthService {
     this.http
       // Getting the toke, expiry time and userId from the response:
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'http://localhost:3000/api/users/login',
+        BACKEND_URL + '/login',
         authData
       )
       .subscribe(
