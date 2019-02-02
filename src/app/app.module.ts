@@ -12,6 +12,7 @@ import { StorkCreateComponent } from './storks/stork-create/stork-create.compone
 import { StorkHeaderComponent } from './toolbar/header.component';
 import { StorkListComponent } from './storks/stork-list/stork-list.component';
 import { StorkLoginComponent } from './auth/login/stork-login.component';
+import { ErrorInterceptor } from './error-interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { StorkLoginComponent } from './auth/login/stork-login.component';
     HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
