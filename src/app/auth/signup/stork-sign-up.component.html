@@ -1,15 +1,18 @@
 <section class="hero">
   <div class="hero-body">
-    <div class="container has-text-centered">
-      <div class="column is-4 is-offset-4">
-        <h3 class="title has-text-grey">Sign Up.</h3>
-        <p class="subtitle has-text-grey">Create A Stork Account.</p>
+    <div class="container ">
+      <div class="column is-8 is-offset-2">
+        <h3 class="title has-text-grey has-text-centered">Sign Up.</h3>
+        <p class="subtitle has-text-grey has-text-centered">
+          Create A Stork Account.
+        </p>
         <div class="box">
           <form (submit)="onSignUp(formSignup)" #formSignup="ngForm">
+            <label class="label">Username</label>
             <div class="field">
               <div class="control">
                 <input
-                  [class]="usernameInput"
+                  class="input is-medium"
                   ngModel
                   type="text"
                   autofocus=""
@@ -19,10 +22,11 @@
                 />
               </div>
             </div>
+            <label class="label">Email</label>
             <div class="field">
               <div class="control">
                 <input
-                  [class]="emailInput"
+                  class="input is-medium"
                   ngModel
                   type="email"
                   placeholder="Email"
@@ -31,10 +35,11 @@
                 />
               </div>
             </div>
+            <label class="label">Password</label>
             <div class="field">
               <div class="control">
                 <input
-                  [class]="passwordInput"
+                  class="input is-medium"
                   ngModel
                   type="password"
                   placeholder="Password"
@@ -44,12 +49,13 @@
               </div>
             </div>
             <hr class="hr" style="margin: 10;" />
+            <label class="label">Your Name</label>
             <div class="field is-horizontal">
               <div class="field-body">
                 <div class="field">
                   <div class="control">
                     <input
-                      [class]="firstNameInput"
+                      class="input is-medium"
                       ngModel
                       type="text"
                       placeholder="First Name"
@@ -61,7 +67,7 @@
                 <div class="field">
                   <div class="control">
                     <input
-                      [class]="secondNameInput"
+                      class="input is-medium"
                       ngModel
                       type="text"
                       placeholder="Second Name"
@@ -72,10 +78,11 @@
                 </div>
               </div>
             </div>
+            <label class="label">Address</label>
             <div class="field">
               <div class="control">
                 <input
-                  [class]="addressInput"
+                  class="input is-medium"
                   ngModel
                   type="text"
                   placeholder="Address"
@@ -84,10 +91,11 @@
                 />
               </div>
             </div>
+            <label class="label">Phone Number</label>
             <div class="field">
               <div class="control">
                 <input
-                  [class]="phoneNumberInput"
+                  class="input is-medium"
                   ngModel
                   type="tel"
                   placeholder="Phone Number"
@@ -97,17 +105,17 @@
             </div>
             <p class="control">
               <button
+                [disabled]="formSignup.invalid"
                 type="submit"
-                class="button is-block is-info is-large is-fullwidth"
+                class="button is-block is-info is-medium is-fullwidth"
               >
                 Sign Up
               </button>
             </p>
           </form>
         </div>
-        <p class="has-text-grey">
-          <a [routerLink]="['/login']">Login</a> &nbsp;·&nbsp;
-          <a [routerLink]="['/help']">Need Help?</a>
+        <p class="has-text-grey has-text-centered">
+          <a [routerLink]="['/login']">Already have an account? Login</a>
         </p>
       </div>
     </div>
