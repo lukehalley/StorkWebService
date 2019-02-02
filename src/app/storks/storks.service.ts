@@ -66,7 +66,6 @@ export class StorksService {
         // Only pushing if the response is sucessfull.
         this.storks.push(stork);
         this.storksUpdated.next([...this.storks]);
-        // this.router.navigate(['/']);
       });
   }
 
@@ -85,7 +84,6 @@ export class StorksService {
         updatedStorks[oldStorkIndex] = stork;
         this.storks = updatedStorks;
         this.storksUpdated.next([...this.storks]);
-        // this.router.navigate(['/']);
       });
   }
 
