@@ -1,6 +1,7 @@
 import { Selector } from 'testcafe';
 import { ClientFunction } from 'testcafe';
 const getLocation = ClientFunction(() => document.location.href);
+import * as faker from 'faker';
 
 fixture `Login to Stork as a User.`
     .page `http://87.44.18.111:4200`;
