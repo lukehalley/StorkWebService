@@ -28,7 +28,6 @@
     "core-js": "^2.5.4",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "faker": "^4.1.0",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.5",
     "mongoose-unique-validator": "^2.0.2",
@@ -47,7 +46,9 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
     "nodemon": "^1.18.9",
+    "testcafe": "^0.23.3",
     "ts-node": "~7.0.0",
+    "faker": "^4.1.0",
     "tslint": "~5.11.0",
     "typescript": "~3.2.2"
   }
