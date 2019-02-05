@@ -14,10 +14,12 @@ mongoose
     // TODO: Remove password
     'mongodb+srv://lhalley:' +
       process.env.MONGO_PW +
-      '@stork-owrd7.mongodb.net/storks?retryWrites=true'
+      '@stork-owrd7.mongodb.net/' +
+      process.env.MONGO_DATABASE +
+      '?retryWrites=true'
   )
   .then(() => {
-    console.log('Connected to Database!');
+    console.log('Connected to ' + process.env.MONGO_DATABASE + ' Database!');
   })
   .catch(e => {
     console.error('Connection Failed Database!');
