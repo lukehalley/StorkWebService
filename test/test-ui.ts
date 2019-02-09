@@ -30,6 +30,7 @@ const signUpPromptUnderLogin =
 const registerNavButton = 'div#storkNavbar a:nth-child(2)';
 const addStorkButton = 'p > button[type="submit"]';
 const editStorkButton = 'footer > a:nth-child(1)';
+const deleteStorkButton = 'footer > a:nth-child(2)';
 
 // Details to Create and Edit Stork.
 const storkId = 'STR1234';
@@ -189,5 +190,13 @@ test('Register, Edit and Delete A Stork', async t => {
     .expect(
       Selector(firstStorkListCardStorkCode).withExactText(storkIdEdit).exists
     )
-    .ok();
+    .ok()
+    // Delete Stork
+    .click(deleteStorkButton)
+    .expect(
+      Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
+    )
+    .notOk()
+    .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
+    .notOk();
 });
