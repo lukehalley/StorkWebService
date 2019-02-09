@@ -29,6 +29,7 @@ const signUpPromptUnderLogin =
 // Navbar buttons
 const registerNavButton = 'div#storkNavbar a:nth-child(2)';
 const addStorkButton = 'p > button[type="submit"]';
+const saveStorkButton = 'p > button[type="submit"]';
 const editStorkButton = 'footer > a:nth-child(1)';
 const deleteStorkButton = 'footer > a:nth-child(2)';
 
@@ -56,6 +57,7 @@ const phoneNumberField = 'input[name="inputUserSignUpPhoneNumber"]';
 // Buttons
 const signupSubmitButton = 'p > button[type="submit"]';
 const loginSubmitButton = 'form > button[type="submit"]';
+const logoutButton = '#storkNavbar > div.navbar-end > div > div > a > strong';
 
 // Pop Up Selectors
 const popUpOkButton =
@@ -77,7 +79,10 @@ const selectAllAndDeleteField = 'ctrl+a delete';
 
 test('Valid Sign Up + Sign In With Valid Credentials', async t => {
   await t
+    // Click the 'Don't have an account? Sign Up'
     .click(signUpPromptUnderLogin)
+
+    // Fill in the fields of the user
     .typeText(usernameField, usernameValid)
     .typeText(emailField, emailValid)
     .typeText(passwordField, passValid)
@@ -85,14 +90,23 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
     .typeText(secondNameField, sNameValid)
     .typeText(addressField, addressValid)
     .typeText(phoneNumberField, phoneValid)
+
+    // Create user, should be brought to the sign in page.
     .click(signupSubmitButton)
     .expect(getLocation())
     .eql(url + '/login')
+
+    // Sign in with the details.
     .typeText(emailField, emailValid)
     .typeText(passwordField, passValid)
     .click(loginSubmitButton)
+
+    // If the sign in went correctly you should be brought to the list of the users Storks.
     .expect(getLocation())
-    .eql(url + '/storks/your-storks');
+    .eql(url + '/storks/your-storks')
+    .click(logoutButton)
+    .expect(getLocation())
+    .eql(url + '/login');
 });
 
 test('Sign Up With A Duplicate Email', async t => {
@@ -100,6 +114,7 @@ test('Sign Up With A Duplicate Email', async t => {
     signUpUnsuccessfulMessage
   ).exists;
   await t
+    // Fill in the fields of the user but use the same Email as the above test.
     .click(signUpPromptUnderLogin)
     .typeText(usernameField, usernameInvalid)
     .typeText(emailField, emailValid)
@@ -109,16 +124,19 @@ test('Sign Up With A Duplicate Email', async t => {
     .typeText(addressField, addressInvalid)
     .typeText(phoneNumberField, phoneInvalid)
     .click(signupSubmitButton)
+    // The pop error should appear with the message.
     .expect(signupErrorExists)
     .ok()
     .click(popUpOkButton);
 });
 
 test('Sign Up With A Duplicate Username', async t => {
+  // Sign in with a correct password but a wrong email.
   const signupErrorExists = Selector(popUpTitle).withExactText(
     signUpUnsuccessfulMessage
   ).exists;
   await t
+    // Fill in the fields of the user but use the same Username as the above test.
     .click(signUpPromptUnderLogin)
     .typeText(usernameField, usernameValid)
     .typeText(emailField, emailInvalid)
@@ -128,12 +146,27 @@ test('Sign Up With A Duplicate Username', async t => {
     .typeText(addressField, addressInvalid)
     .typeText(phoneNumberField, phoneInvalid)
     .click(signupSubmitButton)
+    // The pop error should appear with the message.
     .expect(signupErrorExists)
     .ok()
     .click(popUpOkButton);
 });
 
-test('Sign In With Invalid Credentials', async t => {
+test('Sign In With Invalid Email', async t => {
+  // Sign in with a correct password but a wrong email.
+  const loginErrorExists = Selector(popUpTitle).withExactText(
+    loginUnsuccessfulMessage
+  ).exists;
+  await t
+    .typeText(emailField, 'stork@ireland.ie')
+    .typeText(passwordField, passValid)
+    .click(loginSubmitButton)
+    .expect(loginErrorExists)
+    .ok();
+});
+
+test('Sign In With Invalid Password', async t => {
+  // Sign in with a correct email but a wrong password.
   const loginErrorExists = Selector(popUpTitle).withExactText(
     loginUnsuccessfulMessage
   ).exists;
@@ -147,20 +180,28 @@ test('Sign In With Invalid Credentials', async t => {
 
 test('Register, Edit and Delete A Stork', async t => {
   await t
+    // Login with correctd details.
     .typeText(emailField, emailValid)
     .typeText(passwordField, passValid)
     .click(loginSubmitButton)
     .expect(getLocation())
     .eql(url + '/storks/your-storks')
+    // Click the register button in the navbar.
     .click(registerNavButton)
     .expect(getLocation())
     .eql(url + '/storks/register-stork')
+    // The title should say 'Register Your Stork.'
     .expect(Selector(storkTitle).withExactText(addStorkTitle).exists)
     .ok()
+    // Enter the Stork details - storkId and storkNickname.
     .typeText(inputStorkID, storkId)
     .typeText(inputStorkNickname, storkNickname)
+    .expect(Selector(addStorkButton).textContent)
+    .contains('Add')
     .click(addStorkButton)
     .expect(getLocation())
+    // If the Stork register goes correctly the user should be brought to the list of the users Stork list.
+    // The details the user just entered should be seen on the first card.
     .eql(url + '/storks/your-storks')
     .expect(
       Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
@@ -168,18 +209,24 @@ test('Register, Edit and Delete A Stork', async t => {
     .ok()
     .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
     .ok()
+    // Click the edit button on the first Stork card.
     .click(editStorkButton)
     .expect(getLocation())
+    // The user should be brought to the edit page.
     .contains(url + '/storks/edit/')
     .expect(Selector(storkTitle).withExactText(editStorkTitle).exists)
     .ok()
+    // Clear the text from the stork_code field and the nickname feild.
     .click(inputStorkID)
     .pressKey(selectAllAndDeleteField)
     .click(inputStorkNickname)
     .pressKey(selectAllAndDeleteField)
     .typeText(inputStorkID, storkIdEdit)
     .typeText(inputStorkNickname, storkNicknameEdit)
-    .click(addStorkButton)
+    // Save the Stork by pressing the Save button
+    .expect(Selector(saveStorkButton).textContent)
+    .contains('Save')
+    .click(saveStorkButton)
     .expect(getLocation())
     .eql(url + '/storks/your-storks')
     .expect(
@@ -198,5 +245,9 @@ test('Register, Edit and Delete A Stork', async t => {
     )
     .notOk()
     .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
-    .notOk();
+    .notOk()
+    // Sign Out
+    .click(logoutButton)
+    .expect(getLocation())
+    .eql(url + '/login');
 });
