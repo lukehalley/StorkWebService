@@ -8,7 +8,7 @@ const url = `http://87.44.18.111:4200`;
 // tslint:disable-next-line:no-unused-expression
 fixture`User Accounts.`.page(url);
 
-test('Valid Sign Up + Sign In With Valid Credentials', async t => {
+test('Valid Sign Up, Sign In and Sign Out', async t => {
   const fName = faker.name.firstName();
   const sName = faker.name.lastName();
   const username = faker.internet.userName();
@@ -16,6 +16,7 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
   const pass = faker.internet.password();
   const address = faker.address.streetAddress();
   const phone = faker.phone.phoneNumber();
+  const logoutButton = Selector('.button').withText('Logout');
   await t
     .click('body > app-root > ng-component > section > div > div > p > a')
     .typeText('input[name="inputUserSignUpUsername"]', username)
@@ -32,7 +33,8 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
     .typeText('input[name="inputUserLoginPassword"]', pass)
     .click('form > button[type="submit"]')
     .expect(getLocation())
-    .eql(url + '/storks/your-storks');
+    .eql(url + '/storks/your-storks')
+    .click(logoutButton);
 });
 
 test('Attempt To Sign Up With The Same  Username', async t => {
@@ -109,3 +111,5 @@ test('Valid Sign Up + Sign In With Invalid Credentials', async t => {
     .expect(loginErrorExists)
     .ok();
 });
+
+const windowsRadioButton = Selector('button').withText('Windows');
