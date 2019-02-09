@@ -70,7 +70,7 @@ const loginUnsuccessfulMessage = 'Login Unsuccessful!';
 const inputStorkID = 'input[name="inputStorkID"]';
 const inputStorkNickname = 'input[name="inputStorkNickname"]';
 
-// Stork List Cards
+// Stork Main Cards List
 const firstStorkListCardNickname = 'p.title';
 const firstStorkListCardStorkCode = 'p.subtitle';
 
@@ -214,6 +214,14 @@ test('Register, Edit and Delete A Stork', async t => {
     .expect(getLocation())
     // The user should be brought to the edit page.
     .contains(url + '/storks/edit/')
+    // Check the Sublist of the users current Storks
+    .expect(
+      Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
+    )
+    .ok()
+    .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
+    .ok()
+    // Check the title, it should be 'Edit Your Stork.
     .expect(Selector(storkTitle).withExactText(editStorkTitle).exists)
     .ok()
     // Clear the text from the stork_code field and the nickname feild.
