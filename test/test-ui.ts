@@ -23,26 +23,15 @@ const passInvalid = faker.internet.password();
 const addressInvalid = faker.address.streetAddress();
 const phoneInvalid = faker.phone.phoneNumber();
 
-const signUpPromptUnderLogin =
-  'body > app-root > ng-component > section > div > div > p > a';
-
-// Navbar buttons
 const registerNavButton = 'div#storkNavbar a:nth-child(2)';
 const addStorkButton = 'p > button[type="submit"]';
 const editStorkButton = 'footer > a:nth-child(1)';
-const deleteStorkButton = 'footer > a:nth-child(2)';
-
-// Details to Create and Edit Stork.
 const storkId = 'STR1234';
 const storkIdEdit = 'STR4321';
 const storkNickname = 'YourNickname1234';
 const storkNicknameEdit = 'YourNickname4321';
 const storkTitle =
   'body > app-root > app-stork-create > div > div > div:nth-child(1) > div > p';
-
-// Titles
-const addStorkTitle = 'Register Your Stork.';
-const editStorkTitle = 'Edit Your Stork.';
 
 // Inputs
 const emailField = 'input[name="inputUserLoginEmail"]';
@@ -52,32 +41,15 @@ const firstNameField = 'input[name="inputUserSignUpFName"]';
 const secondNameField = 'input[name="inputUserSignUpSName"]';
 const addressField = 'input[name="inputUserSignUpAddress"]';
 const phoneNumberField = 'input[name="inputUserSignUpPhoneNumber"]';
-
-// Buttons
 const signupSubmitButton = 'p > button[type="submit"]';
 const loginSubmitButton = 'form > button[type="submit"]';
-
-// Pop Up Selectors
-const popUpOkButton =
-  'div.swal2-actions > button[type="button"].swal2-confirm.swal2-styled';
-const popUpTitle = '#swal2-title';
-const signUpUnsuccessfulMessage = 'Sign Up Unsuccessful!';
-const loginUnsuccessfulMessage = 'Login Unsuccessful!';
-
-// Stork Inputs
+// Stork
 const inputStorkID = 'input[name="inputStorkID"]';
 const inputStorkNickname = 'input[name="inputStorkNickname"]';
 
-// Stork List Cards
-const firstStorkListCardNickname = 'p.title';
-const firstStorkListCardStorkCode = 'p.subtitle';
-
-// Other
-const selectAllAndDeleteField = 'ctrl+a delete';
-
 test('Valid Sign Up + Sign In With Valid Credentials', async t => {
   await t
-    .click(signUpPromptUnderLogin)
+    .click('body > app-root > ng-component > section > div > div > p > a')
     .typeText(usernameField, usernameValid)
     .typeText(emailField, emailValid)
     .typeText(passwordField, passValid)
@@ -96,11 +68,11 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
 });
 
 test('Sign Up With A Duplicate Email', async t => {
-  const signupErrorExists = Selector(popUpTitle).withExactText(
-    signUpUnsuccessfulMessage
+  const signupErrorExists = Selector('#swal2-title').withExactText(
+    'Sign Up Unsuccessful!'
   ).exists;
   await t
-    .click(signUpPromptUnderLogin)
+    .click('body > app-root > ng-component > section > div > div > p > a')
     .typeText(usernameField, usernameInvalid)
     .typeText(emailField, emailValid)
     .typeText(passwordField, passInvalid)
@@ -111,15 +83,17 @@ test('Sign Up With A Duplicate Email', async t => {
     .click(signupSubmitButton)
     .expect(signupErrorExists)
     .ok()
-    .click(popUpOkButton);
+    .click(
+      'div.swal2-actions > button[type="button"].swal2-confirm.swal2-styled'
+    );
 });
 
 test('Sign Up With A Duplicate Username', async t => {
-  const signupErrorExists = Selector(popUpTitle).withExactText(
-    signUpUnsuccessfulMessage
+  const signupErrorExists = Selector('#swal2-title').withExactText(
+    'Sign Up Unsuccessful!'
   ).exists;
   await t
-    .click(signUpPromptUnderLogin)
+    .click('body > app-root > ng-component > section > div > div > p > a')
     .typeText(usernameField, usernameValid)
     .typeText(emailField, emailInvalid)
     .typeText(passwordField, passInvalid)
@@ -130,12 +104,14 @@ test('Sign Up With A Duplicate Username', async t => {
     .click(signupSubmitButton)
     .expect(signupErrorExists)
     .ok()
-    .click(popUpOkButton);
+    .click(
+      'div.swal2-actions > button[type="button"].swal2-confirm.swal2-styled'
+    );
 });
 
 test('Sign In With Invalid Credentials', async t => {
-  const loginErrorExists = Selector(popUpTitle).withExactText(
-    loginUnsuccessfulMessage
+  const loginErrorExists = Selector('#swal2-title').withExactText(
+    'Login Unsuccessful!'
   ).exists;
   await t
     .typeText(emailField, emailValid)
@@ -155,48 +131,31 @@ test('Register, Edit and Delete A Stork', async t => {
     .click(registerNavButton)
     .expect(getLocation())
     .eql(url + '/storks/register-stork')
-    .expect(Selector(storkTitle).withExactText(addStorkTitle).exists)
-    .ok()
     .typeText(inputStorkID, storkId)
     .typeText(inputStorkNickname, storkNickname)
     .click(addStorkButton)
     .expect(getLocation())
     .eql(url + '/storks/your-storks')
-    .expect(
-      Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
-    )
+    .expect(Selector('p.title').withExactText(storkNickname).exists)
     .ok()
-    .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
+    .expect(Selector('p.subtitle').withExactText(storkId).exists)
     .ok()
     .click(editStorkButton)
     .expect(getLocation())
     .contains(url + '/storks/edit/')
-    .expect(Selector(storkTitle).withExactText(editStorkTitle).exists)
+    .expect(Selector(storkTitle).withExactText('Edit Your Stork.').exists)
     .ok()
     .click(inputStorkID)
-    .pressKey(selectAllAndDeleteField)
+    .pressKey('ctrl+a delete')
     .click(inputStorkNickname)
-    .pressKey(selectAllAndDeleteField)
+    .pressKey('ctrl+a delete')
     .typeText(inputStorkID, storkIdEdit)
     .typeText(inputStorkNickname, storkNicknameEdit)
     .click(addStorkButton)
     .expect(getLocation())
     .eql(url + '/storks/your-storks')
-    .expect(
-      Selector(firstStorkListCardNickname).withExactText(storkNicknameEdit)
-        .exists
-    )
+    .expect(Selector('p.title').withExactText(storkNicknameEdit).exists)
     .ok()
-    .expect(
-      Selector(firstStorkListCardStorkCode).withExactText(storkIdEdit).exists
-    )
-    .ok()
-    // Delete Stork
-    .click(deleteStorkButton)
-    .expect(
-      Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
-    )
-    .notOk()
-    .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
-    .notOk();
+    .expect(Selector('p.subtitle').withExactText(storkIdEdit).exists)
+    .ok();
 });
