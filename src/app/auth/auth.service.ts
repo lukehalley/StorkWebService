@@ -58,12 +58,12 @@ export class AuthService {
     };
     this.http.post(BACKEND_URL + '/signup', user).subscribe(
       () => {
-        this.authStatusListener.next(true);
+        // this.authStatusListener.next(true);
         this.router.navigate(['/login']);
-      },
-      error => {
-        this.authStatusListener.next(false);
       }
+      // error => {
+      //   this.authStatusListener.next(false);
+      // }
     );
   }
 
