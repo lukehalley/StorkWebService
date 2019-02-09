@@ -3,9 +3,7 @@ import { ClientFunction } from 'testcafe';
 const getLocation = ClientFunction(() => document.location.href);
 import * as faker from 'faker';
 
-import { environment } from '../src/environments/environment';
-
-const url = environment.baseUrl + `:4200`;
+const url = `http://87.44.18.111:4200`;
 
 // tslint:disable-next-line:no-unused-expression
 fixture`User Accounts.`.page(url);
