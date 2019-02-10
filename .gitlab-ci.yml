@@ -4,4 +4,5 @@ ui-tests:
     entrypoint: ['/bin/sh', '-c']
   script:
     - npm install faker
+    - npm i bcrypt
     - npm run test-ui
