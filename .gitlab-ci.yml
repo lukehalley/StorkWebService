@@ -3,4 +3,5 @@ ui-tests:
     name: testcafe/testcafe
     entrypoint: ['/bin/sh', '-c']
   script:
+    - npm install
     - npm run test-ui
