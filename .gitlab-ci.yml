@@ -4,4 +4,4 @@ ui-tests:
     entrypoint: ['/bin/sh', '-c']
   script:
     - npm install faker
-    - /opt/testcafe/docker/testcafe-docker.sh "chromium:headless" test-login.ts
+    - /opt/testcafe/docker/testcafe-docker.sh "chromium:headless" test/test-login.ts
