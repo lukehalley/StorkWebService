@@ -1,0 +1,6 @@
+ui-tests:
+  image:
+    name: testcafe/testcafe
+    entrypoint: ['/bin/sh', '-c']
+  script:
+    - npm run test-ui
