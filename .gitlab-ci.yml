@@ -3,5 +3,6 @@ ui-tests:
     name: testcafe/testcafe
     entrypoint: ['/bin/sh', '-c']
   script:
-    - npm install
+    - npm install faker
+    - npm i bcrypt
     - npm run test-ui
