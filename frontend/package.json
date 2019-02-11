@@ -1,18 +1,24 @@
 {
-  "name": "stork",
-  "version": "0.0.0",
+  "name": "stork_frontend",
+  "version": "1.0.0",
+  "description": "Stork Angular App",
+  "author": "Luke Halley luke123halley@gmail.com",
+  "main": "server.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/stork-group/stork-web-service"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:backend": "ng serve --host 0.0.0.0",
-    "start:server": "nodemon server.js",
     "test-ui": "testcafe 'chrome:headless' test/test-ui.ts"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "~7.2.0",
     "@angular/cdk": "~7.2.1",
@@ -23,6 +29,7 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "ajv": "^6.9.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "bulma": "^0.7.2",
