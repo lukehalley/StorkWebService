@@ -1,41 +1,34 @@
 <nav class="panel">
-  <p class="panel-heading">
-    Your Devices
-  </p>
+  <p class="panel-heading">Your Devices</p>
   <div class="panel-block">
     <p class="control has-icons-left">
-      <input class="input is-small" type="text" placeholder="search">
+      <input class="input is-small" type="text" placeholder="Search" />
       <span class="icon is-small is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>
     </p>
   </div>
   <p class="panel-tabs">
-    <a class="is-active">all</a>
-    <a>done</a>
-    <a>private</a>
-    <a>sources</a>
+    <a class="is-active">all</a> <a>done</a> <a>private</a> <a>sources</a>
     <a>forks</a>
   </p>
-
-
 
   <div *ngIf="storks.length > 0; else loggedOut">
     <!-- User should be allowed set the logo for their stork device -->
     <a class="panel-block is-active" *ngFor="let stork of storks">
-        <span class="panel-icon">
-          <i class="fas fa-book" aria-hidden="true"></i>
-        </span>
-        {{ stork.title }}
+      <span class="panel-icon">
+        <i class="fas fa-book" aria-hidden="true"></i>
+      </span>
+      {{ stork.title }}
     </a>
   </div>
 
   <ng-template #loggedOut>
     <a class="panel-block disabled">
-        <span class="panel-icon disabled">
-          <i class="fas fa-book disabled" aria-hidden="true"></i>
-        </span>
-        No Stork Devices
+      <span class="panel-icon disabled">
+        <i class="fas fa-book disabled" aria-hidden="true"></i>
+      </span>
+      No Stork Devices
     </a>
   </ng-template>
 

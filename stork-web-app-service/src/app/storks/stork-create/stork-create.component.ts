@@ -6,10 +6,13 @@ import { Component } from '@angular/core';
 })
 export class StorkCreateComponent {
 
-  enteredValue = '';
-  newStork = '';
+  enteredNickname = '';
+  enteredStorkID = '';
 
   onAddStork() {
-    this.newStork = this.enteredValue;
+    const post = {
+      nickname: this.enteredNickname,
+      storkid: this.enteredStorkID
+    }
   }
 }
