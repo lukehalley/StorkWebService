@@ -9,15 +9,7 @@ dotenv.config();
 
 // Connecting to the Mongodb database
 mongoose
-  .connect(
-    // Connections string
-    // TODO: Remove password
-    'mongodb+srv://lhalley:' +
-      process.env.MONGO_PW +
-      '@stork-owrd7.mongodb.net/' +
-      process.env.MONGO_DATABASE +
-      '?retryWrites=true'
-  )
+  .connect('mongodb://database:27017/' + process.env.MONGO_DATABASE)
   .then(() => {
     console.log('Connected to ' + process.env.MONGO_DATABASE + ' Database!');
   })
