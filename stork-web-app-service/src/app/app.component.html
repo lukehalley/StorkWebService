@@ -6,12 +6,12 @@
               <div class="tile is-parent">
                   <div class="tile is-child box">
                     <p class="title">Stork Details.</p>
-                    <app-stork-create></app-stork-create>
+                    <app-stork-create (storkCreated)="onStorkAdded($event)"></app-stork-create>
                   </div>
                 </div>
               <div class="tile is-4 is-vertical is-parent">
                 <div class="tile is-child box">
-                  <app-stork-list></app-stork-list>
+                  <app-stork-list [storks]="storedStorks"></app-stork-list>
                 </div>
               </div>
             </div>
