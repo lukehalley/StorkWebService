@@ -4,7 +4,8 @@ import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+// import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 const BACKEND_URL = environment.apiUrl + '/storks';
 

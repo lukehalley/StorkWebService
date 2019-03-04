@@ -68,3 +68,4 @@ concepts
 # Bash files for Docker
 kill.sh
 run.sh
+.vscode/sftp.json
