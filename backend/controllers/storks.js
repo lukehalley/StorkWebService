@@ -5,7 +5,11 @@ exports.createStork = (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
     nickname: req.body.nickname,
-    ownerId: req.userData.userId
+    ownerId: req.userData.userId,
+    location: {
+      type: 'Point',
+      coordinates: [-80.1, 25.791]
+    }
   });
   console.log(stork);
   stork
@@ -18,10 +22,11 @@ exports.createStork = (req, res, next) => {
       });
     })
     .catch(e => {
+      console.error(e)
       res.status(500).json({
         message: 'Stork Registration Failed!',
         comment: 'Please check you have correctly filled all fields.',
-        error: err
+        error: e
       });
     });
 };
@@ -70,7 +75,8 @@ exports.updateStork = (req, res, next) => {
   const stork = new Stork({
     _id: req.body.id,
     stork_code: req.body.stork_code,
-    nickname: req.body.nickname
+    nickname: req.body.nickname,
+    location: req.body.location
   });
   Stork.updateOne(
     { _id: req.params.id, ownerId: req.userData.userId },
