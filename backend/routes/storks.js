@@ -21,7 +21,7 @@ router.get("/one/:id", checkAuth, StorkController.getOneStork);
 router.put("/:id", checkAuth, StorkController.updateStork);
 
 // Push data from a Stork device.
-router.put("/push/:storkCode", StorkController.pushData);
+router.put("/push/:stork_code", StorkController.pushData);
 
 // Delete ONE Stork from the database and return them in the response
 router.delete("/:id", checkAuth, StorkController.deleteAStork);

@@ -109,17 +109,20 @@ exports.updateStork = (req, res, next) => {
 // // Push data from a Stork device to its owners device.
 exports.pushData = (req, res, next) => {
   Stork.findOneAndUpdate(
-    { stork_code: req.body.stork_code },
-    { $set: { "location.coordinates": [666.66, 666.69] } }
-  ).exec(function(err, stork) {
-    if (err) {
-      console.log(err);
-      res.status(500).send(err);
-    } else {
-      console.log(stork);
-      res.status(200).send(stork);
+    { stork_code: req.params.stork_code },
+    { $set: { "location.coordinates": [666.66, 666.69] } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.log("Something wrong when updating data!");
+      } else {
+        res.status(200).json({
+          message: "Stork Updated Sucessfully",
+          stork: doc
+        });
+      }
     }
-  });
+  );
 };
 
 // Delete ONE Stork from the database and return them in the response
