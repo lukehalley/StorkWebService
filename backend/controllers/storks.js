@@ -1,4 +1,4 @@
-const Stork = require('../models/stork.js');
+const Stork = require("../models/stork.js");
 
 // Create a Stork device and send it to the database to be stored.
 exports.createStork = (req, res, next) => {
@@ -7,7 +7,7 @@ exports.createStork = (req, res, next) => {
     nickname: req.body.nickname,
     ownerId: req.userData.userId,
     location: {
-      type: 'Point',
+      type: "Point",
       coordinates: [333.34, 45.35]
     }
   });
@@ -17,15 +17,15 @@ exports.createStork = (req, res, next) => {
     .then(createdStork => {
       // 201 = Success & Something Was Created
       res.status(201).json({
-        message: 'Stork added sucessfully!',
+        message: "Stork added sucessfully!",
         storkId: createdStork._id
       });
     })
     .catch(e => {
-      console.error(e)
+      console.error(e);
       res.status(500).json({
-        message: 'Stork Registration Failed!',
-        comment: 'Please check you have correctly filled all fields.',
+        message: "Stork Registration Failed!",
+        comment: "Please check you have correctly filled all fields.",
         error: e
       });
     });
@@ -37,14 +37,14 @@ exports.getUserStorks = (req, res, next) => {
     .then(documents => {
       // 200 = Success
       res.status(200).json({
-        message: 'Storks Fetched Sucessfully',
+        message: "Storks Fetched Sucessfully",
         storks: documents
       });
     })
     .catch(e => {
       res.status(500).json({
-        message: 'Stork Retrival Failed!',
-        comment: 'Failed To Get Your Storks From The Database!',
+        message: "Stork Retrival Failed!",
+        comment: "Failed To Get Your Storks From The Database!",
         error: err
       });
     });
@@ -54,19 +54,19 @@ exports.getUserStorks = (req, res, next) => {
 exports.getOneStork = (req, res, next) => {
   Stork.findById({ _id: req.params.id })
     .then(stork => {
-      console.log('GETTING STORK WITH ID OF: ' + req.params.id);
+      console.log("GETTING STORK WITH ID OF: " + req.params.id);
       if (stork) {
         res.status(200).json(stork);
-        console.log("Got this stork back after getOneStork: " + stork)
+        console.log("Got this stork back after getOneStork: " + stork);
       } else {
-        res.status(404).json({ message: 'Stork Not Found!' });
+        res.status(404).json({ message: "Stork Not Found!" });
       }
     })
     .catch(e => {
-      console.error(e)
+      console.error(e);
       res.status(500).json({
-        message: 'Stork Retrival Failed!',
-        comment: 'Failed To Get A Document From Database!',
+        message: "Stork Retrival Failed!",
+        comment: "Failed To Get A Document From Database!",
         error: e
       });
     });
@@ -87,21 +87,37 @@ exports.updateStork = (req, res, next) => {
     // If nModified is greater than one on the result that means a field was edited.
     // Using nModified to check if a user owns the Stork.
     if (result.n > 0) {
-      res.status(200).json({ message: 'Update successful!' });
+      res.status(200).json({ message: "Update successful!" });
     } else {
       res
         .status(401)
         .json({
-          message: 'User Not Authorised To Edit This Stork!',
-          comment: 'Please Sign In to edit your Storks'
+          message: "User Not Authorised To Edit This Stork!",
+          comment: "Please Sign In to edit your Storks"
         })
         .catch(e => {
           res.status(500).json({
-            message: 'Stork Update Failed!',
-            comment: 'Please check you have correctly filled all fields.',
+            message: "Stork Update Failed!",
+            comment: "Please check you have correctly filled all fields.",
             error: err
           });
         });
+    }
+  });
+};
+
+// // Push data from a Stork device to its owners device.
+exports.pushData = (req, res, next) => {
+  Stork.findOneAndUpdate(
+    { stork_code: req.body.stork_code },
+    { $set: { "location.coordinates": [666.66, 666.69] } }
+  ).exec(function(err, stork) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log(stork);
+      res.status(200).send(stork);
     }
   });
 };
@@ -111,17 +127,17 @@ exports.deleteAStork = (req, res, next) => {
   Stork.deleteOne({ _id: req.params.id, ownerId: req.userData.userId })
     .then(result => {
       if (result.n > 0) {
-        res.status(200).json({ message: 'Stork Deleted!' });
+        res.status(200).json({ message: "Stork Deleted!" });
       } else {
         res
           .status(401)
-          .json({ message: 'User Not Authorised To Delete This Stork!' });
+          .json({ message: "User Not Authorised To Delete This Stork!" });
       }
     })
     .catch(e => {
       res.status(500).json({
-        message: 'Stork De-registration Failed!',
-        comment: 'Failed To De-registrater Your Storks!',
+        message: "Stork De-registration Failed!",
+        comment: "Failed To De-registrater Your Storks!",
         error: err
       });
     });
