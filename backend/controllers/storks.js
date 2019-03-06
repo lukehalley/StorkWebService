@@ -8,7 +8,7 @@ exports.createStork = (req, res, next) => {
     ownerId: req.userData.userId,
     location: {
       type: 'Point',
-      coordinates: [80.1, 25.791]
+      coordinates: [333.34, 45.35]
     }
   });
   console.log(stork);
