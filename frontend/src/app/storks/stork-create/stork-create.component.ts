@@ -15,6 +15,8 @@ export class StorkCreateComponent implements OnInit {
   public editMode = false;
   public isLoading = false;
   private storkId: string;
+  private latitude: number
+  private longitude: number
   stork: Stork;
 
   constructor(
@@ -30,13 +32,14 @@ export class StorkCreateComponent implements OnInit {
         this.storkId = paramMap.get('storkId');
         this.isLoading = true;
         this.storksService.getStork(this.storkId).subscribe(storkData => {
-          this.isLoading = false;
+          this.latitude = storkData.latitude;
+          this.latitude = storkData.longitude;
           this.stork = {
             id: storkData._id,
             stork_code: storkData.stork_code,
             nickname: storkData.nickname,
-            latitude: storkData.latitude,
-            longitude: storkData.longitude,
+            latitude: this.latitude,
+            longitude: this.longitude,
           };
           console.log('GETTING STORK: ' + JSON.stringify(this.stork));
         });
@@ -51,22 +54,19 @@ export class StorkCreateComponent implements OnInit {
   onSaveStork(form: NgForm) {
     if (form.valid) {
         if (this.editMode) {
-          this.storksService.getStork(this.storkId).subscribe(storkData => {
             this.storksService.updateStork(
               this.storkId,
               form.value.inputStorkID,
               form.value.inputStorkNickname,
-              storkData.latitude,
-              storkData.longitude,
+              this.latitude,
+              this.longitude,
             );
-        });
         } else {
           this.storksService.addStork(
             form.value.inputStorkID,
             form.value.inputStorkNickname
           );
         }
-
       form.resetForm();
       this.router.navigate(['/storks/your-storks']);
     }
