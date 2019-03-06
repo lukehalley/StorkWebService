@@ -2,4 +2,6 @@ export interface Stork {
   id: string;
   stork_code: string;
   nickname: string;
+  latitude: number;
+  longitude: number;
 }

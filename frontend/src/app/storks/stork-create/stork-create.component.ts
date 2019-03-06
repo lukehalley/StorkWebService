@@ -34,7 +34,9 @@ export class StorkCreateComponent implements OnInit {
           this.stork = {
             id: storkData._id,
             stork_code: storkData.stork_code,
-            nickname: storkData.nickname
+            nickname: storkData.nickname,
+            latitude: storkData.latitude,
+            longitude: storkData.longitude,
           };
           console.log('GETTING STORK: ' + JSON.stringify(this.stork));
         });
@@ -52,7 +54,9 @@ export class StorkCreateComponent implements OnInit {
         this.storksService.updateStork(
           this.storkId,
           form.value.inputStorkID,
-          form.value.inputStorkNickname
+          form.value.inputStorkNickname,
+          -2.03,
+          1.04
         );
         console.log(
           this.storkId + form.value.inputStorkID + form.value.inputStorkNickname
