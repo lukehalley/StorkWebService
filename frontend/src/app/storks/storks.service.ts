@@ -58,8 +58,8 @@ export class StorksService {
       id: null,
       stork_code: stork_code,
       nickname: nickname,
-      latitude: 4534,
-      longitude: 345345
+      latitude: null,
+      longitude: null
     };
     this.http
       .post<{ message: string; storkId: string }>(BACKEND_URL, stork)

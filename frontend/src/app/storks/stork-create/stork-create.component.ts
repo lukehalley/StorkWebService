@@ -50,23 +50,22 @@ export class StorkCreateComponent implements OnInit {
   // Create the button press listener
   onSaveStork(form: NgForm) {
     if (form.valid) {
-      if (this.editMode) {
-        this.storksService.updateStork(
-          this.storkId,
-          form.value.inputStorkID,
-          form.value.inputStorkNickname,
-          -2.03,
-          1.04
-        );
-        console.log(
-          this.storkId + form.value.inputStorkID + form.value.inputStorkNickname
-        );
-      } else {
-        this.storksService.addStork(
-          form.value.inputStorkID,
-          form.value.inputStorkNickname
-        );
-      }
+      this.storksService.getStork(this.storkId).subscribe(storkData => {
+        if (this.editMode) {
+          this.storksService.updateStork(
+            this.storkId,
+            form.value.inputStorkID,
+            form.value.inputStorkNickname,
+            storkData.latitude,
+            storkData.longitude,
+          );
+        } else {
+          this.storksService.addStork(
+            form.value.inputStorkID,
+            form.value.inputStorkNickname
+          );
+        }
+      });
       form.resetForm();
       this.router.navigate(['/storks/your-storks']);
     }

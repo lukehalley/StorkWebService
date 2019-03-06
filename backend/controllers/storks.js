@@ -63,10 +63,11 @@ exports.getOneStork = (req, res, next) => {
       }
     })
     .catch(e => {
+      console.error(e)
       res.status(500).json({
         message: 'Stork Retrival Failed!',
         comment: 'Failed To Get A Document From Database!',
-        error: err
+        error: e
       });
     });
 };
