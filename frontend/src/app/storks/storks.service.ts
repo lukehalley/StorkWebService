@@ -29,8 +29,10 @@ export class StorksService {
               nickname: stork.nickname,
               id: stork._id,
               ownerId: stork.ownerId,
+              gpsType: stork.gpsType,
               latitude: stork.location.coordinates[0],
-              longitude: stork.location.coordinates[1]
+              longitude: stork.location.coordinates[1],
+              statusCode: stork.statusCode
             };
           });
         })
@@ -44,9 +46,15 @@ export class StorksService {
   // This might not be working because its using the same url as get all above
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
-    return this.http.get<{ _id: string; stork_code: string; nickname: string; latitude: number, longitude: number}>(
-      BACKEND_URL + '/one/' + id
-    );
+    return this.http.get<{
+      _id: string;
+      stork_code: string;
+      nickname: string;
+      gpsType: string;
+      latitude: number;
+      longitude: number;
+      statusCode: number;
+    }>(BACKEND_URL + '/one/' + id);
   }
 
   getStorksUpdateListener() {
@@ -58,8 +66,10 @@ export class StorksService {
       id: null,
       stork_code: stork_code,
       nickname: nickname,
+      gpsType: null,
       latitude: null,
-      longitude: null
+      longitude: null,
+      statusCode: null
     };
     this.http
       .post<{ message: string; storkId: string }>(BACKEND_URL, stork)
@@ -72,13 +82,23 @@ export class StorksService {
       });
   }
 
-  updateStork(id: string, stork_code: string, nickname: string, lat: number, long: number) {
+  updateStork(
+    id: string,
+    stork_code: string,
+    nickname: string,
+    gpsType: string,
+    lat: number,
+    long: number,
+    statusCode: number
+  ) {
     const stork: Stork = {
       id: id,
       stork_code: stork_code,
       nickname: nickname,
+      gpsType: gpsType,
       latitude: lat,
-      longitude: long
+      longitude: long,
+      statusCode: statusCode
     };
 
     this.http.put(BACKEND_URL + '/' + id, stork).subscribe(response => {

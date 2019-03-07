@@ -15,11 +15,16 @@ const pointSchema = new mongoose.Schema({
 const storkSchema = mongoose.Schema({
   stork_code: { type: String, required: true },
   nickname: { type: String, required: true },
-  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  ownerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   location: {
     type: pointSchema,
     required: true
-  }
+  },
+  statusCode: { type: Number, required: true }
 });
 
 module.exports = mongoose.model('Stork', storkSchema);
