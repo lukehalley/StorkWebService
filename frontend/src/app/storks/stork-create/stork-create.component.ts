@@ -1,22 +1,22 @@
-import { Stork } from './../stork.model';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { StorksService } from './../storks.service';
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Stork } from "./../stork.model";
+import { Subscription } from "rxjs";
+import { ActivatedRoute, ParamMap } from "@angular/router";
+import { StorksService } from "./../storks.service";
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-stork-create',
-  templateUrl: './stork-create.component.html'
+  selector: "app-stork-create",
+  templateUrl: "./stork-create.component.html"
 })
 export class StorkCreateComponent implements OnInit {
   // Edit Feature
   public editMode = false;
   public isLoading = false;
   private storkId: string;
-  private latitude: number
-  private longitude: number
+  private latitude: number;
+  private longitude: number;
   stork: Stork;
 
   constructor(
@@ -27,9 +27,9 @@ export class StorkCreateComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('storkId')) {
+      if (paramMap.has("storkId")) {
         this.editMode = true;
-        this.storkId = paramMap.get('storkId');
+        this.storkId = paramMap.get("storkId");
         this.isLoading = true;
         this.storksService.getStork(this.storkId).subscribe(storkData => {
           this.latitude = storkData.latitude;
@@ -39,9 +39,8 @@ export class StorkCreateComponent implements OnInit {
             stork_code: storkData.stork_code,
             nickname: storkData.nickname,
             latitude: this.latitude,
-            longitude: this.longitude,
+            longitude: this.longitude
           };
-          console.log('GETTING STORK: ' + JSON.stringify(this.stork));
         });
       } else {
         this.editMode = false;
@@ -53,22 +52,22 @@ export class StorkCreateComponent implements OnInit {
   // Create the button press listener
   onSaveStork(form: NgForm) {
     if (form.valid) {
-        if (this.editMode) {
-            this.storksService.updateStork(
-              this.storkId,
-              form.value.inputStorkID,
-              form.value.inputStorkNickname,
-              this.latitude,
-              this.longitude,
-            );
-        } else {
-          this.storksService.addStork(
-            form.value.inputStorkID,
-            form.value.inputStorkNickname
-          );
-        }
+      if (this.editMode) {
+        this.storksService.updateStork(
+          this.storkId,
+          form.value.inputStorkID,
+          form.value.inputStorkNickname,
+          this.latitude,
+          this.longitude
+        );
+      } else {
+        this.storksService.addStork(
+          form.value.inputStorkID,
+          form.value.inputStorkNickname
+        );
+      }
       form.resetForm();
-      this.router.navigate(['/storks/your-storks']);
+      this.router.navigate(["/storks/your-storks"]);
     }
   }
 }

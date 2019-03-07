@@ -110,11 +110,11 @@ exports.updateStork = (req, res, next) => {
 exports.pushData = (req, res, next) => {
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },
-    { $set: { "location.coordinates": [666.66, 666.69] } },
+    { $set: { "location.coordinates": req.body.location.coordinates } },
     { new: true },
     (err, doc) => {
       if (err) {
-        console.log("Something wrong when updating data!");
+        console.error("Update Error: " + err);
       } else {
         res.status(200).json({
           message: "Stork Updated Sucessfully",
