@@ -5,7 +5,12 @@ exports.createStork = (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
     nickname: req.body.nickname,
-    ownerId: req.userData.userId
+    ownerId: req.userData.userId,
+    location: {
+      type: 'Point',
+      coordinates: [null, null]
+    },
+    statusCode: 3
   });
   console.log(stork);
   stork
@@ -18,10 +23,11 @@ exports.createStork = (req, res, next) => {
       });
     })
     .catch(e => {
+      console.error(e);
       res.status(500).json({
         message: 'Stork Registration Failed!',
         comment: 'Please check you have correctly filled all fields.',
-        error: err
+        error: e
       });
     });
 };
@@ -52,15 +58,17 @@ exports.getOneStork = (req, res, next) => {
       console.log('GETTING STORK WITH ID OF: ' + req.params.id);
       if (stork) {
         res.status(200).json(stork);
+        console.log('Got this stork back after getOneStork: ' + stork);
       } else {
         res.status(404).json({ message: 'Stork Not Found!' });
       }
     })
     .catch(e => {
+      console.error(e);
       res.status(500).json({
         message: 'Stork Retrival Failed!',
         comment: 'Failed To Get A Document From Database!',
-        error: err
+        error: e
       });
     });
 };
@@ -70,7 +78,9 @@ exports.updateStork = (req, res, next) => {
   const stork = new Stork({
     _id: req.body.id,
     stork_code: req.body.stork_code,
-    nickname: req.body.nickname
+    nickname: req.body.nickname,
+    location: req.body.location,
+    statusCode: req.body.statusCode
   });
   Stork.updateOne(
     { _id: req.params.id, ownerId: req.userData.userId },
@@ -96,6 +106,31 @@ exports.updateStork = (req, res, next) => {
         });
     }
   });
+};
+
+// // Push data from a Stork device to its owners device.
+exports.pushData = (req, res, next) => {
+  Stork.findOneAndUpdate(
+    { stork_code: req.params.stork_code },
+    {
+      $set: {
+        'location.type': req.body.location.type,
+        'location.coordinates': req.body.location.coordinates,
+        statusCode: req.body.statusCode
+      }
+    },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        console.error('Update Error: ' + err);
+      } else {
+        res.status(200).json({
+          message: 'Stork Updated Sucessfully',
+          stork: doc
+        });
+      }
+    }
+  );
 };
 
 // Delete ONE Stork from the database and return them in the response

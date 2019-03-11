@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Middleware to check if the user is allowed access a route.
@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   // <Bearer> & <token> -> [1] is the token.
   try {
     // Got a token
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.JWY_KEY);
     req.userData = {
       email: decodedToken.email,
@@ -21,6 +21,8 @@ module.exports = (req, res, next) => {
     next();
   } catch (error) {
     // Token not available
-    res.status(401).json({ message: 'Your are not authorised, please Login!' });
+    console.error(error);
+
+    res.status(401).json({ message: "Your are not authorised, please Login!" });
   }
 };

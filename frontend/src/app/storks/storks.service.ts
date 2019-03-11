@@ -4,7 +4,8 @@ import { Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+// import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 
 const BACKEND_URL = environment.apiUrl + '/storks';
 
@@ -27,7 +28,11 @@ export class StorksService {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
               id: stork._id,
-              ownerId: stork.ownerId
+              ownerId: stork.ownerId,
+              gpsType: stork.gpsType,
+              latitude: stork.location.coordinates[0],
+              longitude: stork.location.coordinates[1],
+              statusCode: stork.statusCode
             };
           });
         })
@@ -41,9 +46,15 @@ export class StorksService {
   // This might not be working because its using the same url as get all above
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };
-    return this.http.get<{ _id: string; stork_code: string; nickname: string }>(
-      BACKEND_URL + '/one/' + id
-    );
+    return this.http.get<{
+      _id: string;
+      stork_code: string;
+      nickname: string;
+      gpsType: string;
+      latitude: number;
+      longitude: number;
+      statusCode: number;
+    }>(BACKEND_URL + '/one/' + id);
   }
 
   getStorksUpdateListener() {
@@ -54,7 +65,11 @@ export class StorksService {
     const stork: Stork = {
       id: null,
       stork_code: stork_code,
-      nickname: nickname
+      nickname: nickname,
+      gpsType: null,
+      latitude: null,
+      longitude: null,
+      statusCode: null
     };
     this.http
       .post<{ message: string; storkId: string }>(BACKEND_URL, stork)
@@ -67,11 +82,23 @@ export class StorksService {
       });
   }
 
-  updateStork(id: string, stork_code: string, nickname: string) {
+  updateStork(
+    id: string,
+    stork_code: string,
+    nickname: string,
+    gpsType: string,
+    lat: number,
+    long: number,
+    statusCode: number
+  ) {
     const stork: Stork = {
       id: id,
       stork_code: stork_code,
-      nickname: nickname
+      nickname: nickname,
+      gpsType: gpsType,
+      latitude: lat,
+      longitude: long,
+      statusCode: statusCode
     };
 
     this.http.put(BACKEND_URL + '/' + id, stork).subscribe(response => {
