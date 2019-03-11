@@ -3,7 +3,7 @@ import { ClientFunction } from 'testcafe';
 const getLocation = ClientFunction(() => document.location.href);
 import * as faker from 'faker';
 
-const url = `http://87.44.18.111:80`;
+const url = `http://87.44.18.111`;
 
 // tslint:disable-next-line:no-unused-expression
 fixture`User Accounts.`.page(url);
@@ -34,8 +34,8 @@ const editStorkButton = 'footer > a:nth-child(1)';
 const deleteStorkButton = 'footer > a:nth-child(2)';
 
 // Details to Create and Edit Stork.
-const storkId = 'STR1234';
-const storkIdEdit = 'STR4321';
+const storkId = 'AB1CD2';
+const storkIdEdit = 'AB1CD3';
 const storkNickname = 'YourNickname1234';
 const storkNicknameEdit = 'YourNickname4321';
 const storkTitle =
@@ -94,7 +94,7 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
     // Create user, should be brought to the sign in page.
     .click(signupSubmitButton)
     .expect(getLocation())
-    .eql(url + '/login')
+    .contains('/login')
 
     // Sign in with the details.
     .typeText(emailField, emailValid)
@@ -103,10 +103,10 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
 
     // If the sign in went correctly you should be brought to the list of the users Storks.
     .expect(getLocation())
-    .eql(url + '/storks/your-storks')
+    .contains('/storks/your-storks')
     .click(logoutButton)
     .expect(getLocation())
-    .eql(url + '/login');
+    .contains('/login');
 });
 
 test('Sign Up With A Duplicate Email', async t => {
@@ -185,11 +185,11 @@ test('Register, Edit and Delete A Stork', async t => {
     .typeText(passwordField, passValid)
     .click(loginSubmitButton)
     .expect(getLocation())
-    .eql(url + '/storks/your-storks')
+    .contains('/storks/your-storks')
     // Click the register button in the navbar.
     .click(registerNavButton)
     .expect(getLocation())
-    .eql(url + '/storks/register-stork')
+    .contains('/storks/register-stork')
     // The title should say 'Register Your Stork.'
     .expect(Selector(storkTitle).withExactText(addStorkTitle).exists)
     .ok()
@@ -202,7 +202,7 @@ test('Register, Edit and Delete A Stork', async t => {
     .expect(getLocation())
     // If the Stork register goes correctly the user should be brought to the list of the users Stork list.
     // The details the user just entered should be seen on the first card.
-    .eql(url + '/storks/your-storks')
+    .contains('/storks/your-storks')
     .expect(
       Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
     )
@@ -213,7 +213,7 @@ test('Register, Edit and Delete A Stork', async t => {
     .click(editStorkButton)
     .expect(getLocation())
     // The user should be brought to the edit page.
-    .contains(url + '/storks/edit/')
+    .contains('/storks/edit/')
     // Check the Sublist of the users current Storks
     .expect(
       Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
@@ -236,7 +236,7 @@ test('Register, Edit and Delete A Stork', async t => {
     .contains('Save')
     .click(saveStorkButton)
     .expect(getLocation())
-    .eql(url + '/storks/your-storks')
+    .contains('/storks/your-storks')
     .expect(
       Selector(firstStorkListCardNickname).withExactText(storkNicknameEdit)
         .exists
@@ -257,5 +257,5 @@ test('Register, Edit and Delete A Stork', async t => {
     // Sign Out
     .click(logoutButton)
     .expect(getLocation())
-    .eql(url + '/login');
+    .contains('/login');
 });
