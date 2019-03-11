@@ -16,8 +16,8 @@
                 name="inputStorkID"
                 [ngModel]="stork?.stork_code"
                 required
-                minlength="7"
-                maxlength="7"
+                minlength="6"
+                maxlength="6"
                 pattern="[A-Z0-9]*"
                 placeholder="STR1234..."
               />
@@ -26,9 +26,9 @@
               </span>
             </p>
             <p class="help">
-              Must be exactly 7 characters long and only consist of
+              Must be exactly 6 characters long and only consist of
               <u>capital</u> letters and numbers.
-              <strong>Example: STR1234</strong>
+              <strong>Example: AB1CD2</strong>
             </p>
           </div>
           <div class="field">
