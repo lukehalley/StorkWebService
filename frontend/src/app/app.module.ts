@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { StorkHeaderComponent } from './toolbar/header.component';
 import { ErrorInterceptor } from './error-interceptor';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [AppComponent, StorkHeaderComponent],

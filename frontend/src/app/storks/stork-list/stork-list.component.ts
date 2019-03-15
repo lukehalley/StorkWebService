@@ -1,9 +1,11 @@
 import { AuthService } from './../../auth/auth.service';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Stork } from '../stork.model';
 import { StorksService } from '../storks.service';
+
+import { AgmMap } from '@agm/core';
 
 @Component({
   selector: 'app-stork-list',
@@ -16,6 +18,9 @@ export class StorkListComponent implements OnInit, OnDestroy {
   private authStatusSub: Subscription;
   public userIsAuthenticated: boolean;
   public userId: string;
+
+  @ViewChild(AgmMap)
+  public agmMap: AgmMap;
 
   // Using Angular dependency injection
   constructor(
@@ -39,6 +44,7 @@ export class StorkListComponent implements OnInit, OnDestroy {
         this.userId = this.authService.getUserId();
         if (isAuthenticated) {
           this.storksService.getStorks(this.userId);
+          this.agmMap.triggerResize();
         } else {
         }
       });

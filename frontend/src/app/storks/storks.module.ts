@@ -5,9 +5,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StorkRoutingModule } from './stork-routing-module';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [StorkCreateComponent, StorkListComponent],
-  imports: [CommonModule, FormsModule, RouterModule, StorkRoutingModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    StorkRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCbws0OJ-RtW-7lb3CyoqoObud2ipblcso'
+    })
+  ]
 })
 export class StorksModule {}
