@@ -10,31 +10,26 @@
                 <p class="subtitle is-5">{{ stork.stork_code }}</p>
               </div>
             </div>
+
             <div class="content">
-              <p class="title is-3">Status</p>
-              <p class="subtitle is-5">
-                All Ok!
-              </p>
-              <br />
-              <p class="title is-3">Location</p>
-              <p class="subtitle is-5">
-                {{ stork.latitude }}, {{ stork.longitude }}
-              </p>
-              <br />
-              <p class="title is-3">Temperature</p>
-              <p class="subtitle is-5">
-                21 °C
-              </p>
-              <br />
-              <p class="title is-3">Humidity</p>
-              <p class="subtitle is-5">
-                50%
-              </p>
-              <br />
+              <div class="columns">
+                <div class="column">
+                  <p class="title is-4">Status</p>
+                  <p class="subtitle is-6 is-spaced">All Ok!</p>
+                  <p class="title is-4">Location</p>
+                  <p class="subtitle is-6 is-spaced">
+                    {{ stork.latitude }}, {{ stork.longitude }}
+                  </p>
+                </div>
+                <div class="column">
+                  <p class="title is-4">Temperature</p>
+                  <p class="subtitle is-6 is-spaced">21 °C</p>
+                  <p class="title is-4">Humidity</p>
+                  <p class="subtitle is-6 is-spaced">50%</p>
+                </div>
+              </div>
               <p class="title is-4">Last Seen</p>
-              <p class="subtitle is-6">
-                12:00 PM - 5 Jan 2019
-              </p>
+              <p class="subtitle is-6">12:00 PM - 5 Jan 2019</p>
             </div>
           </div>
           <div class="column">
