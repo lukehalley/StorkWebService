@@ -6,8 +6,17 @@
           <div class="column">
             <div class="media">
               <div class="media-content">
-                <p class="title is-2">{{ stork.nickname }}</p>
-                <p class="subtitle is-5">{{ stork.stork_code }}</p>
+                <p *ngIf="stork.nickname; else noNickname" class="title is-2">
+                  {{ stork.nickname }}
+                </p>
+                <ng-template #noNickname>"Nickname Unknown"</ng-template>
+                <p
+                  *ngIf="stork.stork_code; else noStorkCode"
+                  class="subtitle is-5"
+                >
+                  {{ stork.stork_code }}
+                </p>
+                <ng-template #noStorkCode>"Stork Code Unknown"</ng-template>
               </div>
             </div>
 
@@ -15,21 +24,58 @@
               <div class="columns">
                 <div class="column">
                   <p class="title is-4">Status</p>
-                  <p class="subtitle is-6 is-spaced">All Ok!</p>
-                  <p class="title is-4">Location</p>
+                  <!-- TODO: Replace with Stork Status Value -->
+                  <p
+                    *ngIf="stork.stork_code; else noStatus"
+                    class="subtitle is-6 is-spaced"
+                  >
+                    All Ok!
+                  </p>
+                  <ng-template #noStatus>"Status Unknown"</ng-template>
+                  <p
+                    *ngIf="stork.latitude && stork.longitude; else noLocation"
+                    class="title is-4"
+                  >
+                    Location
+                  </p>
                   <p class="subtitle is-6 is-spaced">
                     {{ stork.latitude }}, {{ stork.longitude }}
                   </p>
+                  <ng-template #noLocation>"Location Unknown"</ng-template>
                 </div>
                 <div class="column">
                   <p class="title is-4">Temperature</p>
-                  <p class="subtitle is-6 is-spaced">21 °C</p>
+                  <!-- TODO: Replace with Temperature Value -->
+                  <p
+                    *ngIf="stork.latitude; else noTemperature"
+                    class="subtitle is-6 is-spaced"
+                  >
+                    21 °C
+                  </p>
+                  <ng-template #noTemperature
+                    >"Current Temperature Unknown"</ng-template
+                  >
                   <p class="title is-4">Humidity</p>
-                  <p class="subtitle is-6 is-spaced">50%</p>
+                  <!-- TODO: Replace with Humidity Value -->
+                  <p
+                    *ngIf="stork.longitude; else noHumidity"
+                    class="subtitle is-6 is-spaced"
+                  >
+                    50%
+                  </p>
+                  <ng-template #noHumidity
+                    >"Current Humidity Unknown"</ng-template
+                  >
                 </div>
               </div>
               <p class="title is-4">Last Seen</p>
-              <p class="subtitle is-6">12:00 PM - 5 Jan 2019</p>
+              <!-- TODO: Replace with Last Seen Value -->
+              <p *ngIf="stork.longitude; else noLastSeen" class="subtitle is-6">
+                12:00 PM - 5 Jan 2019
+              </p>
+              <ng-template #noLastSeen
+                >"Stork Device Has Not Communicated Yet!"</ng-template
+              >
             </div>
           </div>
           <div class="column">
