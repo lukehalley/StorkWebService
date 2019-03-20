@@ -109,7 +109,7 @@
             </div>
             <div *ngIf="router.url === '/storks/your-storks'" class="column">
               <agm-map
-                [zoom]="10"
+                [zoom]="6"
                 [latitude]="stork.latitude"
                 [longitude]="stork.longitude"
               >
@@ -123,13 +123,16 @@
         </div>
         <footer class="card-footer">
           <a
-            *ngIf="router.url.includes('/storks/your-storks')"
+            *ngIf="router.url === '/storks/your-storks'"
             class="card-footer-item"
             [routerLink]="['/storks/edit', stork.id]"
             >Edit</a
           >
           <a
-            *ngIf="router.url === '/storks/register-stork'"
+            *ngIf="
+              router.url.includes('/storks/edit/') ||
+              router.url === '/storks/register-stork'
+            "
             class="card-footer-item"
             (click)="onDelete(stork.id)"
             >Delete</a
