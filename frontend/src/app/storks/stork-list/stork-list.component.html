@@ -1,131 +1,189 @@
 <nav class="panel">
   <div *ngIf="userIsAuthenticated; else loggedOut">
-    <div class="card" *ngFor="let stork of storks">
-      <div class="card-content">
-        <div class="columns">
-          <div class="column">
-            <div class="media">
-              <div class="media-content">
-                <p *ngIf="stork.nickname; else noNickname" class="title is-2">
-                  {{ stork.nickname }}
-                </p>
-                <ng-template #noNickname>
-                  <p class="title is-2">
-                    Nickname Unknown
+    <div *ngIf="storks.length; else noRegisteredStorks">
+      <div class="card" *ngFor="let stork of storks">
+        <div class="card-content">
+          <div class="columns">
+            <div class="column">
+              <div class="media">
+                <div class="media-content">
+                  <p *ngIf="stork.nickname; else noNickname" class="title is-2">
+                    {{ stork.nickname }}
                   </p>
-                </ng-template>
-                <p
-                  *ngIf="stork.stork_code; else noStorkCode"
-                  class="subtitle is-5"
-                >
-                  {{ stork.stork_code }}
-                </p>
-                <ng-template #noStorkCode>
+                  <ng-template #noNickname>
+                    <p class="title is-2">
+                      Nickname Unknown
+                    </p>
+                  </ng-template>
                   <p
                     *ngIf="stork.stork_code; else noStorkCode"
                     class="subtitle is-5"
                   >
-                    Stork Code Unknown
+                    {{ stork.stork_code }}
+                  </p>
+                  <ng-template #noStorkCode>
+                    <p
+                      *ngIf="stork.stork_code; else noStorkCode"
+                      class="subtitle is-5"
+                    >
+                      Stork Code Unknown
+                    </p>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div *ngIf="router.url === '/storks/your-storks'" class="content">
+                <div class="columns">
+                  <div class="column">
+                    <p class="title is-4">Status</p>
+                    <!-- TODO: Replace with Stork Status Value -->
+                    <p
+                      *ngIf="stork.stork_code; else noStatus"
+                      class="subtitle is-6 is-spaced"
+                    >
+                      All Ok!
+                    </p>
+                    <ng-template #noStatus>
+                      <p class="subtitle is-6 is-spaced">
+                        Status Unknown
+                      </p>
+                    </ng-template>
+                    <p class="title is-4">
+                      Location
+                    </p>
+                    <p
+                      *ngIf="stork.latitude && stork.longitude; else noLocation"
+                      class="subtitle is-6 is-spaced"
+                    >
+                      {{ stork.latitude }}, {{ stork.longitude }}
+                    </p>
+                    <ng-template #noLocation>
+                      <p class="subtitle is-6 is-spaced">
+                        Location Unknown
+                      </p>
+                    </ng-template>
+                  </div>
+                  <div class="column">
+                    <p class="title is-4">Temperature</p>
+                    <!-- TODO: Replace with Temperature Value -->
+                    <p
+                      *ngIf="stork.latitude; else noTemperature"
+                      class="subtitle is-6 is-spaced"
+                    >
+                      21 °C
+                    </p>
+                    <ng-template #noTemperature>
+                      <p class="subtitle is-6 is-spaced">
+                        Current Temperature Unknown
+                      </p>
+                    </ng-template>
+                    <p class="title is-4">Humidity</p>
+                    <!-- TODO: Replace with Humidity Value -->
+                    <p
+                      *ngIf="stork.longitude; else noHumidity"
+                      class="subtitle is-6 is-spaced"
+                    >
+                      50%
+                    </p>
+                    <ng-template #noHumidity>
+                      <p class="subtitle is-6 is-spaced">
+                        Current Humidity Unknown
+                      </p>
+                    </ng-template>
+                  </div>
+                </div>
+                <p class="title is-4">Last Seen</p>
+                <!-- TODO: Replace with Last Seen Value -->
+                <p
+                  *ngIf="stork.longitude; else noLastSeen"
+                  class="subtitle is-6"
+                >
+                  12:00 PM - 5 Jan 2019
+                </p>
+                <ng-template #noLastSeen>
+                  <p class="subtitle is-6">
+                    Stork Device Has Not Communicated Yet!
                   </p>
                 </ng-template>
               </div>
             </div>
-
-            <div class="content">
-              <div class="columns">
-                <div class="column">
-                  <p class="title is-4">Status</p>
-                  <!-- TODO: Replace with Stork Status Value -->
-                  <p
-                    *ngIf="stork.stork_code; else noStatus"
-                    class="subtitle is-6 is-spaced"
-                  >
-                    All Ok!
-                  </p>
-                  <ng-template #noStatus>
-                    <p class="subtitle is-6 is-spaced">
-                      Status Unknown
-                    </p>
-                  </ng-template>
-                  <p class="title is-4">
-                    Location
-                  </p>
-                  <p
-                    *ngIf="stork.latitude && stork.longitude; else noLocation"
-                    class="subtitle is-6 is-spaced"
-                  >
-                    {{ stork.latitude }}, {{ stork.longitude }}
-                  </p>
-                  <ng-template #noLocation>
-                    <p class="subtitle is-6 is-spaced">
-                      Location Unknown
-                    </p>
-                  </ng-template>
-                </div>
-                <div class="column">
-                  <p class="title is-4">Temperature</p>
-                  <!-- TODO: Replace with Temperature Value -->
-                  <p
-                    *ngIf="stork.latitude; else noTemperature"
-                    class="subtitle is-6 is-spaced"
-                  >
-                    21 °C
-                  </p>
-                  <ng-template #noTemperature>
-                    <p class="subtitle is-6 is-spaced">
-                      Current Temperature Unknown
-                    </p>
-                  </ng-template>
-                  <p class="title is-4">Humidity</p>
-                  <!-- TODO: Replace with Humidity Value -->
-                  <p
-                    *ngIf="stork.longitude; else noHumidity"
-                    class="subtitle is-6 is-spaced"
-                  >
-                    50%
-                  </p>
-                  <ng-template #noHumidity>
-                    <p class="subtitle is-6 is-spaced">
-                      Current Humidity Unknown
-                    </p>
-                  </ng-template>
-                </div>
-              </div>
-              <p class="title is-4">Last Seen</p>
-              <!-- TODO: Replace with Last Seen Value -->
-              <p *ngIf="stork.longitude; else noLastSeen" class="subtitle is-6">
-                12:00 PM - 5 Jan 2019
-              </p>
-              <ng-template #noLastSeen>
-                <p class="subtitle is-6">
-                  Stork Device Has Not Communicated Yet!
-                </p>
-              </ng-template>
-            </div>
-          </div>
-          <div class="column">
-            <agm-map
-              [zoom]="10"
-              [latitude]="stork.latitude"
-              [longitude]="stork.longitude"
-            >
-              <agm-marker
+            <div *ngIf="router.url === '/storks/your-storks'" class="column">
+              <agm-map
+                [zoom]="6"
                 [latitude]="stork.latitude"
                 [longitude]="stork.longitude"
-              ></agm-marker>
-            </agm-map>
+              >
+                <agm-marker
+                  [latitude]="stork.latitude"
+                  [longitude]="stork.longitude"
+                ></agm-marker>
+              </agm-map>
+            </div>
           </div>
         </div>
+        <footer class="card-footer">
+          <a
+            *ngIf="router.url === '/storks/your-storks'"
+            class="card-footer-item"
+            [routerLink]="['/storks/edit', stork.id]"
+            >Edit</a
+          >
+          <a
+            *ngIf="
+              router.url.includes('/storks/edit/') ||
+              router.url === '/storks/register-stork'
+            "
+            class="card-footer-item"
+            (click)="onDelete(stork.id)"
+            >Delete</a
+          >
+        </footer>
       </div>
-      <footer class="card-footer">
-        <a class="card-footer-item" [routerLink]="['/storks/edit', stork.id]"
-          >Edit</a
-        >
-        <a class="card-footer-item" (click)="onDelete(stork.id)">Delete</a>
-      </footer>
     </div>
   </div>
   <ng-template #loggedOut>
-    Please <strong>Login</strong> To See Your Storks
+    <div class="container">
+      <div class="notification">
+        Please <strong>Login</strong> To See Your Storks
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #noRegisteredStorks>
+    <div *ngIf="router.url === '/storks/your-storks'">
+      <section class="section">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-half">
+              <div class="column is-half is-offset-one-quarter">
+                <figure>
+                  <img
+                    src="../../../assets/Stork_No_Storks_Found.png"
+                    width="300"
+                    height="500"
+                    alt="no-storks-found-image"
+                  />
+                </figure>
+              </div>
+              <div class="column is-half is-offset-one-quarter">
+                <div class="has-text-centered">
+                  You haven't registered a Stork device yet!
+                </div>
+              </div>
+
+              <div class="column is-half is-offset-one-quarter">
+                <a
+                  class="button is-primary is-fullwidth"
+                  [routerLink]="['/storks/register-stork']"
+                  >Register A Stork</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </ng-template>
 </nav>
+
+<!-- noRegisteredStorks -->
