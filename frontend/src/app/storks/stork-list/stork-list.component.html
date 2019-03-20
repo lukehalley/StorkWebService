@@ -32,7 +32,7 @@
                 </div>
               </div>
 
-              <div class="content">
+              <div *ngIf="router.url === '/storks/your-storks'" class="content">
                 <div class="columns">
                   <div class="column">
                     <p class="title is-4">Status</p>
@@ -107,7 +107,7 @@
                 </ng-template>
               </div>
             </div>
-            <div class="column">
+            <div *ngIf="router.url === '/storks/your-storks'" class="column">
               <agm-map
                 [zoom]="10"
                 [latitude]="stork.latitude"
@@ -122,10 +122,18 @@
           </div>
         </div>
         <footer class="card-footer">
-          <a class="card-footer-item" [routerLink]="['/storks/edit', stork.id]"
+          <a
+            *ngIf="router.url.includes('/storks/your-storks')"
+            class="card-footer-item"
+            [routerLink]="['/storks/edit', stork.id]"
             >Edit</a
           >
-          <a class="card-footer-item" (click)="onDelete(stork.id)">Delete</a>
+          <a
+            *ngIf="router.url === '/storks/register-stork'"
+            class="card-footer-item"
+            (click)="onDelete(stork.id)"
+            >Delete</a
+          >
         </footer>
       </div>
     </div>
@@ -137,39 +145,41 @@
       </div>
     </div>
   </ng-template>
+
   <ng-template #noRegisteredStorks>
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-half">
-            <div class="column is-half is-offset-one-quarter">
-              <figure>
-                <img
-                  src="../../../assets/Stork_No_Storks_Found.png"
-                  width="300"
-                  height="500"
-                  alt="no-storks-found-image"
-                />
-              </figure>
-            </div>
-
-            <div class="column is-half is-offset-one-quarter">
-              <div class="has-text-centered">
-                You haven't registered a Stork device yet!
+    <div *ngIf="router.url === '/storks/your-storks'">
+      <section class="section">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-half">
+              <div class="column is-half is-offset-one-quarter">
+                <figure>
+                  <img
+                    src="../../../assets/Stork_No_Storks_Found.png"
+                    width="300"
+                    height="500"
+                    alt="no-storks-found-image"
+                  />
+                </figure>
               </div>
-            </div>
+              <div class="column is-half is-offset-one-quarter">
+                <div class="has-text-centered">
+                  You haven't registered a Stork device yet!
+                </div>
+              </div>
 
-            <div class="column is-half is-offset-one-quarter">
-              <a
-                class="button is-primary is-fullwidth"
-                [routerLink]="['/storks/register-stork']"
-                >Register A Stork</a
-              >
+              <div class="column is-half is-offset-one-quarter">
+                <a
+                  class="button is-primary is-fullwidth"
+                  [routerLink]="['/storks/register-stork']"
+                  >Register A Stork</a
+                >
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </ng-template>
 </nav>
 

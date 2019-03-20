@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../../auth/auth.service';
 import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -25,10 +26,13 @@ export class StorkListComponent implements OnInit, OnDestroy {
   // Using Angular dependency injection
   constructor(
     public storksService: StorksService,
-    private authService: AuthService
+    private authService: AuthService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
+    console.log('URL IS: ' + this.router.url);
+
     this.storksSub = this.storksService
       .getStorksUpdateListener()
       .subscribe((storks: Stork[]) => {
