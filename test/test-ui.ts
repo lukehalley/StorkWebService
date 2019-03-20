@@ -247,13 +247,13 @@ test('Register, Edit and Delete A Stork', async t => {
     )
     .ok()
     // Delete Stork
-    .click(deleteStorkButton)
-    .expect(
-      Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
-    )
-    .notOk()
-    .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
-    .notOk()
+    // .click(deleteStorkButton)
+    // .expect(
+    //   Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
+    // )
+    // .notOk()
+    // .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
+    // .notOk()
     // Sign Out
     .click(logoutButton)
     .expect(getLocation())
