@@ -13,7 +13,7 @@ const pointSchema = new mongoose.Schema({
 });
 
 const storkSchema = mongoose.Schema({
-  stork_code: { type: String, required: true },
+  stork_code: { type: String, required: true, unique: true },
   nickname: { type: String, required: true },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
