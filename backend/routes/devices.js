@@ -8,8 +8,8 @@ const DeviceController = require('../controllers/devices');
 
 // Get list of registerable devices.
 router.get(
-  '/admin/available-devices',
-  DeviceController.getRegistrableStorkDevices
+  '/admin/available-device/:stork_code',
+  DeviceController.getRegistrableStorkDevice
 );
 
 module.exports = router;
