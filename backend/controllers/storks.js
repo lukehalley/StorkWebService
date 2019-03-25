@@ -23,12 +23,20 @@ exports.createStork = (req, res, next) => {
       });
     })
     .catch(e => {
-      console.error(e);
-      res.status(500).json({
-        message: 'Stork Registration Failed!',
-        comment: 'Please check you have correctly filled all fields.',
-        error: e
-      });
+      console.error('THE ERROR ->>>>>>' + e);
+      if (e.includes('duplicate key error')) {
+        res.status(500).json({
+          message: 'Stork Already Registered',
+          comment: 'The Stork code has already been registered by a user!',
+          error: e
+        });
+      } else {
+        res.status(500).json({
+          message: 'Stork Registration Failed!',
+          comment: 'Please check you have correctly filled all fields.',
+          error: e
+        });
+      }
     });
 };
 

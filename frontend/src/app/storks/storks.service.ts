@@ -93,7 +93,8 @@ export class StorksService {
           .subscribe(
             resData => {
               const id = resData.storkId;
-              if (id != null) {
+              const available = responseData.available;
+              if (id != null && available === 'true') {
                 stork.id = id;
                 // Only pushing if the response is sucessfull.
                 this.userId = this.authService.getUserId();
@@ -120,6 +121,8 @@ export class StorksService {
                       console.log('THIS DEVICE DOESNT EXIST - Error ' + error);
                     }
                   );
+              } else {
+                return;
               }
             },
             error => {
