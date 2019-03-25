@@ -32,7 +32,7 @@ exports.createStork = (req, res, next) => {
     });
 };
 
-// Get ALL Storks from the database and return them in the response
+// Get ALL Storks belong to a User from the database and return them in the response
 exports.getUserStorks = (req, res, next) => {
   Stork.find({ ownerId: req.params.ownerId })
     .then(documents => {

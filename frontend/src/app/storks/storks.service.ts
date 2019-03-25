@@ -43,6 +43,33 @@ export class StorksService {
       });
   }
 
+  getRegistrableStorkDevices() {
+    this.http
+      .get<{ message: string; storks: any }>(BACKEND_URL)
+      // Coverting the Storks we get back to match the formating of them in the MongoDB
+      // database - specifically the _id tag using a new map
+      .pipe(
+        map(storkData => {
+          return storkData.storks.map(stork => {
+            return {
+              stork_code: stork.stork_code,
+              nickname: stork.nickname,
+              id: stork._id,
+              ownerId: stork.ownerId,
+              gpsType: stork.gpsType,
+              latitude: stork.location.coordinates[0],
+              longitude: stork.location.coordinates[1],
+              statusCode: stork.statusCode
+            };
+          });
+        })
+      )
+      .subscribe(storks => {
+        this.storks = storks;
+        this.storksUpdated.next([...this.storks]);
+      });
+  }
+
   // This might not be working because its using the same url as get all above
   getStork(id: string) {
     // return { ...this.storks.find(s => s.id === id) };

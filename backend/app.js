@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const storkRoutes = require('./routes/storks');
 const userRoutes = require('./routes/users');
+const deviceRoutes = require('./routes/devices');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -39,5 +40,8 @@ app.use('/api/storks', storkRoutes);
 
 // Filter all routes going to /api/users to use storkRoutes.
 app.use('/api/users', userRoutes);
+
+// Filter all routes going to /api/users to use storkRoutes.
+app.use('/api/devices', deviceRoutes);
 
 module.exports = app;

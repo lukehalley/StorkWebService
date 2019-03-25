@@ -38,7 +38,6 @@ export class StorkCreateComponent implements OnInit {
           this.latitude = storkData.longitude;
           this.gpsType = storkData.gpsType;
           this.statusCode = storkData.statusCode;
-
           this.stork = {
             id: storkData._id,
             stork_code: storkData.stork_code,
