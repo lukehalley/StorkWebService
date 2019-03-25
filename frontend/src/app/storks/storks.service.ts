@@ -1,3 +1,5 @@
+import { Device } from './device.model';
+import { AuthService } from './../auth/auth.service';
 import { Stork } from './stork.model';
 import { Injectable } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
@@ -14,8 +16,13 @@ const BACKEND_URL_DEVICES = environment.apiUrl + '/devices';
 export class StorksService {
   private storks: Stork[] = [];
   private storksUpdated = new Subject<Stork[]>();
+  public userId: string;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   getStorks(userId: string) {
     this.http
@@ -76,7 +83,7 @@ export class StorksService {
       .get<{
         _id: string;
         storkCode: string;
-        available: Boolean;
+        available: string;
         ownerId: string;
       }>(BACKEND_URL_DEVICES + '/admin/available-device/' + stork_code)
       .subscribe(responseData => {
@@ -89,9 +96,30 @@ export class StorksService {
               if (id != null) {
                 stork.id = id;
                 // Only pushing if the response is sucessfull.
-                this.storks.push(stork);
-                this.storksUpdated.next([...this.storks]);
-                this.router.navigate(['/storks/your-storks']);
+                this.userId = this.authService.getUserId();
+                console.log('SETTING STORK OWNER AS: ' + this.userId);
+                const device: Device = {
+                  stork_code: stork_code,
+                  available: 'false',
+                  ownerId: this.userId
+                };
+                this.http
+                  .put(
+                    BACKEND_URL_DEVICES +
+                      '/admin/available-device/update/' +
+                      stork_code,
+                    device
+                  )
+                  .subscribe(
+                    response => {
+                      this.storks.push(stork);
+                      this.storksUpdated.next([...this.storks]);
+                      this.router.navigate(['/storks/your-storks']);
+                    },
+                    error => {
+                      console.log('THIS DEVICE DOESNT EXIST - Error ' + error);
+                    }
+                  );
               }
             },
             error => {

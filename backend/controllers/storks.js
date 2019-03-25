@@ -108,7 +108,7 @@ exports.updateStork = (req, res, next) => {
   });
 };
 
-// // Push data from a Stork device to its owners device.
+// Push data from a Stork device to its owners device.
 exports.pushData = (req, res, next) => {
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },

@@ -12,4 +12,17 @@ router.get(
   DeviceController.getRegistrableStorkDevice
 );
 
+// Create a User and send it to the database
+// to be stored.
+router.post(
+  '/admin/available-device/add',
+  DeviceController.addRegistrableStorkDevice
+);
+
+// Push data from a Stork device.
+router.put(
+  '/admin/available-device/update/:stork_code',
+  DeviceController.associateUser
+);
+
 module.exports = router;
