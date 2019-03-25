@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 // import { environment } from 'src/environments/environment';
 import { environment } from 'src/environments/environment.prod';
 
-const BACKEND_URL = environment.apiUrl + '/storks';
+const BACKEND_URL_STORKS = environment.apiUrl + '/storks';
+const BACKEND_URL_DEVICES = environment.apiUrl + '/devices';
 
 @Injectable({ providedIn: 'root' })
 export class StorksService {
@@ -18,7 +19,7 @@ export class StorksService {
 
   getStorks(userId: string) {
     this.http
-      .get<{ message: string; storks: any }>(BACKEND_URL + '/' + userId)
+      .get<{ message: string; storks: any }>(BACKEND_URL_STORKS + '/' + userId)
       // Coverting the Storks we get back to match the formating of them in the MongoDB
       // database - specifically the _id tag using a new map
       .pipe(
@@ -54,7 +55,7 @@ export class StorksService {
       latitude: number;
       longitude: number;
       statusCode: number;
-    }>(BACKEND_URL + '/one/' + id);
+    }>(BACKEND_URL_STORKS + '/one/' + id);
   }
 
   getStorksUpdateListener() {
@@ -72,13 +73,31 @@ export class StorksService {
       statusCode: null
     };
     this.http
-      .post<{ message: string; storkId: string }>(BACKEND_URL, stork)
+      .get<{
+        _id: string;
+        storkCode: string;
+        available: Boolean;
+        ownerId: string;
+      }>(BACKEND_URL_DEVICES + '/admin/available-device/' + stork_code)
       .subscribe(responseData => {
-        const id = responseData.storkId;
-        stork.id = id;
-        // Only pushing if the response is sucessfull.
-        this.storks.push(stork);
-        this.storksUpdated.next([...this.storks]);
+        const devId = responseData._id;
+        this.http
+          .post<{ message: string; storkId: string }>(BACKEND_URL_STORKS, stork)
+          .subscribe(
+            resData => {
+              const id = resData.storkId;
+              if (id != null) {
+                stork.id = id;
+                // Only pushing if the response is sucessfull.
+                this.storks.push(stork);
+                this.storksUpdated.next([...this.storks]);
+                this.router.navigate(['/storks/your-storks']);
+              }
+            },
+            error => {
+              console.log('THIS DEVICE DOESNT EXIST - Error ' + error);
+            }
+          );
       });
   }
 
@@ -101,7 +120,7 @@ export class StorksService {
       statusCode: statusCode
     };
 
-    this.http.put(BACKEND_URL + '/' + id, stork).subscribe(response => {
+    this.http.put(BACKEND_URL_STORKS + '/' + id, stork).subscribe(response => {
       const updatedStorks = [...this.storks];
       const oldStorkIndex = updatedStorks.findIndex(s => s.id === stork.id);
       updatedStorks[oldStorkIndex] = stork;
@@ -111,7 +130,7 @@ export class StorksService {
   }
 
   deleteStork(storkId: string) {
-    this.http.delete(BACKEND_URL + '/' + storkId).subscribe(() => {
+    this.http.delete(BACKEND_URL_STORKS + '/' + storkId).subscribe(() => {
       // Updating the stork list after a delete occurs.
       const updatedStorks = this.storks.filter(stork => stork.id !== storkId);
       this.storks = updatedStorks;

@@ -30,7 +30,10 @@ exports.getRegistrableStorkDevice = (req, res, next) => {
           'Got this stork back after getting with Stork Code: ' + stork
         );
       } else {
-        res.status(404).json({ message: 'AB1CD3 Stork Not Found!' });
+        res.status(404).json({
+          message: 'Invalid Stork Code Entered',
+          comment: 'Device With The Entered Stork Code Cannot Be Found!'
+        });
       }
     })
     .catch(e => {

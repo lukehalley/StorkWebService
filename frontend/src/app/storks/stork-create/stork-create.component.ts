@@ -75,7 +75,6 @@ export class StorkCreateComponent implements OnInit {
         );
       }
       form.resetForm();
-      this.router.navigate(['/storks/your-storks']);
     }
   }
 }
