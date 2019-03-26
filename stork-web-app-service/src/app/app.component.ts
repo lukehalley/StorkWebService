@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'stork';
+  storedStorks = [];
+
+  onStorkAdded(stork) {
+    this.storedStorks.push(stork);
+  }
 }
