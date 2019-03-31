@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@angular/common": "^7.2.10",
+    "axios": "^0.18.0",
     "faker": "^4.1.0",
     "testcafe": "^1.1.0"
   }

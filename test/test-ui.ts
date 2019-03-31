@@ -3,6 +3,9 @@ import { ClientFunction } from 'testcafe';
 const getLocation = ClientFunction(() => document.location.href);
 import * as faker from 'faker';
 
+import { addDevice } from './helpers/test-helpers';
+import { remDevice } from './helpers/test-helpers';
+
 const url = `http://87.44.18.111`;
 
 // tslint:disable-next-line:no-unused-expression
@@ -34,7 +37,7 @@ const editStorkButton = 'footer > a:nth-child(1)';
 const deleteStorkButton = 'footer > a:nth-child(2)';
 
 // Details to Create and Edit Stork.
-const storkId = 'AB1CD2';
+const storkId = 'AB1999';
 const storkIdEdit = 'AB1CD3';
 const storkNickname = 'YourNickname1234';
 const storkNicknameEdit = 'YourNickname4321';
@@ -76,6 +79,38 @@ const firstStorkListCardStorkCode = 'p.subtitle';
 
 // Other
 const selectAllAndDeleteField = 'ctrl+a delete';
+
+// fixture`Stork`.page`http://87.44.18.111`;
+
+// test
+//   .before(async t => {
+//     console.log('Associating Test Stork Device');
+//     const addDeviceFunc = await addDevice(storkId);
+//     addDeviceFunc;
+//     console.log('Associated Test Stork Device');
+//   })('Stork', async t => {
+//     .page`http://87.44.18.111`;
+//   })
+//   .after(async t => {
+//     console.log('Dissociating Test Stork Device');
+//     const remDeviceFunc = await remDevice(storkId);
+//     remDeviceFunc;
+//     console.log('Dissociated Test Stork Device');
+//   });
+
+fixture`Stork`.page`http://87.44.18.111`
+  .before(async t => {
+    console.log('Associating Test Stork Device');
+    const addDeviceFunc = await addDevice(storkId);
+    addDeviceFunc;
+    console.log('Associated Test Stork Device');
+  })
+  .after(async t => {
+    console.log('Dissociating Test Stork Device');
+    const remDeviceFunc = await remDevice(storkId);
+    remDeviceFunc;
+    console.log('Dissociated Test Stork Device');
+  });
 
 test('Valid Sign Up + Sign In With Valid Credentials', async t => {
   await t
@@ -246,15 +281,6 @@ test('Register, Edit and Delete A Stork', async t => {
       Selector(firstStorkListCardStorkCode).withExactText(storkIdEdit).exists
     )
     .ok()
-    // Delete Stork
-    // .click(deleteStorkButton)
-    // .expect(
-    //   Selector(firstStorkListCardNickname).withExactText(storkNickname).exists
-    // )
-    // .notOk()
-    // .expect(Selector(firstStorkListCardStorkCode).withExactText(storkId).exists)
-    // .notOk()
-    // Sign Out
     .click(logoutButton)
     .expect(getLocation())
     .contains('/login');

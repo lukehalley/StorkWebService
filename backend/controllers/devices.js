@@ -72,7 +72,7 @@ exports.associateUser = (req, res, next) => {
       if (err) {
         console.log('Error: ' + err);
         res.status(500).json({
-          message: 'Device Association with user Unsuccessful!',
+          message: 'Device association with user unsuccessful!',
           comment: 'Please check you have correctly filled all fields.',
           error: err
         });
@@ -84,4 +84,26 @@ exports.associateUser = (req, res, next) => {
       }
     }
   );
+};
+
+// Delete ONE Device from the database and return them in the response
+exports.dissociateUser = (req, res, next) => {
+  Device.deleteOne({ stork_code: req.params.stork_code })
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Device dissociation successful!' });
+      } else {
+        res
+          .status(401)
+          .json({ message: 'Not Authorised To Delete This Stork!' });
+      }
+    })
+    .catch(e => {
+      console.log('Error: ' + err);
+      res.status(500).json({
+        message: 'Device dissociation with user unsuccessful!',
+        comment: 'Please check you have correctly filled all fields.',
+        error: err
+      });
+    });
 };
