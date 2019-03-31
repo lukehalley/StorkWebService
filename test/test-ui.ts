@@ -37,7 +37,7 @@ const editStorkButton = 'footer > a:nth-child(1)';
 const deleteStorkButton = 'footer > a:nth-child(2)';
 
 // Details to Create and Edit Stork.
-const storkId = 'AB1999';
+const storkId = 'AB1CD8';
 const storkIdEdit = 'AB1CD3';
 const storkNickname = 'YourNickname1234';
 const storkNicknameEdit = 'YourNickname4321';
@@ -82,30 +82,14 @@ const selectAllAndDeleteField = 'ctrl+a delete';
 
 // fixture`Stork`.page`http://87.44.18.111`;
 
-// test
-//   .before(async t => {
-//     console.log('Associating Test Stork Device');
-//     const addDeviceFunc = await addDevice(storkId);
-//     addDeviceFunc;
-//     console.log('Associated Test Stork Device');
-//   })('Stork', async t => {
-//     .page`http://87.44.18.111`;
-//   })
-//   .after(async t => {
-//     console.log('Dissociating Test Stork Device');
-//     const remDeviceFunc = await remDevice(storkId);
-//     remDeviceFunc;
-//     console.log('Dissociated Test Stork Device');
-//   });
-
 fixture`Stork`.page`http://87.44.18.111`
-  .before(async t => {
-    console.log('Associating Test Stork Device');
+  .before(async ctx => {
+    console.log('Adding Stork Device...');
     const addDeviceFunc = await addDevice(storkId);
     addDeviceFunc;
-    console.log('Associated Test Stork Device');
+    console.log('Added Stork Device!!!');
   })
-  .after(async t => {
+  .after(async ctx => {
     console.log('Dissociating Test Stork Device');
     const remDeviceFunc = await remDevice(storkId);
     remDeviceFunc;
@@ -113,6 +97,10 @@ fixture`Stork`.page`http://87.44.18.111`
   });
 
 test('Valid Sign Up + Sign In With Valid Credentials', async t => {
+  console.log('Adding Stork Device...');
+  const addDeviceFunc = await addDevice(storkId);
+  addDeviceFunc;
+  console.log('Added Stork Device!!!');
   await t
     // Click the 'Don't have an account? Sign Up'
     .click(signUpPromptUnderLogin)
@@ -144,74 +132,74 @@ test('Valid Sign Up + Sign In With Valid Credentials', async t => {
     .contains('/login');
 });
 
-// test('Sign Up With A Duplicate Email', async t => {
-//   const signupErrorExists = Selector(popUpTitle).withExactText(
-//     signUpUnsuccessfulMessage
-//   ).exists;
-//   await t
-//     // Fill in the fields of the user but use the same Email as the above test.
-//     .click(signUpPromptUnderLogin)
-//     .typeText(usernameField, usernameInvalid)
-//     .typeText(emailField, emailValid)
-//     .typeText(passwordField, passInvalid)
-//     .typeText(firstNameField, fNameInvalid)
-//     .typeText(secondNameField, sNameInvalid)
-//     .typeText(addressField, addressInvalid)
-//     .typeText(phoneNumberField, phoneInvalid)
-//     .click(signupSubmitButton)
-//     // The pop error should appear with the message.
-//     .expect(signupErrorExists)
-//     .ok()
-//     .click(popUpOkButton);
-// });
+test('Sign Up With A Duplicate Email', async t => {
+  const signupErrorExists = Selector(popUpTitle).withExactText(
+    signUpUnsuccessfulMessage
+  ).exists;
+  await t
+    // Fill in the fields of the user but use the same Email as the above test.
+    .click(signUpPromptUnderLogin)
+    .typeText(usernameField, usernameInvalid)
+    .typeText(emailField, emailValid)
+    .typeText(passwordField, passInvalid)
+    .typeText(firstNameField, fNameInvalid)
+    .typeText(secondNameField, sNameInvalid)
+    .typeText(addressField, addressInvalid)
+    .typeText(phoneNumberField, phoneInvalid)
+    .click(signupSubmitButton)
+    // The pop error should appear with the message.
+    .expect(signupErrorExists)
+    .ok()
+    .click(popUpOkButton);
+});
 
-// test('Sign Up With A Duplicate Username', async t => {
-//   // Sign in with a correct password but a wrong email.
-//   const signupErrorExists = Selector(popUpTitle).withExactText(
-//     signUpUnsuccessfulMessage
-//   ).exists;
-//   await t
-//     // Fill in the fields of the user but use the same Username as the above test.
-//     .click(signUpPromptUnderLogin)
-//     .typeText(usernameField, usernameValid)
-//     .typeText(emailField, emailInvalid)
-//     .typeText(passwordField, passInvalid)
-//     .typeText(firstNameField, fNameInvalid)
-//     .typeText(secondNameField, sNameInvalid)
-//     .typeText(addressField, addressInvalid)
-//     .typeText(phoneNumberField, phoneInvalid)
-//     .click(signupSubmitButton)
-//     // The pop error should appear with the message.
-//     .expect(signupErrorExists)
-//     .ok()
-//     .click(popUpOkButton);
-// });
+test('Sign Up With A Duplicate Username', async t => {
+  // Sign in with a correct password but a wrong email.
+  const signupErrorExists = Selector(popUpTitle).withExactText(
+    signUpUnsuccessfulMessage
+  ).exists;
+  await t
+    // Fill in the fields of the user but use the same Username as the above test.
+    .click(signUpPromptUnderLogin)
+    .typeText(usernameField, usernameValid)
+    .typeText(emailField, emailInvalid)
+    .typeText(passwordField, passInvalid)
+    .typeText(firstNameField, fNameInvalid)
+    .typeText(secondNameField, sNameInvalid)
+    .typeText(addressField, addressInvalid)
+    .typeText(phoneNumberField, phoneInvalid)
+    .click(signupSubmitButton)
+    // The pop error should appear with the message.
+    .expect(signupErrorExists)
+    .ok()
+    .click(popUpOkButton);
+});
 
-// test('Sign In With Invalid Email', async t => {
-//   // Sign in with a correct password but a wrong email.
-//   const loginErrorExists = Selector(popUpTitle).withExactText(
-//     loginUnsuccessfulMessage
-//   ).exists;
-//   await t
-//     .typeText(emailField, 'stork@ireland.ie')
-//     .typeText(passwordField, passValid)
-//     .click(loginSubmitButton)
-//     .expect(loginErrorExists)
-//     .ok();
-// });
+test('Sign In With Invalid Email', async t => {
+  // Sign in with a correct password but a wrong email.
+  const loginErrorExists = Selector(popUpTitle).withExactText(
+    loginUnsuccessfulMessage
+  ).exists;
+  await t
+    .typeText(emailField, 'stork@ireland.ie')
+    .typeText(passwordField, passValid)
+    .click(loginSubmitButton)
+    .expect(loginErrorExists)
+    .ok();
+});
 
-// test('Sign In With Invalid Password', async t => {
-//   // Sign in with a correct email but a wrong password.
-//   const loginErrorExists = Selector(popUpTitle).withExactText(
-//     loginUnsuccessfulMessage
-//   ).exists;
-//   await t
-//     .typeText(emailField, emailValid)
-//     .typeText(passwordField, 'wrongpassword')
-//     .click(loginSubmitButton)
-//     .expect(loginErrorExists)
-//     .ok();
-// });
+test('Sign In With Invalid Password', async t => {
+  // Sign in with a correct email but a wrong password.
+  const loginErrorExists = Selector(popUpTitle).withExactText(
+    loginUnsuccessfulMessage
+  ).exists;
+  await t
+    .typeText(emailField, emailValid)
+    .typeText(passwordField, 'wrongpassword')
+    .click(loginSubmitButton)
+    .expect(loginErrorExists)
+    .ok();
+});
 
 test('Register, Edit and Delete A Stork', async t => {
   await t
@@ -272,10 +260,6 @@ test('Register, Edit and Delete A Stork', async t => {
     .expect(
       Selector(firstStorkListCardNickname).withExactText(storkNicknameEdit)
         .exists
-    )
-    .ok()
-    .expect(
-      Selector(firstStorkListCardStorkCode).withExactText(storkIdEdit).exists
     )
     .ok()
     .click(logoutButton)

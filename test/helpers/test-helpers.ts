@@ -22,5 +22,7 @@ export async function addDevice(code) {
 }
 
 export async function remDevice(code) {
-  return axios.delete(deleteUrl + code, { data: {} });
+  return axios.delete(deleteUrl + code, {
+    params: { foo: 'bar' }
+  });
 }

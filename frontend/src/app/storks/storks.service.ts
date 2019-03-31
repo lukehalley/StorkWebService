@@ -157,6 +157,7 @@ export class StorksService {
       updatedStorks[oldStorkIndex] = stork;
       this.storks = updatedStorks;
       this.storksUpdated.next([...this.storks]);
+      this.router.navigate(['/storks/your-storks']);
     });
   }
 
