@@ -14,10 +14,10 @@ export async function addDevice(code) {
       ownerId: null
     })
     .then(function(response) {
-      console.log(response);
+      console.log('Device Registered Successfully');
     })
     .catch(function(error) {
-      console.error(error);
+      console.error('Device Registered Unsuccessfully!');
     });
 }
 
@@ -27,9 +27,9 @@ export async function remDevice(code) {
       params: { foo: 'bar' }
     })
     .then(function(response) {
-      console.log(response);
+      console.log('Device Deleted Successfully');
     })
     .catch(function(error) {
-      console.error(error);
+      console.log('Device Deleted Unsuccessfully!');
     });
 }
