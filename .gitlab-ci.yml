@@ -3,5 +3,5 @@ ui-tests:
     name: testcafe/testcafe
     entrypoint: ['/bin/sh', '-c']
   script:
-    - npm install faker
+    - npm install
     - /opt/testcafe/docker/testcafe-docker.sh "chromium:headless" test/test-ui.ts
