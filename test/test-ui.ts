@@ -61,6 +61,8 @@ const phoneNumberField = 'input[name="inputUserSignUpPhoneNumber"]';
 const signupSubmitButton = 'p > button[type="submit"]';
 const loginSubmitButton = 'form > button[type="submit"]';
 const logoutButton = '#storkNavbar > div.navbar-end > div > div > a > strong';
+const deleteStork =
+  'body > app-root > app-stork-create > div > div > div.tile.is-5.is-vertical.is-parent > div > app-stork-list > nav > div > div > div > footer > a';
 
 // Pop Up Selectors
 const popUpOkButton =
@@ -82,19 +84,26 @@ const selectAllAndDeleteField = 'ctrl+a delete';
 
 // fixture`Stork`.page`http://87.44.18.111`;
 
-fixture`Stork`.page`http://87.44.18.111`
-  .before(async ctx => {
-    console.log('Adding Stork Device...');
-    const addDeviceFunc = await addDevice(storkId);
-    addDeviceFunc;
-  })
-  .after(async ctx => {
-    console.log('Dissociating Test Stork Device');
-    const remDeviceFunc = await remDevice(storkId);
-    remDeviceFunc;
-  });
+fixture`Stork`.page`http://87.44.18.111`;
+// .before(async ctx => {
+//   console.log('BEFORE: ');
+//   // Remove the device just in case it exists
+//   await remDevice(storkId);
+//   // Add the device
+//   await addDevice(storkId);
+// })
+// .after(async ctx => {
+//   console.log('AFTER: ');
+//   // Remove the user
+//   await remDevice(storkId);
+// });
 
 test('Valid Sign Up + Sign In With Valid Credentials', async t => {
+  console.log('BEFORE: ');
+  // Remove the device just in case it exists
+  await remDevice(storkId);
+  // Add the device
+  await addDevice(storkId);
   await t
     // Click the 'Don't have an account? Sign Up'
     .click(signUpPromptUnderLogin)
@@ -256,8 +265,16 @@ test('Register, Edit and Delete A Stork', async t => {
         .exists
     )
     .ok()
-    .click(deleteStorkButton)
+    // Click the edit button on the first Stork card.
+    .click(editStorkButton)
+    .expect(getLocation())
+    // The user should be brought to the edit page.
+    .contains('/storks/edit/')
+    .click(deleteStork)
     .click(logoutButton)
     .expect(getLocation())
     .contains('/login');
+  console.log('AFTER: ');
+  // Remove the user
+  await remDevice(storkId);
 });

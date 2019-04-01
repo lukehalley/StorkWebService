@@ -4,7 +4,7 @@ const Device = require('../models/device.js');
 // This route should only be used by an admin.
 exports.addRegistrableStorkDevice = (req, res, next) => {
   const regDevice = new Device({
-    stork_code: req.body.stork_code,
+    dev_code: req.body.dev_code,
     available: req.body.available,
     ownerId: null
   });
@@ -30,9 +30,9 @@ exports.addRegistrableStorkDevice = (req, res, next) => {
 // Get one Stork Device from the database and return them in the response. This is used
 // for when a user wants to register their device to ensure the device is available.
 exports.getRegistrableStorkDevice = (req, res, next) => {
-  Device.findOne({ stork_code: req.params.stork_code })
+  Device.findOne({ dev_code: req.params.dev_code })
     .then(stork => {
-      console.log('GETTING STORK WITH STORK CODE OF: ' + req.params.stork_code);
+      console.log('GETTING STORK WITH STORK CODE OF: ' + req.params.dev_code);
       if (stork) {
         res.status(200).json(stork);
         console.log(
@@ -58,10 +58,10 @@ exports.getRegistrableStorkDevice = (req, res, next) => {
 // Associate a User after they registered a Stork device to their account successfully
 exports.associateUser = (req, res, next) => {
   Device.findOneAndUpdate(
-    { stork_code: req.params.stork_code },
+    { dev_code: req.params.dev_code },
     {
       $set: {
-        stork_code: req.params.stork_code,
+        dev_code: req.params.dev_code,
         available: req.body.available,
         statusCode: req.body.statusCode,
         ownerId: req.body.ownerId
@@ -88,7 +88,7 @@ exports.associateUser = (req, res, next) => {
 
 // Delete ONE Device from the database and return them in the response
 exports.dissociateUser = (req, res, next) => {
-  Device.deleteOne({ stork_code: req.params.stork_code })
+  Device.deleteOne({ dev_code: req.params.dev_code })
     .then(result => {
       if (result.n > 0) {
         res.status(200).json({ message: 'Device dissociation successful!' });
