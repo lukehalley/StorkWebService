@@ -25,4 +25,10 @@ router.put(
   DeviceController.associateUser
 );
 
+// Delete ONE Stork from the database and return them in the response
+router.delete(
+  '/admin/available-device/delete/:stork_code',
+  DeviceController.dissociateUser
+);
+
 module.exports = router;
