@@ -262,6 +262,7 @@ test('Register, Edit and Delete A Stork', async t => {
         .exists
     )
     .ok()
+    .click(deleteStorkButton)
     .click(logoutButton)
     .expect(getLocation())
     .contains('/login');
