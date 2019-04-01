@@ -9,15 +9,15 @@ const deleteUrl =
 export async function addDevice(code) {
   return axios
     .post(createUrl, {
-      stork_code: code,
+      dev_code: code,
       available: 'true',
       ownerId: null
     })
     .then(function(response) {
-      console.log(response);
+      console.log('Device REGISTER Successfull');
     })
     .catch(function(error) {
-      console.error(error);
+      console.error('Device REGISTER Unsuccessfull!');
     });
 }
 
@@ -27,9 +27,11 @@ export async function remDevice(code) {
       params: { foo: 'bar' }
     })
     .then(function(response) {
-      console.log(response);
+      console.log('Device DELETE Successfull');
     })
     .catch(function(error) {
-      console.error(error);
+      console.log(
+        'Device DELETE Unsuccessfull! (More than likely the device doesnt exists)'
+      );
     });
 }

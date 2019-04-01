@@ -8,7 +8,7 @@ const DeviceController = require('../controllers/devices');
 
 // Get list of registerable devices.
 router.get(
-  '/admin/available-device/:stork_code',
+  '/admin/available-device/:dev_code',
   DeviceController.getRegistrableStorkDevice
 );
 
@@ -21,13 +21,13 @@ router.post(
 
 // Push data from a Stork device.
 router.put(
-  '/admin/available-device/update/:stork_code',
+  '/admin/available-device/update/:dev_code',
   DeviceController.associateUser
 );
 
 // Delete ONE Stork from the database and return them in the response
 router.delete(
-  '/admin/available-device/delete/:stork_code',
+  '/admin/available-device/delete/:dev_code',
   DeviceController.dissociateUser
 );
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const deviceSchema = mongoose.Schema({
-  stork_code: { type: String, required: true, unique: true },
+  dev_code: { type: String, required: true, unique: true },
   available: { type: String, required: true },
   ownerId: { type: String, required: false }
 });
