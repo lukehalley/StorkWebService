@@ -87,20 +87,14 @@ fixture`Stork`.page`http://87.44.18.111`
     console.log('Adding Stork Device...');
     const addDeviceFunc = await addDevice(storkId);
     addDeviceFunc;
-    console.log('Added Stork Device!!!');
   })
   .after(async ctx => {
     console.log('Dissociating Test Stork Device');
     const remDeviceFunc = await remDevice(storkId);
     remDeviceFunc;
-    console.log('Dissociated Test Stork Device');
   });
 
 test('Valid Sign Up + Sign In With Valid Credentials', async t => {
-  console.log('Adding Stork Device...');
-  const addDeviceFunc = await addDevice(storkId);
-  addDeviceFunc;
-  console.log('Added Stork Device!!!');
   await t
     // Click the 'Don't have an account? Sign Up'
     .click(signUpPromptUnderLogin)
