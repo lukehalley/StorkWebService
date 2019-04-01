@@ -17,12 +17,19 @@ export async function addDevice(code) {
       console.log(response);
     })
     .catch(function(error) {
-      console.log(error);
+      console.error(error);
     });
 }
 
 export async function remDevice(code) {
-  return axios.delete(deleteUrl + code, {
-    params: { foo: 'bar' }
-  });
+  return axios
+    .delete(deleteUrl + code, {
+      params: { foo: 'bar' }
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.error(error);
+    });
 }
