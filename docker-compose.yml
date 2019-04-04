@@ -1,24 +1,24 @@
-version: "3.0" # specify docker-compose version
+version: '3.0' # specify docker-compose version
 
 # Define the services/ containers to be run
 services:
   angular: # name of the first service
     build: frontend # specify the directory of the Dockerfile
     ports:
-      - "80:80" # specify port mapping
-    # volumes:
-    #   - ./:/stork
+      - '80:80' # specify port mapping
+      - '443:443' # specify port mapping
+    volumes:
+      - ./letsencrypt-live:/etc/letsencrypt/live
 
   express: # name of the second service
     build: backend # specify the directory of the Dockerfile
     ports:
-      - "3000:3000" #specify ports mapping
+      - '3000:3000' #specify ports mapping
     links:
       - database # link this service to the database service
-    # volumes:
-    #   - ./:./
 
   database: # name of the third service
     image: mongo # specify image to build container from
     ports:
-      - "27017:27017" # specify port forwarding
+      - '27017:27017' # specify port forwarding
+
