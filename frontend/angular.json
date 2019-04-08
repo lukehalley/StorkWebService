@@ -18,7 +18,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/assets", "src/assets/favicon.png"],
             "styles": [
               "src/assets/bulma.css",
               "src/app/storks/stork-list/stork-list.component.css",
