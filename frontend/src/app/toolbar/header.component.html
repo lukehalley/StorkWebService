@@ -10,13 +10,15 @@
       aria-label="menu"
       aria-expanded="false"
       data-target="storkNavbar"
+      [class.is-active]="showBurgerMenu"
+      (click)="showBurgerMenu = !showBurgerMenu"
     >
       <span aria-hidden="true"></span> <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
 
-  <div id="storkNavbar" class="navbar-menu">
+  <div id="storkNavbar" class="navbar-menu" [class.is-active]="showBurgerMenu">
     <div class="navbar-start">
       <a
         *ngIf="userIsAuthenticated"
@@ -39,25 +41,25 @@
       <div class="navbar-item">
         <div class="buttons">
           <a
-            *ngIf="!userIsAuthenticated"
+            *ngIf="!userIsAuthenticated && router.url != '/sign-up'"
             [routerLink]="['/sign-up']"
             class="button is-primary"
           >
-            <strong>Sign up</strong>
+            <strong>Sign Up</strong>
           </a>
           <a
-            *ngIf="!userIsAuthenticated"
+            *ngIf="!userIsAuthenticated && router.url === '/sign-up'"
             [routerLink]="['/login']"
             class="button is-primary"
           >
-            <strong>Log in</strong>
+            <strong>Log In</strong>
           </a>
           <a
             *ngIf="userIsAuthenticated"
             (click)="onLogout()"
             class="button is-primary"
           >
-            <strong>Logout</strong>
+            <strong>Log Out</strong>
           </a>
         </div>
       </div>
