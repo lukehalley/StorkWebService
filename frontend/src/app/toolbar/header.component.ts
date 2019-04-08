@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 export class StorkHeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
+  showBurgerMenu: boolean;
 
   constructor(private authService: AuthService, public router: Router) {}
 
