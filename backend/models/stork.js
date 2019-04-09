@@ -14,6 +14,7 @@ const pointSchema = new mongoose.Schema({
 
 const storkSchema = mongoose.Schema({
   stork_code: { type: String, required: true, unique: true },
+  lastSeen: { type: String, default: 'No Communication Has Occured Yet.' },
   nickname: { type: String, required: true },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,

@@ -35,6 +35,7 @@ export class StorksService {
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
+              lastSeen: stork.lastSeen,
               id: stork._id,
               ownerId: stork.ownerId,
               gpsType: stork.gpsType,
@@ -57,6 +58,7 @@ export class StorksService {
     return this.http.get<{
       _id: string;
       stork_code: string;
+      lastSeen: string;
       nickname: string;
       gpsType: string;
       latitude: number;
@@ -73,6 +75,7 @@ export class StorksService {
     const stork: Stork = {
       id: null,
       stork_code: stork_code,
+      lastSeen: null,
       nickname: nickname,
       gpsType: null,
       latitude: null,
@@ -135,6 +138,7 @@ export class StorksService {
   updateStork(
     id: string,
     stork_code: string,
+    lastSeen: string,
     nickname: string,
     gpsType: string,
     lat: number,
@@ -144,13 +148,13 @@ export class StorksService {
     const stork: Stork = {
       id: id,
       stork_code: stork_code,
+      lastSeen: lastSeen,
       nickname: nickname,
       gpsType: gpsType,
       latitude: lat,
       longitude: long,
       statusCode: statusCode
     };
-
     this.http.put(BACKEND_URL_STORKS + '/' + id, stork).subscribe(response => {
       const updatedStorks = [...this.storks];
       const oldStorkIndex = updatedStorks.findIndex(s => s.id === stork.id);
