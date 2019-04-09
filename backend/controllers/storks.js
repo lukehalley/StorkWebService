@@ -123,8 +123,8 @@ exports.pushData = (req, res, next) => {
   const curr = new Date();
   const date =
     curr.getDate() + '/' + (curr.getMonth() + 1) + '/' + curr.getFullYear();
-  const time =
-    curr.getHours() + ':' + curr.getMinutes() + ':' + curr.getSeconds();
+  h = curr.getHours() + 1;
+  const time = h + ':' + curr.getMinutes() + ':' + curr.getSeconds();
   const dateTime = time + ' ' + date;
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },
