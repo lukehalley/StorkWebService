@@ -4,6 +4,7 @@ const Stork = require('../models/stork.js');
 exports.createStork = (req, res, next) => {
   const stork = new Stork({
     stork_code: req.body.stork_code,
+    lastSeen: req.body.lastseen,
     nickname: req.body.nickname,
     ownerId: req.userData.userId,
     location: {
@@ -86,6 +87,7 @@ exports.updateStork = (req, res, next) => {
   const stork = new Stork({
     _id: req.body.id,
     stork_code: req.body.stork_code,
+    lastSeen: req.body.lastseen,
     nickname: req.body.nickname,
     location: req.body.location,
     statusCode: req.body.statusCode
@@ -118,13 +120,20 @@ exports.updateStork = (req, res, next) => {
 
 // Push data from a Stork device to its owners device.
 exports.pushData = (req, res, next) => {
+  const curr = new Date();
+  const date =
+    curr.getDate() + '/' + (curr.getMonth() + 1) + '/' + curr.getFullYear();
+  h = curr.getHours() + 1;
+  const time = h + ':' + curr.getMinutes() + ':' + curr.getSeconds();
+  const dateTime = time + ' ' + date;
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },
     {
       $set: {
         'location.type': req.body.location.type,
         'location.coordinates': req.body.location.coordinates,
-        statusCode: req.body.statusCode
+        statusCode: req.body.statusCode,
+        lastSeen: dateTime
       }
     },
     { new: true },

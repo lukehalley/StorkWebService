@@ -15,6 +15,7 @@ export class StorkCreateComponent implements OnInit {
   public editMode = false;
   public isLoading = false;
   private storkId: string;
+  private lastSeen: string;
   private gpsType: string;
   private latitude: number;
   private longitude: number;
@@ -37,10 +38,12 @@ export class StorkCreateComponent implements OnInit {
           this.latitude = storkData.latitude;
           this.latitude = storkData.longitude;
           this.gpsType = storkData.gpsType;
+          this.lastSeen = storkData.lastSeen;
           this.statusCode = storkData.statusCode;
           this.stork = {
             id: storkData._id,
             stork_code: storkData.stork_code,
+            lastSeen: storkData.lastSeen,
             nickname: storkData.nickname,
             gpsType: this.gpsType,
             latitude: this.latitude,
@@ -62,6 +65,7 @@ export class StorkCreateComponent implements OnInit {
         this.storksService.updateStork(
           this.storkId,
           form.value.inputStorkID,
+          this.lastSeen,
           form.value.inputStorkNickname,
           this.gpsType,
           this.latitude,

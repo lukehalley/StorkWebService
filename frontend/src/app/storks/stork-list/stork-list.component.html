@@ -98,7 +98,7 @@
                   *ngIf="stork.longitude; else noLastSeen"
                   class="subtitle is-6"
                 >
-                  12:00 PM - 5 Jan 2019
+                  {{ stork.lastSeen }}
                 </p>
                 <ng-template #noLastSeen>
                   <p class="subtitle is-6">
@@ -109,7 +109,7 @@
             </div>
             <div *ngIf="router.url === '/storks/your-storks'" class="column">
               <agm-map
-                [zoom]="6"
+                [zoom]="9"
                 [latitude]="stork.latitude"
                 [longitude]="stork.longitude"
               >
