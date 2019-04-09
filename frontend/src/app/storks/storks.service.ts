@@ -2,7 +2,7 @@ import { Device } from './device.model';
 import { AuthService } from './../auth/auth.service';
 import { Stork } from './stork.model';
 import { Injectable } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -17,6 +17,7 @@ export class StorksService {
   private storks: Stork[] = [];
   private storksUpdated = new Subject<Stork[]>();
   public userId: string;
+  public cords: Coordinates[] = [];
 
   constructor(
     private http: HttpClient,
@@ -87,7 +88,6 @@ export class StorksService {
         ownerId: string;
       }>(BACKEND_URL_DEVICES + '/admin/available-device/' + stork_code)
       .subscribe(responseData => {
-        const devId = responseData._id;
         this.http
           .post<{ message: string; storkId: string }>(BACKEND_URL_STORKS, stork)
           .subscribe(
@@ -112,7 +112,7 @@ export class StorksService {
                     device
                   )
                   .subscribe(
-                    response => {
+                    () => {
                       this.storks.push(stork);
                       this.storksUpdated.next([...this.storks]);
                       this.router.navigate(['/storks/your-storks']);
@@ -151,7 +151,7 @@ export class StorksService {
       statusCode: statusCode
     };
 
-    this.http.put(BACKEND_URL_STORKS + '/' + id, stork).subscribe(response => {
+    this.http.put(BACKEND_URL_STORKS + '/' + id, stork).subscribe(() => {
       const updatedStorks = [...this.storks];
       const oldStorkIndex = updatedStorks.findIndex(s => s.id === stork.id);
       updatedStorks[oldStorkIndex] = stork;

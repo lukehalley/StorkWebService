@@ -15,6 +15,12 @@ import { AgmMap } from '@agm/core';
 export class StorkListComponent implements OnInit, OnDestroy {
   storks: Stork[] = [];
 
+  lat: Number = 24.7994;
+  lng: Number = 120.9791;
+
+  origin = { lat: 24.7994, lng: 120.9791 };
+  destination = { lat: 24.7995, lng: 120.9755 };
+
   private storksSub: Subscription;
   private authStatusSub: Subscription;
   public userIsAuthenticated: boolean;
@@ -31,8 +37,6 @@ export class StorkListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('URL IS: ' + this.router.url);
-
     this.storksSub = this.storksService
       .getStorksUpdateListener()
       .subscribe((storks: Stork[]) => {

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StorkRoutingModule } from './stork-routing-module';
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 
 @NgModule({
   declarations: [StorkCreateComponent, StorkListComponent],
@@ -16,7 +17,8 @@ import { AgmCoreModule } from '@agm/core';
     StorkRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCbws0OJ-RtW-7lb3CyoqoObud2ipblcso'
-    })
+    }),
+    AgmDirectionModule
   ]
 })
 export class StorksModule {}
