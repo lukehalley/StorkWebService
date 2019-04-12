@@ -20,6 +20,8 @@ export class StorkCreateComponent implements OnInit {
   private latitude: number;
   private longitude: number;
   private statusCode: number;
+  private temperature: number;
+  private humidity: number;
   stork: Stork;
 
   constructor(
@@ -48,7 +50,9 @@ export class StorkCreateComponent implements OnInit {
             gpsType: this.gpsType,
             latitude: this.latitude,
             longitude: this.longitude,
-            statusCode: this.statusCode
+            statusCode: this.statusCode,
+            temperature: this.temperature,
+            humidity: this.humidity
           };
         });
       } else {
@@ -70,7 +74,9 @@ export class StorkCreateComponent implements OnInit {
           this.gpsType,
           this.latitude,
           this.longitude,
-          this.statusCode
+          this.statusCode,
+          this.temperature,
+          this.humidity
         );
       } else {
         this.storksService.addStork(

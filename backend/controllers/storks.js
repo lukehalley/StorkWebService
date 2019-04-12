@@ -11,7 +11,9 @@ exports.createStork = (req, res, next) => {
       type: 'Point',
       coordinates: [null, null]
     },
-    statusCode: 3
+    statusCode: 0,
+    temperature: req.body.temperature,
+    humidity: req.body.humidity
   });
   console.log(stork);
   stork
@@ -90,7 +92,9 @@ exports.updateStork = (req, res, next) => {
     lastSeen: req.body.lastseen,
     nickname: req.body.nickname,
     location: req.body.location,
-    statusCode: req.body.statusCode
+    statusCode: req.body.statusCode,
+    temperature: req.body.temperature,
+    humidity: req.body.humidity
   });
   Stork.updateOne(
     { _id: req.params.id, ownerId: req.userData.userId },
@@ -130,10 +134,12 @@ exports.pushData = (req, res, next) => {
     { stork_code: req.params.stork_code },
     {
       $set: {
+        lastSeen: dateTime,
         'location.type': req.body.location.type,
         'location.coordinates': req.body.location.coordinates,
         statusCode: req.body.statusCode,
-        lastSeen: dateTime
+        temperature: req.body.temperature,
+        humidity: req.body.humidity
       }
     },
     { new: true },

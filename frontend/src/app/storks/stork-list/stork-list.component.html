@@ -70,7 +70,7 @@
                       *ngIf="stork.latitude; else noTemperature"
                       class="subtitle is-6 is-spaced"
                     >
-                      21 °C
+                      {{ stork.temperature }}°C
                     </p>
                     <ng-template #noTemperature>
                       <p class="subtitle is-6 is-spaced">
@@ -83,7 +83,7 @@
                       *ngIf="stork.longitude; else noHumidity"
                       class="subtitle is-6 is-spaced"
                     >
-                      50%
+                      {{ stork.humidity }}%
                     </p>
                     <ng-template #noHumidity>
                       <p class="subtitle is-6 is-spaced">
