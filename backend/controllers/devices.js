@@ -18,7 +18,6 @@ exports.addRegistrableStorkDevice = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log('Error: ' + err);
       res.status(500).json({
         message: 'Device Add For Registration Unsuccessful!',
         comment: 'Please check you have correctly filled all fields.',
@@ -32,12 +31,8 @@ exports.addRegistrableStorkDevice = (req, res, next) => {
 exports.getRegistrableStorkDevice = (req, res, next) => {
   Device.findOne({ dev_code: req.params.dev_code })
     .then(stork => {
-      console.log('GETTING STORK WITH STORK CODE OF: ' + req.params.dev_code);
       if (stork) {
         res.status(200).json(stork);
-        console.log(
-          'Got this stork back after getting with Stork Code: ' + stork
-        );
       } else {
         res.status(404).json({
           message: 'Invalid Stork Code Entered',
@@ -46,7 +41,6 @@ exports.getRegistrableStorkDevice = (req, res, next) => {
       }
     })
     .catch(e => {
-      console.error(e);
       res.status(500).json({
         message: 'Stork Retrival Failed!',
         comment: 'Failed To Get A Document From Database!',
@@ -70,7 +64,6 @@ exports.associateUser = (req, res, next) => {
     { upsert: true },
     (err, doc) => {
       if (err) {
-        console.log('Error: ' + err);
         res.status(500).json({
           message: 'Device association with user unsuccessful!',
           comment: 'Please check you have correctly filled all fields.',
@@ -99,7 +92,6 @@ exports.dissociateUser = (req, res, next) => {
       }
     })
     .catch(e => {
-      console.log('Error: ' + err);
       res.status(500).json({
         message: 'Device dissociation with user unsuccessful!',
         comment: 'Please check you have correctly filled all fields.',

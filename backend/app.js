@@ -15,8 +15,7 @@ mongoose
     console.log('Connected to ' + process.env.MONGO_DATABASE + ' Database!');
   })
   .catch(e => {
-    console.error('Connection Failed Database!');
-    console.log(e);
+    console.log('Connection Failed Database! ' + e);
   });
 
 app.use(bodyParser.json());

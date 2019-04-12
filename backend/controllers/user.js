@@ -27,7 +27,6 @@ exports.createUser = (req, res, next) => {
         });
       })
       .catch(err => {
-        console.log('Error: ' + err);
         res.status(500).json({
           message: 'Sign Up Unsuccessful!',
           comment:
@@ -43,8 +42,6 @@ exports.loginUser = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
-        console.error('User is null');
-
         return res.status(401).json({
           message: 'Login Unsuccessful!',
           comment:
@@ -56,8 +53,6 @@ exports.loginUser = (req, res, next) => {
     })
     .then(result => {
       if (!result) {
-        console.error('no result');
-
         return res.status(401).json({
           message: 'Login Unsuccessful!',
           comment:
@@ -77,7 +72,6 @@ exports.loginUser = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.error('Catch: ' + err);
       return res.status(401).json({
         message: 'Login Unsuccessful!',
         comment:

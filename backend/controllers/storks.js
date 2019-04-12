@@ -15,7 +15,6 @@ exports.createStork = (req, res, next) => {
     temperature: req.body.temperature,
     humidity: req.body.humidity
   });
-  console.log(stork);
   stork
     .save()
     .then(createdStork => {
@@ -26,7 +25,6 @@ exports.createStork = (req, res, next) => {
       });
     })
     .catch(e => {
-      console.error('THE ERROR ->>>>>>' + e);
       if (e.includes('duplicate key error')) {
         res.status(500).json({
           message: 'Stork Already Registered',
@@ -66,16 +64,13 @@ exports.getUserStorks = (req, res, next) => {
 exports.getOneStork = (req, res, next) => {
   Stork.findById({ _id: req.params.id })
     .then(stork => {
-      console.log('GETTING STORK WITH ID OF: ' + req.params.id);
       if (stork) {
         res.status(200).json(stork);
-        console.log('Got this stork back after getOneStork: ' + stork);
       } else {
         res.status(404).json({ message: 'Stork Not Found!' });
       }
     })
     .catch(e => {
-      console.error(e);
       res.status(500).json({
         message: 'Stork Retrival Failed!',
         comment: 'Failed To Get A Document From Database!',
@@ -145,7 +140,10 @@ exports.pushData = (req, res, next) => {
     { new: true },
     (err, doc) => {
       if (err) {
-        console.error('Update Error: ' + err);
+        res.status(400).json({
+          message: 'Error Pushing Data From Stork',
+          error: err
+        });
       } else {
         res.status(200).json({
           message: 'Stork Updated Sucessfully',
