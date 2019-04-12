@@ -12,6 +12,7 @@ exports.createStork = (req, res, next) => {
       coordinates: [null, null]
     },
     statusCode: 0,
+    statusMessage: 'Device Status Unknown.',
     temperature: req.body.temperature,
     humidity: req.body.humidity
   });
@@ -88,6 +89,7 @@ exports.updateStork = (req, res, next) => {
     nickname: req.body.nickname,
     location: req.body.location,
     statusCode: req.body.statusCode,
+    statusMessage: req.body.statusMessage,
     temperature: req.body.temperature,
     humidity: req.body.humidity
   });
@@ -125,6 +127,63 @@ exports.pushData = (req, res, next) => {
   h = curr.getHours() + 1;
   const time = h + ':' + curr.getMinutes() + ':' + curr.getSeconds();
   const dateTime = time + ' ' + date;
+
+  switch (req.body.statusCode) {
+    case 0:
+      msg = 'Device Status Unknown';
+      break;
+    case 1:
+      msg = 'All parameters in a OK state.';
+      break;
+    case 2:
+      msg = 'Stork device location unknown.';
+      break;
+    case 3:
+      msg = 'Mishandle event detected.';
+      break;
+    case 4:
+      msg = 'Temperature of the Stork at a dangerous level.';
+      break;
+    case 5:
+      msg = 'Humidity of the Stork at a dangerous level.';
+      break;
+    case 6:
+      msg = "Stork device hasn't been seen in the last 30 minutes.";
+    case 7:
+      msg = 'Stork device location unknown & no ping in last 30 minutes.';
+      break;
+    case 8:
+      msg =
+        'Stork device location unknown & Humidity of the Stork at a dangerous level.';
+      break;
+    case 9:
+      msg =
+        'Stork device location unknown & Temperature of the Stork at a dangerous level.';
+      break;
+    case 10:
+      msg = 'Stork device location unknown & Mishandle event detected.';
+      break;
+    case 11:
+      msg =
+        "Stork device location unknown, Mishandle event detected & Stork device hasn't been seen in the last 30 minutes.";
+      break;
+    case 12:
+      msg =
+        'Stork device location unknown, Mishandle event detected & Humidity of the Stork at a dangerous level.';
+      break;
+    case 13:
+      msg =
+        'Stork device location unknown, Mishandle event detected & Temperature of the Stork at a dangerous level.';
+    case 14:
+      msg =
+        "Stork device location unknown, Mishandle event detected & Temperature of the Stork at a dangerous level & Stork device hasn't been seen in the last 30 minutes.";
+    case 15:
+      msg =
+        'Stork device location unknown, Mishandle event detected & Temperature of the Stork at a dangerous level & Humidity of the Stork at a dangerous level.';
+    case 16:
+      msg = 'All Stork device parameters in a DANGER state.';
+  }
+
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },
     {
@@ -133,6 +192,7 @@ exports.pushData = (req, res, next) => {
         'location.type': req.body.location.type,
         'location.coordinates': req.body.location.coordinates,
         statusCode: req.body.statusCode,
+        statusMessage: msg,
         temperature: req.body.temperature,
         humidity: req.body.humidity
       }
