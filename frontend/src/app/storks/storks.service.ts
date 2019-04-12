@@ -41,7 +41,9 @@ export class StorksService {
               gpsType: stork.gpsType,
               latitude: stork.location.coordinates[0],
               longitude: stork.location.coordinates[1],
-              statusCode: stork.statusCode
+              statusCode: stork.statusCode,
+              temperature: stork.temperature,
+              humidity: stork.humidity
             };
           });
         })
@@ -64,6 +66,8 @@ export class StorksService {
       latitude: number;
       longitude: number;
       statusCode: number;
+      temperature: number;
+      humidity: number;
     }>(BACKEND_URL_STORKS + '/one/' + id);
   }
 
@@ -80,7 +84,9 @@ export class StorksService {
       gpsType: null,
       latitude: null,
       longitude: null,
-      statusCode: null
+      statusCode: null,
+      temperature: null,
+      humidity: null
     };
     this.http
       .get<{
@@ -143,7 +149,9 @@ export class StorksService {
     gpsType: string,
     lat: number,
     long: number,
-    statusCode: number
+    statusCode: number,
+    temperature: number,
+    humidity: number
   ) {
     const stork: Stork = {
       id: id,
@@ -153,7 +161,9 @@ export class StorksService {
       gpsType: gpsType,
       latitude: lat,
       longitude: long,
-      statusCode: statusCode
+      statusCode: statusCode,
+      temperature: temperature,
+      humidity: humidity
     };
     this.http.put(BACKEND_URL_STORKS + '/' + id, stork).subscribe(response => {
       const updatedStorks = [...this.storks];

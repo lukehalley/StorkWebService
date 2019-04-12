@@ -25,7 +25,9 @@ const storkSchema = mongoose.Schema({
     type: pointSchema,
     required: true
   },
-  statusCode: { type: Number, required: true }
+  statusCode: { type: Number, required: true },
+  temperature: { type: Number },
+  humidity: { type: Number }
 });
 
 module.exports = mongoose.model('Stork', storkSchema);
