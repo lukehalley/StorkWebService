@@ -182,9 +182,9 @@ exports.pushData = (req, res, next) => {
         'Stork device location unknown, Mishandle event detected & Temperature of the Stork at a dangerous level & Humidity of the Stork at a dangerous level.';
     case 16:
       msg = 'All Stork device parameters in a DANGER state.';
+    default:
+      msg = 'Device Status Unknown';
   }
-
-  console.log('Setting status msg to: ' + msg);
 
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },

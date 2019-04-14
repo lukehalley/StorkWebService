@@ -32,8 +32,6 @@ export class StorksService {
       .pipe(
         map(storkData => {
           return storkData.storks.map(stork => {
-            console.log('got back statusMessage: ' + stork.statusMessage);
-
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
