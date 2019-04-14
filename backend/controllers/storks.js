@@ -184,6 +184,8 @@ exports.pushData = (req, res, next) => {
       msg = 'All Stork device parameters in a DANGER state.';
   }
 
+  console.log('Setting status msg to: ' + msg);
+
   Stork.findOneAndUpdate(
     { stork_code: req.params.stork_code },
     {

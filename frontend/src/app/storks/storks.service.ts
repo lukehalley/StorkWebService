@@ -32,6 +32,8 @@ export class StorksService {
       .pipe(
         map(storkData => {
           return storkData.storks.map(stork => {
+            console.log('got back statusMessage: ' + stork.statusMessage);
+
             return {
               stork_code: stork.stork_code,
               nickname: stork.nickname,
@@ -42,6 +44,7 @@ export class StorksService {
               latitude: stork.location.coordinates[0],
               longitude: stork.location.coordinates[1],
               statusCode: stork.statusCode,
+              statusMessage: stork.statusMessage,
               temperature: stork.temperature,
               humidity: stork.humidity
             };
@@ -66,6 +69,7 @@ export class StorksService {
       latitude: number;
       longitude: number;
       statusCode: number;
+      statusMessage: string;
       temperature: number;
       humidity: number;
     }>(BACKEND_URL_STORKS + '/one/' + id);
@@ -85,6 +89,7 @@ export class StorksService {
       latitude: null,
       longitude: null,
       statusCode: null,
+      statusMessage: null,
       temperature: null,
       humidity: null
     };
@@ -150,6 +155,7 @@ export class StorksService {
     lat: number,
     long: number,
     statusCode: number,
+    statusMessage: string,
     temperature: number,
     humidity: number
   ) {
@@ -162,6 +168,7 @@ export class StorksService {
       latitude: lat,
       longitude: long,
       statusCode: statusCode,
+      statusMessage: statusMessage,
       temperature: temperature,
       humidity: humidity
     };

@@ -37,10 +37,13 @@
                   <div class="column">
                     <p class="title is-4">Status</p>
                     <p
-                      *ngIf="stork.stork_code; else noStatus"
+                      *ngIf="
+                        stork.statusCode || stork.statusMessage;
+                        else noStatus
+                      "
                       class="subtitle is-6 is-spaced"
                     >
-                      All Ok!
+                      {{ stork.statusMessage }}
                     </p>
                     <ng-template #noStatus>
                       <p class="subtitle is-6 is-spaced">
