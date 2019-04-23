@@ -36,12 +36,15 @@
                 <div class="columns">
                   <div class="column">
                     <p class="title is-4">Status</p>
-                    <!-- TODO: Replace with Stork Status Value -->
                     <p
-                      *ngIf="stork.stork_code; else noStatus"
+                      *ngIf="
+                        stork.statusCode || stork.statusMessage;
+                        else noStatus
+                      "
                       class="subtitle is-6 is-spaced"
                     >
-                      All Ok!
+                      Status Code {{ stork.statusCode }} -
+                      {{ stork.statusMessage }}
                     </p>
                     <ng-template #noStatus>
                       <p class="subtitle is-6 is-spaced">
@@ -65,7 +68,6 @@
                   </div>
                   <div class="column">
                     <p class="title is-4">Temperature</p>
-                    <!-- TODO: Replace with Temperature Value -->
                     <p
                       *ngIf="stork.latitude; else noTemperature"
                       class="subtitle is-6 is-spaced"
@@ -78,7 +80,6 @@
                       </p>
                     </ng-template>
                     <p class="title is-4">Humidity</p>
-                    <!-- TODO: Replace with Humidity Value -->
                     <p
                       *ngIf="stork.longitude; else noHumidity"
                       class="subtitle is-6 is-spaced"
@@ -93,7 +94,6 @@
                   </div>
                 </div>
                 <p class="title is-4">Last Seen</p>
-                <!-- TODO: Replace with Last Seen Value -->
                 <p
                   *ngIf="stork.longitude; else noLastSeen"
                   class="subtitle is-6"
@@ -185,5 +185,3 @@
     </div>
   </ng-template>
 </nav>
-
-<!-- noRegisteredStorks -->

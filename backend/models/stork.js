@@ -26,6 +26,7 @@ const storkSchema = mongoose.Schema({
     required: true
   },
   statusCode: { type: Number, required: true },
+  statusMessage: { type: String, default: 'Device Status Unknown.' },
   temperature: { type: Number },
   humidity: { type: Number }
 });

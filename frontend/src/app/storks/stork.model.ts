@@ -7,6 +7,7 @@ export interface Stork {
   latitude: number;
   longitude: number;
   statusCode: number;
+  statusMessage: string;
   temperature: number;
   humidity: number;
 }
