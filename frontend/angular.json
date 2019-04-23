@@ -23,7 +23,8 @@
               "src/assets/bulma.css",
               "src/app/storks/stork-list/stork-list.component.css",
               "src/app/storks/stork-create/stork-create.component.css",
-              "src/app/toolbar/header.component.css"
+              "src/app/toolbar/header.component.css",
+              "src/app/auth/signup/stork-sign-up.component.css"
             ],
             "scripts": []
           },
