@@ -12,20 +12,19 @@ router.get(
   DeviceController.getRegistrableStorkDevice
 );
 
-// Create a User and send it to the database
-// to be stored.
+// Add a registerable device to allow a user to register the it.
 router.post(
   '/admin/available-device/add',
   DeviceController.addRegistrableStorkDevice
 );
 
-// Push data from a Stork device.
+// Associate a user with a Stork device.
 router.put(
   '/admin/available-device/update/:dev_code',
   DeviceController.associateUser
 );
 
-// Delete ONE Stork from the database and return them in the response
+// Delete one registerable Stork device from the database.
 router.delete(
   '/admin/available-device/delete/:dev_code',
   DeviceController.dissociateUser

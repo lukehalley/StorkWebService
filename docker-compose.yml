@@ -1,24 +1,26 @@
-version: "3.0" # specify docker-compose version
+# The docker compose version is first defined
+version: "3.0"
 
-# Define the services/ containers to be run
 services:
-  angular: # name of the first service
-    build: frontend # specify the directory of the Dockerfile
+  frontend:
+    # Point to the frontend directory to build from.
+    build: frontend
+    # Map the port for the frontend for nginx.
     ports:
-      - "80:80" # specify port mapping
-    # volumes:
-    #   - ./:/stork
+      - "80:80"
 
-  express: # name of the second service
-    build: backend # specify the directory of the Dockerfile
+  backend:
+    # Point to the backend directory to build from.
+    build: backend
+    # Expose and link the port for the backend.
     ports:
-      - "3000:3000" #specify ports mapping
+      - "3000:3000"
+    # Link the backend to the database container which will
+    # allow the backend to connect to the database.
     links:
-      - database # link this service to the database service
-    # volumes:
-    #   - ./:./
+      - database
 
-  database: # name of the third service
-    image: mongo # specify image to build container from
+  database:
+    image: mongo
     ports:
-      - "27017:27017" # specify port forwarding
+      - "27017:27017"

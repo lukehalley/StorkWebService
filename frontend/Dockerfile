@@ -1,12 +1,12 @@
 #==================== Building Stage ================================================ 
 
-# Create the image based on the official Node 8.9.0 image from Dockerhub
+# Create the image based on the official Node 8.9.0 image from Dockerhub.
 FROM node:8.9.0 as node
 
-# Create a directory where our app will be placed. This might not be necessary
+# Create a directory where our app will be placed.
 RUN mkdir -p /stork
 
-# Change directory so that our commands run inside this new directory
+# Change directory so that our commands run inside this new directory.
 WORKDIR /stork
 
 # Copy dependency definitions
