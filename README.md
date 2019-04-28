@@ -36,7 +36,7 @@ Finally simply run the following command to at the root of Stork directory:
 
 After the build has finished simply visit the IP address of your server and you should have a fully functional version of the Stork Web Application :smile:
 
-![image](uploads/d70d656ad9c5a17805648b7397108604/image.png)
+![image](uploads/38d86290b21321908a0d46e1824e8b30/image.png)
 
 ## [Tests](https://gitlab.com/stork-group/stork-web-service/wikis/Home/#tests)
 
