@@ -1,5 +1,8 @@
 .card {
-  margin: 20px;
+  margin-left: 12px;
+  margin-right: 12px;
+  margin-top: 2.5px;
+  margin-bottom: 10px;
 }
 
 agm-map {
