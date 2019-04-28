@@ -1,11 +1,11 @@
 import { Selector } from 'testcafe';
 import { ClientFunction } from 'testcafe';
-const getLocation = ClientFunction(() => document.location.href);
 import * as faker from 'faker';
 
 import { addDevice } from './helpers/test-helpers';
 import { remDevice } from './helpers/test-helpers';
 
+const getLocation = ClientFunction(() => document.location.href);
 const url = `http://87.44.18.111`;
 
 // tslint:disable-next-line:no-unused-expression
@@ -206,7 +206,7 @@ test('Sign In With Invalid Password', async t => {
 
 test('Register, Edit and Delete A Stork', async t => {
   await t
-    // Login with correctd details.
+    // Login with correct details.
     .typeText(emailField, emailValid)
     .typeText(passwordField, passValid)
     .click(loginSubmitButton)
@@ -250,7 +250,7 @@ test('Register, Edit and Delete A Stork', async t => {
     // Check the title, it should be 'Edit Your Stork.
     .expect(Selector(storkTitle).withExactText(editStorkTitle).exists)
     .ok()
-    // Clear the text from the stork_code field and the nickname feild.
+    // Clear the text from the nickname field.
     .click(inputStorkNickname)
     .pressKey(selectAllAndDeleteField)
     .typeText(inputStorkNickname, storkNicknameEdit)

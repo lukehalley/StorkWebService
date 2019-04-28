@@ -37,10 +37,10 @@ app.use((req, res, next) => {
 // Filter all routes going to /api/storks to use storkRoutes.
 app.use('/api/storks', storkRoutes);
 
-// Filter all routes going to /api/users to use storkRoutes.
+// Filter all routes going to /api/users to use userRoutes.
 app.use('/api/users', userRoutes);
 
-// Filter all routes going to /api/users to use storkRoutes.
+// Filter all routes going to /api/users to use deviceRoutes.
 app.use('/api/devices', deviceRoutes);
 
 module.exports = app;
