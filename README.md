@@ -32,7 +32,7 @@ Then clone the **stork-web-service** repository:
 
 Finally simply run the following command to at the root of Stork directory:
 
-`Make build`
+`Make -i build`
 
 After the build has finished simply visit the IP address of your server and you should have a fully functional version of the Stork Web Application :smile:
 
