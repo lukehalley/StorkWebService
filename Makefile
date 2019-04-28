@@ -1,4 +1,4 @@
-# Full clean slate build of the Stork system.
+# Full clean slate build of the Stork system
 build:
 	# Delete all containers.
 	docker rm -f $(docker ps -a -q)

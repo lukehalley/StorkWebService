@@ -16,4 +16,5 @@ COPY . .
 # Exposing port 3000
 EXPOSE 3000
 
+# Start the node server
 CMD [ "npm", "start" ]
