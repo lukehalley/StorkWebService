@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const createUrl =
-  'http://87.44.18.111:3000/api/devices/admin/available-device/add/';
+  'http://18.219.152.38:3000/api/devices/admin/available-device/add/';
 
 const deleteUrl =
-  'http://87.44.18.111:3000/api/devices/admin/available-device/delete/';
+  'http://18.219.152.38:3000/api/devices/admin/available-device/delete/';
 
 export async function addDevice(code) {
   return axios
