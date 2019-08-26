@@ -6,7 +6,7 @@ import { addDevice } from './helpers/test-helpers';
 import { remDevice } from './helpers/test-helpers';
 
 const getLocation = ClientFunction(() => document.location.href);
-const url = `http://18.219.152.38`;
+const url = `http://87.44.18.111`;
 
 // tslint:disable-next-line:no-unused-expression
 fixture`User Accounts.`.page(url);
@@ -82,9 +82,9 @@ const firstStorkListCardStorkCode = 'p.subtitle';
 // Other
 const selectAllAndDeleteField = 'ctrl+a delete';
 
-// fixture`Stork`.page`http://18.219.152.38`;
+// fixture`Stork`.page`http://87.44.18.111`;
 
-fixture`Stork`.page`http://18.219.152.38`;
+fixture`Stork`.page`http://87.44.18.111`;
 // .before(async ctx => {
 //   console.log('BEFORE: ');
 //   // Remove the device just in case it exists
